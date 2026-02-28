@@ -51,8 +51,7 @@ router.get("/available/:date", async (req, res) => {
     );
 
     res.json({
-      bookedSlots,
-      availableSlots });
+      bookedSlots });
 
   } catch (err) {
     res.status(500).json({ message: "Error fetching available slots" });
