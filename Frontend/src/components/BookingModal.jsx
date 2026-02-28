@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 const BookingModal = ({ service, onClose }) => {
   const [form, setForm] = useState({
     name: "",
@@ -9,7 +8,6 @@ const BookingModal = ({ service, onClose }) => {
     time: "",
   });
 
-  const [selectedDate, setSelectedDate] = useState("");
   const [bookedSlots, setBookedSlots] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -19,48 +17,47 @@ const BookingModal = ({ service, onClose }) => {
     "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
   ];
 
-  // ===============================
-  // Fetch booked slots
-  // ===============================
-  useEffect(() => {
-    if (!selectedDate) return;
+  // ================================
+  // Fetch booked slots when date changes
+  // ================================
+ useEffect(() => {
+  if (!form.date) return;
 
-   const fetchSlots = async () => {
-  try {
-    const res = await fetch(
-      `http://localhost:5000/api/bookings/available/${selectedDate}`
-    );
+  const fetchSlots = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/bookings/available/${form.date}`
+      );
 
-    const data = await res.json();
+      const data = await res.json();
+      setBookedSlots(data.bookedSlots || []);
 
-    // backend sends { available, bookedSlots }
-    setBookedSlots(data.bookedSlots || []);
+    } catch (error) {
+      console.error("Error fetching slots:", error);
+    }
+  };
 
-  } catch (error) {
-    console.error("Error fetching slots:", error);
-  }
-};
+  fetchSlots();
 
-    fetchSlots();
-  }, [ selectedDate]);
+}, [form.date]);
 
-  // ===============================
-  // Slot Style Function
-  // ===============================
+  // ================================
+  // Slot Styling
+  // ================================
   const getSlotStyle = (slot) => {
     if (bookedSlots.includes(slot))
-      return "bg-red-400 text-white cursor-not-allowed";
+      return "bg-red-500 text-white cursor-not-allowed";
 
     if (form.time === slot)
-      return "bg-black text-white";
+      return "bg-black text-white scale-105";
 
     return "bg-green-500 text-white hover:bg-green-600";
   };
 
-  // ===============================
+  // ================================
   // Submit Booking
-  // ===============================
-  const handleSubmit = async (e) => {
+  // ================================
+   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.time) {
@@ -77,7 +74,7 @@ const BookingModal = ({ service, onClose }) => {
     try {
       setLoading(true);
 
-      await fetch(`http://localhost:5000/api/bookings/available=${selectedDate}`, {
+      await fetch(`http://localhost:5000/api/bookings/available/${form.date}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
@@ -117,17 +114,19 @@ Time: ${form.time}
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-xl w-96 shadow-xl">
-        <h2 className="text-xl font-bold mb-4 text-center">
+    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+      <div className="bg-white p-6 rounded-2xl w-/[420px/] shadow-2xl">
+
+        <h2 className="text-2xl font-bold mb-4 text-center">
           Book {service.title}
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={handleSubmit} className="space-y-4">
 
           <input
+            type="text"
             placeholder="Your Name"
-            className="border p-2 w-full rounded"
+            className="border p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
             required
             value={form.name}
             onChange={(e) =>
@@ -136,59 +135,68 @@ Time: ${form.time}
           />
 
           <input
+            type="text"
             placeholder="Phone Number"
-            className="border p-2 w-full rounded"
+            className="border p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
             required
             value={form.phone}
             onChange={(e) =>
-              setForm({ ...form, phone: e.target.value, date: selectedDate })
+              setForm({ ...form, phone: e.target.value })
             }
           />
 
           <input
             type="date"
-            className="border p-2 w-full rounded"
+             min={new Date().toISOString().split("T")[0]}
+            className="border p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
             required
-            value={selectedDate}
+            value={form.date}
             onChange={(e) =>
-              setSelectedDate(e.target.value)
+              setForm({ ...form, date: e.target.value, time: "" })
             }
           />
 
           {/* SLOT SECTION */}
-          {selectedDate && (
+          {form.date && (
             <div>
-              <p className="font-semibold mb-2">Select Time Slot</p>
+              <p className="font-semibold mb-3 text-center">
+                Select Time Slot
+              </p>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-3">
                 {timeSlots.map((slot) => (
-  <button
-    key={slot}
-    type="button"
-    disabled={bookedSlots.includes(slot)}
-    onClick={() => setForm({ ...form, time: slot })}
-    className={`p-2 rounded text-sm transition ${
-      bookedSlots.includes(slot)
-        ? "bg-red-500 text-white cursor-not-allowed"
-        : form.time === slot
-        ? "bg-black text-white"
-        : "bg-green-500 text-white hover:bg-green-600" 
-    }`}
-      
-  >
-    {slot}
-  </button>
-))}
+                  <button
+                    key={slot}
+                    type="button"
+                    required
+                    value={form.date}
+                    disabled={bookedSlots.includes(slot)}
+
+                    onClick={() =>
+                      setForm({ ...form, time: slot })
+                    }
+                    className={`p-2 rounded-lg text-sm transition-all duration-200 ${getSlotStyle(slot)}`}
+                  >
+                    {slot}
+                  </button>
+                ))}
+              </div>
+
+              {/* Legend */}
+              <div className="flex justify-between text-xs mt-4">
+                <span className="text-green-600">🟢 Available</span>
+                <span className="text-black">⚫ Selected</span>
+                <span className="text-red-600">🔴 Booked</span>
               </div>
             </div>
           )}
 
-          {/* ACTION BUTTONS */}
-          <div className="flex justify-between pt-3">
+          {/* Buttons */}
+          <div className="flex justify-between pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+              className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
             >
               Cancel
             </button>
@@ -196,7 +204,7 @@ Time: ${form.time}
             <button
               type="submit"
               disabled={loading}
-              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+              className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800"
             >
               {loading ? "Booking..." : "Confirm Booking"}
             </button>

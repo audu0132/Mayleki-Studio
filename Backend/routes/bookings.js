@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 // ======================================
 router.get("/available/:date", async (req, res) => {
   try {
-    const { date } = req.query;
+    const { date } = req.params;
 
     if (!date)
       return res.status(400).json({ message: "Date required" });
@@ -50,7 +50,9 @@ router.get("/available/:date", async (req, res) => {
       slot => !bookedSlots.includes(slot)
     );
 
-    res.json({ availableSlots });
+    res.json({
+      bookedSlots,
+      availableSlots });
 
   } catch (err) {
     res.status(500).json({ message: "Error fetching available slots" });
