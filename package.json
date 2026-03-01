@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "date-fns": "^3.0.0",
     "react-day-picker": "^8.10.1"
   }
