@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -6,6 +7,7 @@ const Dashboard = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const navigate = useNavigate();
   
   // New state for features
   const [analytics, setAnalytics] = useState({ totalBookings: 0, totalRevenue: 0 });
@@ -28,11 +30,30 @@ const Dashboard = () => {
     "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
   ];
 
+  // Helper function to get auth headers
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("adminToken");
+    return {
+      "Content-Type": "application/json",
+      "Authorization": token || ""
+    };
+  };
+
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+      navigate("/admin/login");
+    }
+  }, [navigate]);
+
   // ================= FETCH DATA =================
   const fetchOffers = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/offers");
+      const res = await fetch("http://localhost:5000/api/offers", {
+        headers: getAuthHeaders()
+      });
       const data = await res.json();
       setOffers(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -44,18 +65,23 @@ const Dashboard = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/bookings/admin/all");
+      // Use /api/booking (singular) which maps to bookings.js
+      const res = await fetch("http://localhost:5000/api/booking/admin/all", {
+        headers: getAuthHeaders()
+      });
       const data = await res.json();
       setBookings(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching bookings:", err);
     }
   };
 
   // Fetch analytics data
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/analytics/dashboard");
+      const res = await fetch("http://localhost:5000/api/analytics/dashboard", {
+        headers: getAuthHeaders()
+      });
       const data = await res.json();
       setAnalytics({
         totalBookings: data.totalBookings || 0,
@@ -99,7 +125,7 @@ const Dashboard = () => {
     try {
       await fetch("http://localhost:5000/api/offers", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify(form),
       });
       setForm({ title: "", description: "", discount: "", validTill: "" });
@@ -124,7 +150,7 @@ const Dashboard = () => {
     try {
       await fetch(`http://localhost:5000/api/offers/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify(editForm),
       });
       setEditingOffer(null);
@@ -143,6 +169,7 @@ const Dashboard = () => {
   const deleteOffer = async (id) => {
     await fetch(`http://localhost:5000/api/offers/${id}`, {
       method: "DELETE",
+      headers: getAuthHeaders()
     });
     fetchOffers();
   };
@@ -150,8 +177,10 @@ const Dashboard = () => {
   // ================= DELETE BOOKING =================
   const deleteBooking = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      // Use /api/booking (singular) for delete
+      await fetch(`http://localhost:5000/api/booking/${id}`, {
         method: "DELETE",
+        headers: getAuthHeaders()
       });
       fetchBookings();
       fetchAnalytics();
@@ -162,9 +191,10 @@ const Dashboard = () => {
   };
 
   // ================= SLOT CHECK =================
+  // Fixed: Use timeSlot instead of time (matching MongoDB schema)
   const isSlotBooked = (slot) => {
     return bookings.some(
-      (b) => b.date === selectedDate && b.time === slot
+      (b) => b.date === selectedDate && b.timeSlot === slot
     );
   };
 
