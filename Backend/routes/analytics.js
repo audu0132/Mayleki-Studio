@@ -7,18 +7,11 @@ router.get("/dashboard", async (req, res) => {
   try {
     const totalBookings = await Booking.countDocuments();
 
-    const revenueData = await Booking.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalRevenue: { $sum: "$price" },
-        },
-      },
-    ]);
-
-    const totalRevenue = revenueData.length > 0
-      ? revenueData[0].totalRevenue
-      : 0;
+    // Get all bookings and calculate revenue from price field (if exists)
+    const bookings = await Booking.find();
+    const totalRevenue = bookings.reduce((sum, booking) => {
+      return sum + (booking.price || 0);
+    }, 0);
 
     res.json({
       totalBookings,

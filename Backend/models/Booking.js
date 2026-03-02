@@ -5,6 +5,8 @@ const bookingSchema = new mongoose.Schema({
   phone: String,
   date: String,
   timeSlot: String,
+  service: String,
+  price: Number,
 }, { timestamps: true });
 
 module.exports = mongoose.model("Booking", bookingSchema);

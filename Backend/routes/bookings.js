@@ -84,7 +84,9 @@ router.post("/", async (req, res) => {
       userName: name,
       phone,
       date,
-      timeSlot: time
+      timeSlot: time,
+      service: req.body.service,
+      price: req.body.price
     });
 
     await booking.save();
@@ -106,6 +108,23 @@ router.get("/admin/all", protect, async (req, res) => {
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: "Error fetching admin bookings" });
+  }
+});
+
+
+// ======================================
+// DELETE BOOKING (Admin)
+// ======================================
+router.delete("/:id", protect, async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    await Booking.findByIdAndDelete(req.params.id);
+    res.json({ message: "Booking deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting booking" });
   }
 });
 

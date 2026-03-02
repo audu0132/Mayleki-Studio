@@ -74,7 +74,7 @@ const BookingModal = ({ service, onClose }) => {
     try {
       setLoading(true);
 
-      await fetch(`http://localhost:5000/api/bookings/available/${form.date}`, {
+      await fetch(`http://localhost:5000/api/booking`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),

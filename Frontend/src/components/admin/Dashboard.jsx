@@ -263,7 +263,7 @@ const Dashboard = () => {
               {/* Total Revenue */}
               <div className="bg-white p-6 rounded-xl shadow col-span-2">
                 <h3 className="text-xl font-semibold">Total Revenue</h3>
-                <p className="text-3xl text-green-600">${analytics.totalRevenue.toLocaleString()}</p>
+                <p className="text-3xl text-green-600">₹{analytics.totalRevenue.toLocaleString()}</p>
               </div>
             </div>
 
