@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { API_BASE_URL } from "../config";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -42,13 +43,13 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("https://mayleki-studio.vercel.app/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ email, password }),
+});
 
       const data = await res.json();
 

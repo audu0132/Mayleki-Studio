@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { API_BASE_URL } from "../config";
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -30,9 +31,9 @@ const AdminBookings = () => {
       try {
         setLoading(true);
         // Use /api/booking (singular) which maps to bookings.js
-        const res = await fetch("http://localhost:5000/api/booking", {
-          headers: getAuthHeaders()
-        });
+       const res = await fetch(`${API_BASE_URL}/api/booking`, {
+  headers: getAuthHeaders()
+});
         
         if (!res.ok) {
           throw new Error("Failed to fetch bookings");

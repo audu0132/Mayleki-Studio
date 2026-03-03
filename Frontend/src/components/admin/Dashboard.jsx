@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -51,7 +52,7 @@ const Dashboard = () => {
   const fetchOffers = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/offers", {
+      const res = await fetch("${API_BASE_URL}/api/offers", {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -66,7 +67,7 @@ const Dashboard = () => {
   const fetchBookings = async () => {
     try {
       // Use /api/booking (singular) which maps to bookings.js
-      const res = await fetch("http://localhost:5000/api/booking/admin/all", {
+      const res = await fetch("${API_BASE_URL}/api/booking/admin/all", {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -79,7 +80,7 @@ const Dashboard = () => {
   // Fetch analytics data
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/analytics/dashboard", {
+      const res = await fetch("${API_BASE_URL}/api/analytics/dashboard", {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -123,7 +124,7 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:5000/api/offers", {
+      await fetch("${API_BASE_URL}/api/offers", {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(form),
@@ -148,7 +149,7 @@ const Dashboard = () => {
 
   const saveEditOffer = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/offers/${id}`, {
+      await fetch(`${API_BASE_URL}/api/offers/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(editForm),
@@ -167,7 +168,7 @@ const Dashboard = () => {
 
   // ================= DELETE OFFER =================
   const deleteOffer = async (id) => {
-    await fetch(`http://localhost:5000/api/offers/${id}`, {
+    await fetch(`${API_BASE_URL}/api/offers/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders()
     });
@@ -178,7 +179,7 @@ const Dashboard = () => {
   const deleteBooking = async (id) => {
     try {
       // Use /api/booking (singular) for delete
-      await fetch(`http://localhost:5000/api/booking/${id}`, {
+      await fetch(`${API_BASE_URL}/api/booking/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders()
       });
@@ -196,7 +197,7 @@ const Dashboard = () => {
   return bookings.some(
     (b) =>
       new Date(b.date).toISOString().split("T")[0] === selectedDate &&
-      b.time === slot
+      b.timeSlot === slot                  
   );
 };
 

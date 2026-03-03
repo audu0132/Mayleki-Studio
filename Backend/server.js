@@ -11,7 +11,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors(
+    cors({
+    origin: [
+      "http://localhost:5173",
+      "https://mayleki-studio.vercel.app"
+    ],
+    credentials: true
+  })
+));
 app.use(express.json());
 
 app.use("/api/offers", require("./routes/offerRoutes"));
