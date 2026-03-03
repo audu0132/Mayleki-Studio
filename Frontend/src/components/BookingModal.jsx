@@ -26,7 +26,7 @@ const BookingModal = ({ service, onClose }) => {
   const fetchSlots = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/bookings/available/${form.date}`
+        `https://mayleki-backend.onrender.com/api/booking/available/${form.date}`
       );
 
       const data = await res.json();
@@ -74,7 +74,7 @@ const BookingModal = ({ service, onClose }) => {
     try {
       setLoading(true);
 
-      await fetch(`http://localhost:5000/api/booking`, {
+      await fetch(`https://mayleki-backend.onrender.com/api/booking`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),

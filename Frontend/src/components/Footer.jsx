@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
 import { Button } from "./ui/button";
 
+
 const Footer = () => {
   return (
     <footer id="contact" className="bg-primary text-primary-foreground pt-20 pb-10">

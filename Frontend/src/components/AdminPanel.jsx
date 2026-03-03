@@ -10,7 +10,7 @@ const AdminPanel = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/offers", {
+      const response = await fetch("https://mayleki-backend.onrender.com/api/offers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
