@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  res.send("API is running")
   try {
   const bookings = await Booking.find().sort({ createdAt: -1 });
   res.json(bookings);
