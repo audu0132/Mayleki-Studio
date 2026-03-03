@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
 import { Button } from "./ui/button";
+import { Link } from 'react-router-dom';
 
 
 const Footer = () => {
@@ -28,18 +29,24 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
+
           <div>
             <h4 className="text-lg font-serif mb-6 text-white">Explore</h4>
             <ul className="space-y-4">
                 {['Home', 'Services', 'Academy', 'About Us', 'Reviews'].map((item) => (
                     <li key={item}>
-                        <a href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-white/60 hover:text-white text-sm uppercase tracking-wider transition-colors">
+                        <Link to ={`/${item.toLowerCase().replace(' ', '-')}`} className="text-white/60 hover:text-white text-sm uppercase tracking-wider transition-colors">
                             {item}
-                        </a>
+                        </Link>
                     </li>
                 ))}
             </ul>
           </div>
+
+
+
+
+
 
           {/* Contact Info */}
           <div>

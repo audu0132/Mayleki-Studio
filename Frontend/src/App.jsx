@@ -14,6 +14,7 @@ import AdminPanel from "./components/AdminPanel";
 import AdminBookings from "./components/admin/AdminBookings";
 import Login from "./components/admin/Login";
 import Dashboard from "./components/admin/Dashboard";
+import AboutUs from "./components/AboutUs";
 
 function HomePage() {
   return (
@@ -34,6 +35,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/admin/login" element={<Login />} />
         <Route path="/admin" element={<AdminPanel />} />
