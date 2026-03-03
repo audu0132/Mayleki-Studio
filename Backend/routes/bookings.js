@@ -64,29 +64,31 @@ router.get("/available/:date", async (req, res) => {
 // ======================================
 router.post("/", async (req, res) => {
   try {
-    const { name, phone, date, time } = req.body;
+    const { name, phone, date, time, service, price } = req.body;
 
     if (!name || !phone || !date || !time)
       return res.status(400).json({ message: "All fields required" });
 
-    const exists = await Booking.findOne({
-      date,
+    // ✅ CHECK IF SLOT ALREADY BOOKED (ADD HERE)
+    const existingBooking = await Booking.findOne({
+      date: date,
       timeSlot: time
     });
 
-    if (exists) {
+    if (existingBooking) {
       return res.status(400).json({
         message: "Slot already booked"
       });
     }
 
+    // ✅ CREATE NEW BOOKING
     const booking = new Booking({
       userName: name,
       phone,
       date,
       timeSlot: time,
-      service: req.body.service,
-      price: req.body.price
+      service,
+      price
     });
 
     await booking.save();

@@ -7,4 +7,6 @@ const offerSchema = new mongoose.Schema({
   validTill: Date,
 }, { timestamps: true });
 
+
+
 module.exports = mongoose.model("Offer", offerSchema);

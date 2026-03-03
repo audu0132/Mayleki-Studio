@@ -193,10 +193,12 @@ const Dashboard = () => {
   // ================= SLOT CHECK =================
   // Fixed: Use timeSlot instead of time (matching MongoDB schema)
   const isSlotBooked = (slot) => {
-    return bookings.some(
-      (b) => b.date === selectedDate && b.timeSlot === slot
-    );
-  };
+  return bookings.some(
+    (b) =>
+      new Date(b.date).toISOString().split("T")[0] === selectedDate &&
+      b.time === slot
+  );
+};
 
   // ================= FILTER & SEARCH BOOKINGS =================
   const filteredBookings = bookings.filter(b => {
