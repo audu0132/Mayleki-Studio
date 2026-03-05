@@ -14,9 +14,11 @@ const app = express();
 // ✅ CORRECT CORS SETUP
 app.use(cors({
   origin: "https://mayleki-studio.vercel.app",
-  methods: ["GET","POST","PUT","DELETE"],
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   credentials: true
 }));
+
+app.options("*", cors());
 
 app.use(express.json());
 
