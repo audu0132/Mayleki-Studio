@@ -12,15 +12,11 @@ connectDB();
 const app = express();
 
 // ✅ CORRECT CORS SETUP
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mayleki-studio.vercel.app"
-    ],
-    credentials: true
-  })
-);
+app.use(cors({
+  origin: "https://mayleki-studio.vercel.app",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 
 app.use(express.json());
 
