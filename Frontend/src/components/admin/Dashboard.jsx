@@ -52,7 +52,7 @@ const Dashboard = () => {
   const fetchOffers = async () => {
     try {
       setLoading(true);
-      const res = await fetch("${API_BASE_URL}/api/offers", {
+      const res = await fetch('${API}/api/offers', {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -67,7 +67,7 @@ const Dashboard = () => {
   const fetchBookings = async () => {
     try {
       // Use /api/booking (singular) which maps to bookings.js
-      const res = await fetch("${API_BASE_URL}/api/booking/admin/all", {
+      const res = await fetch('${API_BASE_URL}/api/booking/admin/all', {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -80,7 +80,7 @@ const Dashboard = () => {
   // Fetch analytics data
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch("${API_BASE_URL}/api/analytics/dashboard", {
+      const res = await fetch('${API_BASE_URL}/api/analytics/dashboard', {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -124,7 +124,7 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("${API_BASE_URL}/api/offers", {
+      await fetch(`${API_BASE_URL}/api/offers`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(form),

@@ -7,7 +7,7 @@ const OfferBanner = () => {
   useEffect(() => {
     const fetchOffer = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/offers");
+        const res = await fetch("https://mayleki-studio.onrender.com/api/offers");
         const data = await res.json();
 
         // If backend returns array
