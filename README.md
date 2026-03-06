@@ -1,5 +1,7 @@
 # Mayleki Studio & Academy
 
+<img src=Frontend\public\Screenshot (49).png>
+
 A full-stack MERN application for a hair studio and beauty academy with booking management, admin dashboard, and offer management.
 
 ## 🛠️ Tech Stack
