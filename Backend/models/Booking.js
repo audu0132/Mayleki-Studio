@@ -9,8 +9,6 @@ const bookingSchema = new mongoose.Schema({
   price: Number,
 }, { timestamps: true });
 
-// ✅ ADD THIS HERE (below schema, above export)//
 bookingSchema.index({ date: 1, timeSlot: 1 }, { unique: true });
-
 
 module.exports = mongoose.model("Booking", bookingSchema);
