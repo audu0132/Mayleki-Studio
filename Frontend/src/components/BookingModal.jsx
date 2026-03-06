@@ -58,15 +58,18 @@ const BookingModal = ({ service, onClose }) => {
   // Submit Booking
   // ================================
    const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!form.time) {
-      alert("Please select a time slot");
-      return;
-    }
+  if (!form.time) {
+    alert("Please select a time slot");
+    return;
+  }
 
     const bookingData = {
       ...form,
+      name: form.name,
+      phone: form.phone,
+      date: form.date,
       service: service.title,
       price: service.price,
     };
@@ -74,13 +77,22 @@ const BookingModal = ({ service, onClose }) => {
     try {
       setLoading(true);
 
-      await fetch(`https://mayleki-backend.onrender.com/api/booking`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
-      });
+      const res = await fetch(
+  "https://mayleki-backend.onrender.com/api/booking",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bookingData),
+  }
+);
 
-      alert("Booking Confirmed!");
+const data = await res.json();
+
+if (!res.ok) {
+  throw new Error(data.message || "Booking failed");
+}
+
+alert("Booking Confirmed!");
 
       // WhatsApp redirect
       const message = `
@@ -103,19 +115,17 @@ Time: ${form.time}
       );
 
       onClose();
-    } catch (error) 
-    
-    {
-      console.error("Booking error:", error);
-      alert("Booking failed");
-    } finally {
-      setLoading(false);
-    }
+    } catch (error) {
+  console.error("Booking error:", error);
+  alert(error.message || "Booking failed");
+} finally {
+  setLoading(false);
+}
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-2xl w-/[420px/] shadow-2xl">
+      <div className="bg-white p-6 rounded-2xl w-[420px] shadow-2xl">
 
         <h2 className="text-2xl font-bold mb-4 text-center">
           Book {service.title}
