@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../../config";
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);

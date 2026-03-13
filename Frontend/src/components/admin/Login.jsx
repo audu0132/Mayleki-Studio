@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../../config";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
