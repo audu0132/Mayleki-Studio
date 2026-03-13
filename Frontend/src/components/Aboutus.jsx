@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { Motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Aboutus = () => {
   return (
@@ -8,7 +8,7 @@ const Aboutus = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Heading */}
-        <Motion.div
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -22,12 +22,12 @@ const Aboutus = () => {
             Empowering beauty through artistry, education, and passion. 
             We help individuals discover confidence through professional makeup services and industry-leading training.
           </p>
-        </Motion.div>
+        </motion.div>
 
         {/* Image + Story Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
           
-          <Motion.img
+          <motion.img
             src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9"
             alt="Makeup Studio"
             className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
@@ -37,7 +37,7 @@ const Aboutus = () => {
             viewport={{ once: true }}
           />
 
-          <Motion.div
+          <motion.div
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
@@ -56,7 +56,7 @@ const Aboutus = () => {
             >
               Explore Services
             </Button>
-          </Motion.div>
+          </motion.div>
         </div>
 
         {/* Cards Section */}
@@ -79,7 +79,7 @@ const Aboutus = () => {
               img: "https://images.unsplash.com/photo-1500840216050-6ffa99d75160"
             }
           ].map((card, index) => (
-            <Motion.div
+            <motion.div
               key={index}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 group"
               initial={{ opacity: 0, y: 40 }}
@@ -100,12 +100,12 @@ const Aboutus = () => {
                   {card.desc}
                 </p>
               </div>
-            </Motion.div>
+            </motion.div>
           ))}
         </div>
 
         {/* Buttons */}
-        <Motion.div
+        <motion.div
           className="mt-20 flex flex-col sm:flex-row justify-center gap-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -123,7 +123,7 @@ const Aboutus = () => {
           >
             Back to Home
           </Button>
-        </Motion.div>
+        </motion.div>
 
       </div>
     </section>
