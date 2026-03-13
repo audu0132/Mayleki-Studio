@@ -30,7 +30,16 @@ const BookingModal = ({ service, onClose }) => {
       );
 
       const data = await res.json();
-      setBookedSlots(data.bookedSlots || []);
+      
+      if (data.availableSlots) {
+        // Find which slots are missing from availableSlots (these are the booked ones)
+        const booked = timeSlots.filter(
+          (slot) => !data.availableSlots.includes(slot)
+        );
+        setBookedSlots(booked);
+      } else {
+        setBookedSlots(data.bookedSlots || []);
+      }
 
     } catch (error) {
       console.error("Error fetching slots:", error);
