@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+
+dotenv.config();
+
 const connectDB = require("./config/db");
 
 const bookingRoutes = require("./routes/bookings");
 const analyticsRoutes = require("./routes/analytics");
 
-dotenv.config();
 connectDB();
 
 const app = express();
