@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 
-const Aboutus = () => {
+const AboutUs = () => {
   return (
     <section id="aboutus" className="py-24 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,4 +130,4 @@ const Aboutus = () => {
   );
 };
 
-export default Aboutus;
+export default AboutUs;
