@@ -46,8 +46,8 @@ A full-stack MERN application for a hair studio and beauty academy with booking 
 │   ├── models/
 │   │   ├── Admin.js
 │   │   ├── Booking.js
- ├── Offer.js
-│   │  │   │   └── User.js
+│   │   ├── Offer.js
+│   │   └── User.js
 │   ├── routes/
 │   │   ├── adminRoutes.js
 │   │   ├── analytics.js
@@ -122,6 +122,7 @@ npm start
 # or with nodemon
 npm run dev
 ```
+
 Server runs on http://localhost:5000
 
 ### Start Frontend Development Server
@@ -130,6 +131,7 @@ bash
 cd Frontend
 npm run dev
 ```
+
 Frontend runs on http://localhost:5173
 
 ---
