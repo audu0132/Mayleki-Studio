@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
 
 const offerSchema = new mongoose.Schema({
   title: String,

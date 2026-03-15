@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
 
 const adminSchema = new mongoose.Schema({
   email: { type: String, required: true },

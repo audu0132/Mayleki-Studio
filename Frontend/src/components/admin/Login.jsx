@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { API_BASE_URL } from "../../config";
+import { Link } from "react-router-dom";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -164,9 +165,9 @@ const AdminLogin = () => {
         {/* Optional: Forgot Password Link */}
         <div className="text-center pt-2">
           <a
-            href="#"
+            href="/admin/Registration"
             className="text-sm text-pink-600 hover:text-pink-800 hover:underline"
-            onClick={(e) => {
+            onClick={(e) => { 
               e.preventDefault();
               // Add forgot password handler here
             }}
