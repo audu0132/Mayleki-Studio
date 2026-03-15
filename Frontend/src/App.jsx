@@ -41,6 +41,7 @@ function App() {
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bookings" element={<AdminBookings />} />
+        <Route path="/admin/Registration" element={<AdminRegistration />} />
       </Routes>
     </BrowserRouter>
   );
