@@ -44,7 +44,7 @@
     "vite": "^7.2.4"
   },
   "engines": {
-    "node": "18.x || 20.x"
+    "node": "18.x || 20.x || 22.x || 24.x"
   },
   "overrides": {
     "react": "^18.2.0",

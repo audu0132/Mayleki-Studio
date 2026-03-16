@@ -5,7 +5,7 @@
     "vercel-build": "cd Frontend && npm install --include=dev && npm run build"
   },
   "engines": {
-    "node": "18.x || 20.x"
+    "node": "18.x || 20.x || 22.x || 24.x"
   }
   
 
