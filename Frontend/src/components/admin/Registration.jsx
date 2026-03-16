@@ -26,6 +26,7 @@ const AdminRegistration = () => {
 
       const data = await res.json();
 
+
       if (res.ok) {
         setMessage(data.message);
         setTimeout(() => navigate("/admin/login"), 2000);
@@ -37,7 +38,29 @@ const AdminRegistration = () => {
     } finally {
       setLoading(false);
     }
-  };
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/admin/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          setMessage(data.message);
+          setTimeout(() => navigate("/admin/login"), 2000);
+        } else {
+          setMessage(data.message);
+        }
+    }
+     catch (err) {
+      setMessage("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };  
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

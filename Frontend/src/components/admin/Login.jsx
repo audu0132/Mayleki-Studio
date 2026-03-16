@@ -165,7 +165,7 @@ const AdminLogin = () => {
         {/* Optional: Forgot Password Link */}
         <div className="text-center pt-2">
           <a
-            href="/admin/Registration"
+          href="/admin/Registration"
             className="text-sm text-pink-600 hover:text-pink-800 hover:underline"
             onClick={(e) => { 
               e.preventDefault();
