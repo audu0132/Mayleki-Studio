@@ -3,11 +3,29 @@ const Booking = require("../models/Booking");
 
 const router = express.Router();
 
+router.get("/available/:date", async (req, res) => {
+  try {
+     const bookings = await Booking.find({ date: req.params.date });
+
+    const bookedSlots = bookings.map((b) => b.time);
+
 const timeSlots = [
 "10:00 AM","11:00 AM","12:00 PM",
 "1:00 PM","2:00 PM","3:00 PM",
 "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
 ];
+
+    const availableSlots = timeSlots.filter(
+      (slot) => !bookedSlots.includes(slot)
+    );
+
+    res.json({ availableSlots });
+
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching slots" });
+  }
+});
+
 
 // GET BOOKINGS
 router.get("/", async (req, res) => {

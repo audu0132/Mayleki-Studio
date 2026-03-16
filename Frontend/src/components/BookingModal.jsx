@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const BookingModal = ({ service, onClose }) => {
   const [form, setForm] = useState({
@@ -26,7 +28,7 @@ const BookingModal = ({ service, onClose }) => {
   const fetchSlots = async () => {
     try {
       const res = await fetch(
-        `https://mayleki-studio.onrender.com/api/bookings/available/${form.date}`
+        `https://mayleki-studio.onrender.com/api/bookings/available/${form.date} `
       );
 
       const data = await res.json();
@@ -48,7 +50,7 @@ const BookingModal = ({ service, onClose }) => {
 
   fetchSlots();
 
-}, [form.date]);
+}, [form.date, timeSlots]);
 
   // ================================
   // Slot Styling
@@ -122,6 +124,8 @@ Time: ${form.time}
         `https://wa.me/918767875492?text=${encodedMessage}`,
         "_blank"
       );
+
+      
 
       onClose();
     } catch (error) {
