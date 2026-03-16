@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 
 const bookingRoutes = require("./routes/bookings");
 const analyticsRoutes = require("./routes/analytics");
+const adminRoutes = require("./routes/adminRoutes");
 
 connectDB();
 
@@ -33,6 +34,8 @@ app.use("/api/offers", require("./routes/offerRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/users", require("./routes/users"));
 
+
+app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
