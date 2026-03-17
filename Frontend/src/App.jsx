@@ -15,6 +15,7 @@ import AdminBookings from "./components/admin/AdminBookings";
 import Login from "./components/admin/Login";
 import Dashboard from "./components/admin/Dashboard";
 import AboutUs from "./components/AboutUs";
+import AdminRegistration from "./components/admin/AdminRegistration";
 
 function HomePage() {
   return (
@@ -41,7 +42,7 @@ function App() {
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bookings" element={<AdminBookings />} />
-        <Route path="/admin/Registration" element={<AdminRegistration />} />
+        <Route path="/admin/registration" element={<AdminRegistration />} />
       </Routes>
     </BrowserRouter>
   );
