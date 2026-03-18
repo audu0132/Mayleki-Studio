@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 
 import AdminPanel from "./components/AdminPanel";
 import AdminBookings from "./components/admin/AdminBookings";
-import Login from "./components/admin/Login";
+import AdminLogin from "./components/admin/AdminLogin";
 import Dashboard from "./components/admin/Dashboard";
 import AboutUs from "./components/AboutUs";
 import AdminRegistration from "./components/admin/AdminRegistration";
@@ -38,7 +38,7 @@ function App() {
       <Routes>
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bookings" element={<AdminBookings />} />
