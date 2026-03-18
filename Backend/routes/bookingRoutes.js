@@ -4,11 +4,6 @@ const Booking = require("../models/Booking");
 const auth = require("../middleware/authMiddleware");
 
 // Create booking
-router.post("/", async (req, res) => {
-  const booking = new Booking(req.body);
-  await booking.save();
-  res.json(booking);
-});
 
 // Get bookings
 router.get("/", async (req, res) => {

@@ -1,81 +1,95 @@
 const express = require("express");
+const router = express.Router();
 const Booking = require("../models/Booking");
 
-const router = express.Router();
-
-// canonical time slots (single source)
+// fixed time slots
 const timeSlots = [
   "10:00 AM","11:00 AM","12:00 PM",
   "1:00 PM","2:00 PM","3:00 PM",
   "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
 ];
 
-/**
- * GET /available/:date
- * Return available slots for a given date
- */
+
+// ✅ GET available slots
 router.get("/available/:date", async (req, res) => {
   try {
     const { date } = req.params;
-    if (!date) return res.status(400).json({ message: "Date parameter is required" });
+
+    if (!date) {
+      return res.status(400).json({ message: "Date required" });
+    }
 
     const bookings = await Booking.find({ date });
 
-    // tolerate both possible field names in DB while migrating: timeSlot preferred
-    const bookedSlots = bookings.map(b => b.timeSlot || b.time);
+    const bookedSlots = bookings.map(b => b.timeSlot);
 
-    const availableSlots = timeSlots.filter(slot => !bookedSlots.includes(slot));
+    const availableSlots = timeSlots.filter(
+      slot => !bookedSlots.includes(slot)
+    );
 
-    return res.json({ availableSlots });
+    res.json({ availableSlots });
+
   } catch (err) {
     console.error("Error fetching slots:", err);
-    return res.status(500).json({ message: "Error fetching slots" });
+    res.status(500).json({ message: "Error fetching slots" });
   }
 });
 
-/**
- * GET /
- * Optional query: ?date=YYYY-MM-DD
- * Returns bookings (all or for a date)
- */
+
+// ✅ GET all bookings (optional date filter)
 router.get("/", async (req, res) => {
   try {
     const { date } = req.query;
+
     const query = {};
     if (date) query.date = date;
 
-    const bookings = await Booking.find(query).sort({ date: 1, timeSlot: 1 });
-    return res.json(bookings);
+    const bookings = await Booking.find(query).sort({
+      date: 1,
+      timeSlot: 1
+    });
+
+    res.json(bookings);
+
   } catch (err) {
-    console.error("Error fetching bookings:", err);
-    return res.status(500).json({ message: "Error fetching bookings" });
+    console.error(err);
+    res.status(500).json({ message: "Error fetching bookings" });
   }
 });
 
-/**
- * POST /
- * Create a booking
- */
+
+// ✅ POST create booking (FINAL FIXED)
 router.post("/", async (req, res) => {
   try {
     const { name, phone, date, time, service, price } = req.body;
 
-    // basic validation
+    // validation
     if (!name || !phone || !date || !time) {
-      return res.status(400).json({ message: "Missing required fields: name, phone, date, time" });
+      return res.status(400).json({
+        message: "Missing required fields"
+      });
     }
 
-    // check if time is within allowed slots (optional)
+    // check valid slot
     if (!timeSlots.includes(time)) {
-      return res.status(400).json({ message: "Invalid time slot" });
+      return res.status(400).json({
+        message: "Invalid time slot"
+      });
     }
 
-    // check existing booking for same date & slot
-    const existingBooking = await Booking.findOne({ date: date, timeSlot: time });
+    // check duplicate booking
+    const existingBooking = await Booking.findOne({
+      date,
+      timeSlot: time
+    });
+
     if (existingBooking) {
-      return res.status(400).json({ message: "Slot already booked" });
+      return res.status(400).json({
+        message: "Slot already booked"
+      });
     }
 
+    // create booking
     const booking = new Booking({
       userName: name,
       phone,
@@ -87,10 +101,41 @@ router.post("/", async (req, res) => {
 
     await booking.save();
 
-    return res.status(201).json({ message: "Booking Confirmed", booking });
+    res.status(201).json({
+      message: "Booking Confirmed",
+      booking
+    });
+
   } catch (err) {
-    console.error("Booking failed:", err);
-    return res.status(500).json({ message: "Booking failed" });
+    console.error("BOOKING ERROR:", err);
+
+    // handle duplicate index error
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Slot already booked"
+      });
+    }
+
+    res.status(500).json({
+      message: "Booking failed"
+    });
+  }
+});
+
+
+// ✅ DELETE booking
+router.delete("/:id", async (req, res) => {
+  try {
+    await Booking.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Booking deleted successfully"
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Error deleting booking"
+    });
   }
 });
 
