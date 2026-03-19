@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
 
+
 // fixed time slots
 const timeSlots = [
   "10:00 AM","11:00 AM","12:00 PM",
@@ -61,10 +62,10 @@ router.get("/", async (req, res) => {
 // ✅ POST create booking (FINAL FIXED)
 router.post("/", async (req, res) => {
   try {
-    const { name, phone, date, time, service, price } = req.body;
+    const { name, phone, date, timeSlot, service, price } = req.body;
 
     // validation
-    if (!name || !phone || !date || !time) {
+    if (!name || !phone || !date || !timeSlot) {
       return res.status(400).json({
         message: "Missing required fields"
       });
@@ -80,7 +81,7 @@ router.post("/", async (req, res) => {
     // check duplicate booking
     const existingBooking = await Booking.findOne({
       date,
-      timeSlot: time
+      timeSlot: timeSlot
     });
 
     if (existingBooking) {
@@ -94,7 +95,7 @@ router.post("/", async (req, res) => {
       userName: name,
       phone,
       date,
-      timeSlot: time,
+      timeSlot: timeSlot,
       service,
       price
     });

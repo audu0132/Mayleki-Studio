@@ -4,7 +4,7 @@ const bookingSchema = new mongoose.Schema({
   userName: String,
   phone: String,
   date: String,
-  timeSlot: String,
+  timeSlot: timeSlots,
   service: String,
   price: Number,
 }, { timestamps: true });

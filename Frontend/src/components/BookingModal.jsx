@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
+
 const BookingModal = ({ service, onClose }) => {
   const [form, setForm] = useState({
     name: "",
