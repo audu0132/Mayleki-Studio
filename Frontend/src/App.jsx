@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 
 import AdminPanel from "./components/AdminPanel";
 import AdminBookings from "./components/admin/AdminBookings";
-import AdminLogin from "./components/admin/Login";
+import AdminLogin from "./components/admin/AdminLogin";
 import Dashboard from "./components/admin/Dashboard";
 import AboutUs from "./components/AboutUs";
 import AdminRegistration from "./components/admin/AdminRegistration";
