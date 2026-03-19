@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
     }
 
     // check valid slot
-    if (!timeSlots.includes(time)) {
+    if (!timeSlots.includes(timeSlot)) {
       return res.status(400).json({
         message: "Invalid time slot"
       });
@@ -95,7 +95,7 @@ router.post("/", async (req, res) => {
       userName: name,
       phone,
       date,
-      timeSlot: timeSlot,
+      timeSlot: time,
       service,
       price
     });
