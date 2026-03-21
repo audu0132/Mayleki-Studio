@@ -6,7 +6,7 @@ dotenv.config();
 
 const connectDB = require("./config/db");
 
-const bookingRoutes = require("./routes/bookings");
+const bookingRoutes = require("./routes/bookingRoutes");
 const analyticsRoutes = require("./routes/analytics");
 const adminRoutes = require("./routes/adminRoutes");
 
