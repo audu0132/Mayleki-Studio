@@ -8,12 +8,10 @@ const timeSlots = [
   "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
 ];
 
-// GET available slots
+// ✅ GET AVAILABLE SLOTS
 router.get("/available/:date", async (req, res) => {
   try {
-    const { date } = req.params;
-
-    const bookings = await Booking.find({ date });
+    const bookings = await Booking.find({ date: req.params.date });
 
     const bookedSlots = bookings.map(b => b.timeSlot);
 
@@ -22,34 +20,27 @@ router.get("/available/:date", async (req, res) => {
     );
 
     res.json({ availableSlots });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error fetching slots" });
   }
 });
 
-// CREATE booking
+// ✅ CREATE BOOKING
 router.post("/", async (req, res) => {
   try {
-    const { name, phone, date, time } = req.body;
-
-    console.log("Incoming:", req.body); // DEBUG
+    const { name, phone, date, time, service, price } = req.body;
 
     if (!name || !phone || !date || !time) {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    if (!timeSlots.includes(time)) {
-      return res.status(400).json({ message: "Invalid time slot" });
-    }
-
-    const exists = await Booking.findOne({
+    const existing = await Booking.findOne({
       date,
       timeSlot: time
     });
 
-    if (exists) {
+    if (existing) {
       return res.status(400).json({ message: "Slot already booked" });
     }
 
@@ -57,7 +48,9 @@ router.post("/", async (req, res) => {
       userName: name,
       phone,
       date,
-      timeSlot: time
+      timeSlot: time,
+      service,
+      price
     });
 
     await booking.save();
@@ -65,7 +58,7 @@ router.post("/", async (req, res) => {
     res.status(201).json({ message: "Booking Confirmed" });
 
   } catch (err) {
-    console.error("ERROR:", err); // 🔥 IMPORTANT
+    console.error("Booking error:", err);
     res.status(500).json({ message: "Booking failed" });
   }
 });
