@@ -15,7 +15,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: p[
+  origin: [
     "http://localhost:5173",
     "https://mayleki-studio.vercel.app"
   ],
