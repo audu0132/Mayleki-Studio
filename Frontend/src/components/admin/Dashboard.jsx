@@ -67,7 +67,7 @@ const Dashboard = () => {
   const fetchBookings = async () => {
     try {
       // Use /api/booking (singular) which maps to bookings.js
-      const res = await fetch('${API_BASE_URL}/api/booking/admin/all', {
+      const res = await fetch('${API_BASE_URL}/booking/admin/all', {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -80,7 +80,7 @@ const Dashboard = () => {
   // Fetch analytics data
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch('${API_BASE_URL}/api/analytics/dashboard', {
+      const res = await fetch('${API_BASE_URL}/analytics/dashboard', {
         headers: getAuthHeaders()
       });
       const data = await res.json();
@@ -124,7 +124,7 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`${API_BASE_URL}/api/offers`, {
+      await fetch(`${API_BASE_URL}/offers`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(form),
@@ -149,7 +149,7 @@ const Dashboard = () => {
 
   const saveEditOffer = async (id) => {
     try {
-      await fetch(`${API_BASE_URL}/api/offers/${id}`, {
+      await fetch(`${API_BASE_URL}/offers/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(editForm),
@@ -168,7 +168,7 @@ const Dashboard = () => {
 
   // ================= DELETE OFFER =================
   const deleteOffer = async (id) => {
-    await fetch(`${API_BASE_URL}/api/offers/${id}`, {
+    await fetch(`${API_BASE_URL}/offers/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders()
     });
@@ -179,7 +179,7 @@ const Dashboard = () => {
   const deleteBooking = async (id) => {
     try {
       // Use /api/booking (singular) for delete
-      await fetch(`${API_BASE_URL}/api/booking/${id}`, {
+      await fetch(`${API_BASE_URL}/booking/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders()
       });
