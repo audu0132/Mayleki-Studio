@@ -31,7 +31,7 @@ const AdminBookings = () => {
       try {
         setLoading(true);
         // Use /api/booking (singular) which maps to bookings.js
-       const res = await fetch(`${API_BASE_URL}/api/bookings`, {
+       const res = await fetch(`${API_BASE_URL}/booking`, {
   headers: getAuthHeaders()
 });
         
