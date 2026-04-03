@@ -28,25 +28,22 @@ const AdminBookings = () => {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      try {
-        setLoading(true);
-        // Use /api/booking (singular) which maps to bookings.js
-       const res = await fetch(`${API_BASE_URL}/booking`, {
-  headers: getAuthHeaders()
-});
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/booking`, {
+      headers: getAuthHeaders(),
+    });
         
-        if (!res.ok) {
-          throw new Error("Failed to fetch bookings");
-        }
+        
+    if (!res.ok) throw new Error(`Bookings API failed: ${res.status}`);
         
         const data = await res.json();
-        setBookings(data);
-      } catch (err) {
-        console.error("Error fetching bookings:", err);
-        setError("Failed to load bookings. Please try again.");
-      } finally {
-        setLoading(false);
-      }
+    console.log("bookings response:", data);
+
+    setBookings(Array.isArray(data) ? data : data.bookings || []);
+  } catch (err) {
+    console.error("Error fetching bookings:", err);
+    setBookings([]);
+  }
     };
 
     fetchBookings();
@@ -86,9 +83,9 @@ const AdminBookings = () => {
                 {booking.userName}
               </h2>
 
-              <p><strong>Phone:</strong> {booking.phone}</p>
-              <p><strong>Date:</strong> {booking.date}</p>
-              <p><strong>Time:</strong> {booking.timeSlot}</p>
+              <p><strong>Phone:</strong> {booking.phone || "No Phone"}</p>
+              <p><strong>Date:</strong> {booking.date || "No Date"}</p>
+              <p><strong>Time:</strong> {booking.timeSlot || "No Time"}</p>
 
               <p className="text-sm text-gray-500 mt-2">
                 Booked On: {new Date(booking.createdAt).toDateString()}

@@ -18,7 +18,7 @@ const AdminRegistration = () => {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/register`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

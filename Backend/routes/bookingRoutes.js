@@ -63,4 +63,31 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ✅ GET ALL BOOKINGS (ADMIN)
+router.get("/", async (req, res) => {
+  try {
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.json(bookings);
+  } catch (err) {
+    console.error("Fetch bookings error:", err);
+    res.status(500).json({ message: "Error fetching bookings" });
+  }
+});
+
+// ✅ DELETE BOOKING (ADMIN)
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
+
+    if (!deletedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    res.json({ message: "Booking deleted successfully" });
+  } catch (err) {
+    console.error("Delete booking error:", err);
+    res.status(500).json({ message: "Error deleting booking" });
+  }
+});
+
 module.exports = router;
