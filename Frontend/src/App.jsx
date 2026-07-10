@@ -16,7 +16,8 @@ import AdminLogin from "./components/admin/AdminLogin";
 import Dashboard from "./components/admin/Dashboard";
 import AboutUs from "./components/AboutUs";
 import AdminRegistration from "./components/admin/AdminRegistration";
-
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 function HomePage() {
   return (
     <>
@@ -43,6 +44,8 @@ function App() {
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bookings" element={<AdminBookings />} />
         <Route path="/admin/registration" element={<AdminRegistration />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
       </Routes>
     </BrowserRouter>
   );
