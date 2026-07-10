@@ -83,8 +83,8 @@ const Footer = () => {
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-white/40 text-sm font-light">
             <p>&copy; {new Date().getFullYear()} Mayleki Makeup Studio & Academy. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" className="hover:text-white">Privacy Policy</a>
-                <a href="#" className="hover:text-white">Terms of Service</a>
+                <Link to="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+                <Link to="/terms-of-service" className="hover:text-white">Terms of Service</Link>
             </div>
         </div>
       </div>
