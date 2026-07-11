@@ -31,13 +31,20 @@ app.get("/", (req, res) => {
 
 // ROUTES
 app.use("/api/offers", require("./routes/offerRoutes"));
-app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/users", require("./routes/users"));
-
-
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/booking", bookingRoutes);
 app.use("/api/analytics", analyticsRoutes);
+
+// Centralized Error Handler
+app.use((err, req, res, next) => {
+  console.error("Centralized Error:", err.stack);
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+    error: process.env.NODE_ENV === "development" ? err : {}
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
