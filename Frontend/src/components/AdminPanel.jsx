@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_BASE_URL } from "../config";
 import AdminBookings from "./admin/AdminBookings";
 
 const AdminPanel = () => {
@@ -10,7 +11,7 @@ const AdminPanel = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://mayleki-studio.onrender.com/api/offers", {
+      const response = await fetch(`${API_BASE_URL}/api/offers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

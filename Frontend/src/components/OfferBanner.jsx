@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../config";
 
 const OfferBanner = () => {
   const [offer, setOffer] = useState(null);
@@ -7,7 +8,7 @@ const OfferBanner = () => {
   useEffect(() => {
     const fetchOffer = async () => {
       try {
-        const res = await fetch("https://mayleki-studio.onrender.com/api/offers");
+        const res = await fetch(`${API_BASE_URL}/api/offers`);
         const data = await res.json();
 
         // If backend returns array

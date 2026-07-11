@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import useAuth from "../hooks/useAuth";
+import { API_BASE_URL } from "../config";
 
 const BookingModal = ({ service, onClose }) => {
+  const { user } = useAuth();
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -20,38 +22,49 @@ const BookingModal = ({ service, onClose }) => {
     "4:00 PM","5:00 PM","6:00 PM","7:00 PM"
   ];
 
+  // Prefill details if customer is logged in
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        name: user.name || "",
+        phone: user.phone || "",
+      }));
+    }
+  }, [user]);
+
   // ================================
   // Fetch booked slots when date changes
   // ================================
- useEffect(() => {
-  if (!form.date) return;
+  useEffect(() => {
+    if (!form.date) return;
 
-  const fetchSlots = async () => {
-    try {
-      const res = await fetch(
-        `https://mayleki-studio.onrender.com/api/bookings/available/${form.date} `
-      );
-
-      const data = await res.json();
-      
-      if (data.availableSlots) {
-        // Find which slots are missing from availableSlots (these are the booked ones)
-        const booked = timeSlots.filter(
-          (slot) => !data.availableSlots.includes(slot)
+    const fetchSlots = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/bookings/available/${form.date}`
         );
-        setBookedSlots(booked);
-      } else {
-        setBookedSlots(data.bookedSlots || []);
+
+        const data = await res.json();
+        
+        if (data.availableSlots) {
+          // Find which slots are missing from availableSlots (these are the booked ones)
+          const booked = timeSlots.filter(
+            (slot) => !data.availableSlots.includes(slot)
+          );
+          setBookedSlots(booked);
+        } else {
+          setBookedSlots(data.bookedSlots || []);
+        }
+
+      } catch (error) {
+        console.error("Error fetching slots:", error);
       }
+    };
 
-    } catch (error) {
-      console.error("Error fetching slots:", error);
-    }
-  };
+    fetchSlots();
 
-  fetchSlots();
-
-}, [form.date, timeSlots]);
+  }, [form.date]);
 
   // ================================
   // Slot Styling
@@ -69,13 +82,13 @@ const BookingModal = ({ service, onClose }) => {
   // ================================
   // Submit Booking
   // ================================
-   const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!form.time) {
-    alert("Please select a time slot");
-    return;
-  }
+    if (!form.time) {
+      alert("Please select a time slot");
+      return;
+    }
 
     const bookingData = {
       ...form,
@@ -89,22 +102,31 @@ const BookingModal = ({ service, onClose }) => {
     try {
       setLoading(true);
 
+      // Inject authorization headers if logged in
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+      
+      const headers = { "Content-Type": "application/json" };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await fetch(
-  "https://mayleki-studio.onrender.com/api/bookings",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(bookingData),
-  }
-);
+        `${API_BASE_URL}/api/bookings`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(bookingData),
+        }
+      );
 
-const data = await res.json();
+      const data = await res.json();
 
-if (!res.ok) {
-  throw new Error(data.message || "Booking failed");
-}
+      if (!res.ok) {
+        throw new Error(data.message || "Booking failed");
+      }
 
-alert("Booking Confirmed!");
+      alert("Booking Confirmed!");
 
       // WhatsApp redirect
       const message = `
@@ -126,15 +148,13 @@ Time: ${form.time}
         "_blank"
       );
 
-      
-
       onClose();
     } catch (error) {
-  console.error("Booking error:", error);
-  alert(error.message || "Booking failed");
-} finally {
-  setLoading(false);
-}
+      console.error("Booking error:", error);
+      alert(error.message || "Booking failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -171,7 +191,7 @@ Time: ${form.time}
 
           <input
             type="date"
-             min={new Date().toISOString().split("T")[0]}
+            min={new Date().toISOString().split("T")[0]}
             className="border p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
             required
             value={form.date}
@@ -192,10 +212,7 @@ Time: ${form.time}
                   <button
                     key={slot}
                     type="button"
-                    required
-                    value={form.date}
                     disabled={bookedSlots.includes(slot)}
-
                     onClick={() =>
                       setForm({ ...form, time: slot })
                     }
