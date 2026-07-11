@@ -1,22 +1,37 @@
 const jwt = require("jsonwebtoken");
-const express = require("express");
-const router = express.Router();
+const User = require("../models/User");
 
-const protect = (req, res, next) => {
-  let token = req.headers.authorization;
+const protectUser = async (req, res, next) => {
+  let token;
 
-  if (token && token.startsWith("Bearer")) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
     try {
-      token = token.split(" ")[1];
+      // Get token from header
+      token = req.headers.authorization.split(" ")[1];
+
+      // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.admin = decoded;
+
+      // Get user from the token and attach to req
+      req.user = await User.findById(decoded.id).select("-password");
+
+      if (!req.user) {
+        return res.status(401).json({ message: "User not found, unauthorized" });
+      }
+
       next();
     } catch (error) {
-      res.status(401).json({ message: "Not authorized" });
+      console.error("Auth Middleware Error:", error);
+      return res.status(401).json({ message: "Not authorized, token failed" });
     }
-  } else {
-    res.status(401).json({ message: "No token" });
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authorized, no token" });
   }
 };
 
-module.exports = protect;
+module.exports = protectUser;
