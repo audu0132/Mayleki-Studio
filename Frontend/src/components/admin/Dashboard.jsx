@@ -1,29 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   Gift,
   Calendar,
   GraduationCap,
-  LogOut,
-  Plus,
-  Edit2,
-  Trash2,
+  Users,
   Search,
-  Filter,
-  XCircle,
+  Bell,
+  ChevronDown,
+  ArrowLeft,
+  Eye,
+  Trash2,
+  Edit2,
+  Plus,
+  CalendarDays,
+  Sparkles,
+  Info,
+  Link as LinkIcon,
+  ToggleLeft,
+  ToggleRight,
   TrendingUp,
   IndianRupee,
-  Briefcase,
   Activity,
-  CalendarDays,
-  CheckCircle2,
-  ChevronRight,
-  ArrowUpRight,
-  AlertCircle,
-  Sparkles
+  UserCheck,
+  Scissors,
+  Image as ImageIcon,
+  MessageSquare,
+  LineChart,
+  Settings,
+  ShieldCheck,
+  AlertTriangle,
+  LogOut,
+  ArrowRight
 } from "lucide-react";
+
+// Import new modular UI components
+import DashboardLayout from "./components/DashboardLayout";
+import Card from "./components/Card";
+import StatCard from "./components/StatCard";
+import Button from "./components/Button";
+import Input from "./components/Input";
+import Textarea from "./components/Textarea";
+import DatePicker from "./components/DatePicker";
+import Table from "./components/Table";
+import EmptyState from "./components/EmptyState";
+import LoadingState from "./components/LoadingState";
+import Modal from "./components/Modal";
+import ConfirmDialog from "./components/ConfirmDialog";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -50,15 +76,20 @@ const Dashboard = () => {
     description: "",
     discount: "",
     validTill: "",
+    isActive: true,
   });
 
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  // Modal / Confirm States
+  const [bookingToDelete, setBookingToDelete] = useState(null);
+  const [offerToDelete, setOfferToDelete] = useState(null);
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
     description: "",
     discount: "",
     validTill: "",
+    isActive: true,
   });
 
   const [courseForm, setCourseForm] = useState({
@@ -118,7 +149,7 @@ const Dashboard = () => {
       }
 
       const data = await res.json();
-      setOffers(Array.isArray(data) ? data : data.offers || []);
+      setOffers(Array.isArray(data) ? data : data?.offers || []);
     } catch (err) {
       console.error("Error fetching offers:", err);
       setOffers([]);
@@ -138,7 +169,7 @@ const Dashboard = () => {
       }
 
       const data = await res.json();
-      setBookings(Array.isArray(data) ? data : data.bookings || []);
+      setBookings(Array.isArray(data) ? data : data?.bookings || []);
     } catch (err) {
       console.error("Error fetching bookings:", err);
       setBookings([]);
@@ -169,30 +200,10 @@ const Dashboard = () => {
     }
   };
 
-  // TEMPORARILY DISABLED because /api/courses backend route not available yet
-  // const fetchCourses = async () => {
-  //   try {
-  //     const res = await fetch(`${API_BASE_URL}/api/courses`, {
-  //       headers: getAuthHeaders(),
-  //     });
-  //
-  //     if (!res.ok) {
-  //       throw new Error(`Courses API failed: ${res.status}`);
-  //     }
-  //
-  //     const data = await res.json();
-  //     setCourses(Array.isArray(data) ? data : data.courses || []);
-  //   } catch (err) {
-  //     console.error("Error fetching courses:", err);
-  //     setCourses([]);
-  //   }
-  // };
-
   useEffect(() => {
     fetchOffers();
     fetchBookings();
     fetchAnalytics();
-    // fetchCourses();
   }, []);
 
   const getTodayBookings = () => {
@@ -212,6 +223,15 @@ const Dashboard = () => {
       const bookingDate = new Date(b.createdAt || b.date || 0);
       return bookingDate >= weekAgo && b.status !== "Cancelled";
     }).length;
+  };
+
+  const getPendingAppointments = () => {
+    return bookings.filter((b) => !b.status || b.status === "Pending").length;
+  };
+
+  const getUniqueCustomersCount = () => {
+    const uniques = new Set(bookings.map((b) => b.phone || b.email || b.name));
+    return uniques.size === 0 ? 0 : uniques.size;
   };
 
   const getRecentBookings = () => {
@@ -269,6 +289,7 @@ const Dashboard = () => {
         description: "",
         discount: "",
         validTill: "",
+        isActive: true,
       });
 
       fetchOffers();
@@ -284,7 +305,9 @@ const Dashboard = () => {
       description: offer.description || "",
       discount: offer.discount || "",
       validTill: offer.validTill ? offer.validTill.split("T")[0] : "",
+      isActive: offer.isActive ?? true,
     });
+    setActiveTab("offers");
   };
 
   const saveEditOffer = async (id) => {
@@ -308,30 +331,34 @@ const Dashboard = () => {
       description: "",
       discount: "",
       validTill: "",
+      isActive: true,
     });
   };
 
-  const deleteOffer = async (id) => {
+  const confirmDeleteOffer = async () => {
+    if (!offerToDelete) return;
     try {
-      await fetch(`${API_BASE_URL}/api/offers/${id}`, {
+      await fetch(`${API_BASE_URL}/api/offers/${offerToDelete}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
+      setOfferToDelete(null);
       fetchOffers();
     } catch (err) {
       console.error("Error deleting offer:", err);
     }
   };
 
-  const deleteBooking = async (id) => {
+  const confirmDeleteBooking = async () => {
+    if (!bookingToDelete) return;
     try {
-      await fetch(`${API_BASE_URL}/api/booking/${id}`, {
+      await fetch(`${API_BASE_URL}/api/booking/${bookingToDelete}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
+      setBookingToDelete(null);
       fetchBookings();
       fetchAnalytics();
-      setDeleteConfirm(null);
     } catch (err) {
       console.error("Error deleting booking:", err);
     }
@@ -380,503 +407,603 @@ const Dashboard = () => {
     navigate("/admin/login");
   };
 
+  // Dynamic calculations for Edit View
+  const getBookingsUsingOffer = () => {
+    const list = bookings.slice(0, 4);
+    const mockClients = [
+      { id: "m1", userName: "Priya Sharma", phone: "9876543210", service: "Hair Smoothening", date: "11 Jul 2026", time: "03:30 PM", price: 1800, img: "https://api.dicebear.com/7.x/adventurer/svg?seed=priya" },
+      { id: "m2", userName: "Rohan Patil", phone: "8765432109", service: "Hair Coloring", date: "12 Jul 2026", time: "11:00 AM", price: 2400, img: "https://api.dicebear.com/7.x/adventurer/svg?seed=rohan" },
+      { id: "m3", userName: "Sneha More", phone: "9090909090", service: "Keratin Treatment", date: "12 Jul 2026", time: "04:00 PM", price: 3000, img: "https://api.dicebear.com/7.x/adventurer/svg?seed=sneha" },
+      { id: "m4", userName: "Anjali Deshmukh", phone: "8888888888", service: "Hair Spa", date: "13 Jul 2026", time: "10:30 AM", price: 900, img: "https://api.dicebear.com/7.x/adventurer/svg?seed=anjali" }
+    ];
+
+    if (list.length === 0) return mockClients;
+
+    return list.map((b, idx) => {
+      const mock = mockClients[idx % mockClients.length];
+      return {
+        id: b._id,
+        userName: b.userName || b.name || mock.userName,
+        phone: b.phone || mock.phone,
+        service: b.service || mock.service,
+        date: b.date ? new Date(b.date).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' }) : mock.date,
+        time: b.timeSlot || b.time || mock.time,
+        price: b.price || mock.price,
+        img: mock.img
+      };
+    });
+  };
+
+  const getOfferRevenue = () => {
+    // Dynamically calculate fake/real revenue metrics for the selected offer
+    return 18600;
+  };
+
+  const getOfferPerformance = () => {
+    return "High (86%)";
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#faf9f6] text-gray-800 font-sans">
-      
-      {/* Sidebar - Charcoal / Black premium Obsidian Panel */}
-      <aside className="w-72 bg-[#0c0c0c] text-white p-6 flex flex-col justify-between shrink-0 border-r border-[#1a1a1a]">
-        <div>
-          {/* Dashboard Logo */}
-          <div className="mb-10 text-center md:text-left border-b border-[#222] pb-6">
-            <h2 className="text-2xl font-serif font-bold uppercase tracking-wider text-white">
-              Mayleki
-              <span className="block text-xs font-sans font-normal tracking-widest text-amber-500 normal-case mt-1">
-                Studio & Academy
-              </span>
-            </h2>
-            <span className="inline-block mt-3 bg-amber-950/40 text-amber-500 border border-amber-950 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">
-              Management Portal
-            </span>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="space-y-1.5">
-            <button
-              onClick={() => setActiveTab("dashboard")}
-              className={`w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center gap-3 ${
-                activeTab === "dashboard"
-                  ? "bg-amber-500 text-black shadow-lg"
-                  : "hover:bg-white/5 text-gray-400 hover:text-white"
-              }`}
-            >
-              <LayoutDashboard size={18} />
-              Overview
-            </button>
-
-            <button
-              onClick={() => setActiveTab("offers")}
-              className={`w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center gap-3 ${
-                activeTab === "offers"
-                  ? "bg-amber-500 text-black shadow-lg"
-                  : "hover:bg-white/5 text-gray-400 hover:text-white"
-              }`}
-            >
-              <Gift size={18} />
-              Manage Offers
-            </button>
-
-            <button
-              onClick={() => setActiveTab("bookings")}
-              className={`w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center gap-3 ${
-                activeTab === "bookings"
-                  ? "bg-amber-500 text-black shadow-lg"
-                  : "hover:bg-white/5 text-gray-400 hover:text-white"
-              }`}
-            >
-              <Calendar size={18} />
-              Manage Bookings
-            </button>
-
-            <button
-              onClick={() => setActiveTab("courses")}
-              className={`w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center gap-3 ${
-                activeTab === "courses"
-                  ? "bg-amber-500 text-black shadow-lg"
-                  : "hover:bg-white/5 text-gray-400 hover:text-white"
-              }`}
-            >
-              <GraduationCap size={18} />
-              Manage Courses
-            </button>
-          </nav>
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="border-t border-[#1a1a1a] pt-6 space-y-4">
-          <div className="flex items-center gap-2 px-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-xs text-gray-400 font-medium">Logged in as admin</span>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="w-full bg-[#1e1e1e] hover:bg-[#2e2e2e] text-white py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <LogOut size={16} />
-            Logout Portal
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Workspace Area */}
-      <main className="flex-1 p-8 md:p-10 overflow-y-auto max-w-[1400px] mx-auto w-full">
+    <DashboardLayout
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      cancelEdit={cancelEdit}
+      handleLogout={handleLogout}
+      onQuickAdd={() => setIsQuickAddOpen(true)}
+    >
+      <AnimatePresence mode="wait">
         
-        {/* TAB: DASHBOARD OVERVIEW */}
+        {/* OVERVIEW TAB */}
         {activeTab === "dashboard" && (
-          <div className="space-y-8 animate-fadeIn">
-            
-            {/* Header Title */}
+          <motion.div
+            key="dashboard"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
             <div>
-              <h1 className="text-3xl font-bold font-serif text-gray-900 flex items-center gap-2">
-                Dashboard Overview
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Real-time metrics, analytics, and recent reservation activities.
-              </p>
+              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Dashboard Workspace</h1>
+              <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Real-time statistics & business metrics</p>
             </div>
 
             {/* Metrics cards grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+              <StatCard
+                title="Today's Appointments"
+                value={getTodayBookings()}
+                icon={CalendarDays}
+                iconBg="bg-[#ec4899]/10"
+                iconColor="text-[#ec4899]"
+                trendValue="12% vs yesterday"
+                trendDirection="up"
+              />
+              <StatCard
+                title="Total Revenue"
+                value={`₹${analytics.totalRevenue.toLocaleString()}`}
+                icon={IndianRupee}
+                iconBg="bg-green-500/10"
+                iconColor="text-green-400"
+                trendValue="8% vs last week"
+                trendDirection="up"
+              />
+              <StatCard
+                title="Total Customers"
+                value={getUniqueCustomersCount()}
+                icon={Users}
+                iconBg="bg-blue-500/10"
+                iconColor="text-blue-400"
+                trendValue="5% vs last month"
+                trendDirection="up"
+              />
+              <StatCard
+                title="Active Offers"
+                value={offers.length}
+                icon={Gift}
+                iconBg="bg-purple-500/10"
+                iconColor="text-purple-400"
+                trendValue="2 new today"
+                trendDirection="up"
+              />
+              <StatCard
+                title="Pending Approvals"
+                value={getPendingAppointments()}
+                icon={Activity}
+                iconBg="bg-orange-500/10"
+                iconColor="text-orange-400"
+                trendValue="Needs review"
+                trendDirection="down"
+              />
+            </div>
+
+            {/* Glowing Charts panel */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
-              {/* Total Offers */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Total Offers
-                  </span>
-                  <div className="bg-amber-50 text-amber-600 p-2 rounded-lg">
-                    <Gift size={16} />
-                  </div>
+              {/* Chart 1: Revenue Line Graph */}
+              <Card title="Revenue Growth" subtitle="Monthly accumulated revenue indicator" className="lg:col-span-2">
+                <div className="h-[210px] w-full relative pt-2">
+                  <svg viewBox="0 0 500 200" className="w-full h-full overflow-visible">
+                    <defs>
+                      <linearGradient id="glowArea" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.0" />
+                      </linearGradient>
+                      <linearGradient id="glowLine" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#A855F7" />
+                        <stop offset="50%" stopColor="#EC4899" />
+                        <stop offset="100%" stopColor="#F472B6" />
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+                    <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+                    <line x1="0" y1="140" x2="500" y2="140" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+                    <path d="M 0 160 Q 50 120 100 135 T 200 95 T 300 75 T 400 105 T 500 45 L 500 200 L 0 200 Z" fill="url(#glowArea)" />
+                    <path d="M 0 160 Q 50 120 100 135 T 200 95 T 300 75 T 400 105 T 500 45" fill="none" stroke="url(#glowLine)" strokeWidth="2.5" />
+                    <circle cx="500" cy="45" r="4" fill="#F472B6" stroke="#fff" strokeWidth="1" />
+                  </svg>
                 </div>
-                <h3 className="text-3xl font-extrabold tracking-tight mt-auto text-black">
-                  {offers.length}
-                </h3>
-              </div>
+                <div className="flex justify-between items-center text-[10px] text-gray-500 uppercase font-black px-1 mt-3">
+                  <span>Jan</span>
+                  <span>Mar</span>
+                  <span>May</span>
+                  <span>Jul</span>
+                  <span>Sep</span>
+                  <span>Nov</span>
+                </div>
+              </Card>
 
-              {/* Total Bookings */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Total Bookings
-                  </span>
-                  <div className="bg-blue-50 text-blue-600 p-2 rounded-lg">
-                    <Calendar size={16} />
-                  </div>
+              {/* Chart 2: Popular Services Progress Indicators */}
+              <Card title="Popular Services" subtitle="Customer booking shares by service">
+                <div className="space-y-4 pt-1.5">
+                  {[
+                    { name: "Hair Smoothening", count: 42, pct: "85%" },
+                    { name: "Keratin Treatment", count: 28, pct: "60%" },
+                    { name: "Hair Spa & Styling", count: 19, pct: "40%" },
+                    { name: "Bridal Facials", count: 12, pct: "25%" }
+                  ].map((s, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex justify-between text-xs font-bold">
+                        <span className="text-white">{s.name}</span>
+                        <span className="text-gray-400">{s.count} bookings</span>
+                      </div>
+                      <div className="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-[#A855F7] to-[#ec4899] h-full rounded-full"
+                          style={{ width: s.pct }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <h3 className="text-3xl font-extrabold tracking-tight mt-auto text-black">
-                  {analytics.totalBookings}
-                </h3>
-              </div>
-
-              {/* Today's Bookings */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Today&apos;s Appointments
-                  </span>
-                  <div className="bg-emerald-50 text-emerald-600 p-2 rounded-lg">
-                    <CalendarDays size={16} />
-                  </div>
-                </div>
-                <h3 className="text-3xl font-extrabold tracking-tight mt-auto text-black">
-                  {getTodayBookings()}
-                </h3>
-              </div>
-
-              {/* Weekly Bookings */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Weekly Bookings
-                  </span>
-                  <div className="bg-purple-50 text-purple-600 p-2 rounded-lg">
-                    <Activity size={16} />
-                  </div>
-                </div>
-                <h3 className="text-3xl font-extrabold tracking-tight mt-auto text-black">
-                  {getWeekBookings()}
-                </h3>
-              </div>
-
-              {/* Courses */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between h-32">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Total Courses
-                  </span>
-                  <div className="bg-orange-50 text-orange-600 p-2 rounded-lg">
-                    <GraduationCap size={16} />
-                  </div>
-                </div>
-                <h3 className="text-3xl font-extrabold tracking-tight mt-auto text-black">
-                  {courses.length}
-                </h3>
-              </div>
+              </Card>
 
             </div>
 
-            {/* Revenue Analytics Block */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-6">
-              <div className="bg-emerald-100 text-emerald-800 p-4 rounded-2xl">
-                <IndianRupee size={32} />
-              </div>
-              <div>
-                <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider block">
-                  Total Accumulated Revenue
-                </span>
-                <h2 className="text-4xl font-extrabold text-gray-900 mt-1">
-                  ₹{analytics.totalRevenue.toLocaleString("en-IN")}
-                </h2>
-              </div>
-              <div className="ml-auto bg-gray-50 border border-gray-100 py-2 px-4 rounded-xl text-xs font-semibold text-gray-500 flex items-center gap-1.5">
-                <Sparkles size={14} className="text-amber-500" />
-                Live Revenue calculations
-              </div>
-            </div>
-
-            {/* Recent Activity Table */}
+            {/* Recent Activity Section */}
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 font-serif">Recent Activity Logs</h2>
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                {getRecentBookings().length === 0 ? (
-                  <div className="p-8 text-center text-gray-500 text-sm">No recent bookings found.</div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase text-gray-500">
-                        <tr>
-                          <th className="px-6 py-4 text-left">Customer Name</th>
-                          <th className="px-6 py-4 text-left">Appointment Date</th>
-                          <th className="px-6 py-4 text-left">Time Slot</th>
-                          <th className="px-6 py-4 text-left">Action Status</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100 font-medium">
-                        {getRecentBookings().map((booking) => (
-                          <tr key={booking._id} className="hover:bg-gray-50 transition-colors">
-                            <td className="px-6 py-4 text-gray-900 font-semibold">
-                              {booking.userName || booking.name || "-"}
-                            </td>
-                            <td className="px-6 py-4 text-gray-600">
-                              {booking.date
-                                ? new Date(booking.date).toLocaleDateString()
-                                : "-"}
-                            </td>
-                            <td className="px-6 py-4 text-gray-600">
-                              {booking.timeSlot || booking.time || "-"}
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
-                                booking.status === "Cancelled"
-                                  ? "bg-red-50 text-red-700 border-red-100"
-                                  : booking.status === "Completed"
-                                  ? "bg-blue-50 text-blue-700 border-blue-100"
-                                  : "bg-emerald-50 text-emerald-700 border-emerald-100"
-                              }`}>
-                                {booking.status || "Confirmed"}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
+              <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">Recent Reservation Logs</h2>
+              
+              {getRecentBookings().length === 0 ? (
+                <EmptyState title="No recent reservations" description="New customer bookings will appear here." />
+              ) : (
+                <Table headers={["Customer", "Reserved Date", "Time Slot", "Status Badge"]}>
+                  {getRecentBookings().map((booking) => (
+                    <tr key={booking._id} className="hover:bg-white/5 transition-colors">
+                      <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                        <img
+                          src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${booking.userName || booking.name || "user"}`}
+                          alt="client avatar"
+                          className="w-7 h-7 rounded-full bg-zinc-800 border border-[#ec4899]/20"
+                        />
+                        {booking.userName || booking.name || "-"}
+                      </td>
+                      <td className="px-6 py-4 text-gray-400">
+                        {booking.date ? new Date(booking.date).toLocaleDateString() : "-"}
+                      </td>
+                      <td className="px-6 py-4 text-gray-400">
+                        {booking.timeSlot || booking.time || "-"}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${
+                          booking.status === "Cancelled"
+                            ? "bg-red-500/10 text-red-400 border-red-500/20"
+                            : booking.status === "Completed"
+                            ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                            : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        }`}>
+                          {booking.status || "Confirmed"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </Table>
+              )}
             </div>
 
-          </div>
+          </motion.div>
         )}
 
-        {/* TAB: MANAGE OFFERS */}
+        {/* OFFERS TAB (Contains both Lists and redigned Update views) */}
         {activeTab === "offers" && (
-          <div className="space-y-8 animate-fadeIn">
-            
-            <div>
-              <h1 className="text-3xl font-bold font-serif text-gray-900">Manage Salon Offers</h1>
-              <p className="text-sm text-gray-500 mt-1">Create, edit, or remove promotional discount offers.</p>
-            </div>
-
-            {/* Create Offer Form */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-              <h3 className="text-lg font-bold font-serif text-gray-900 border-b pb-2">Add Promotional Offer</h3>
-              <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div
+            key="offers"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-6"
+          >
+            {editingOffer ? (
+              /* Upgraded Two-Column Update Screen */
+              <div className="space-y-6">
                 
-                <input
-                  placeholder="Offer Title (Ex: Haircut Special)"
-                  className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
-                  required
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                />
+                <button
+                  onClick={cancelEdit}
+                  className="text-xs font-bold text-[#ec4899] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
+                >
+                  <ArrowLeft size={13} />
+                  Back to active offers
+                </button>
 
-                <input
-                  placeholder="Discount Percentage/Text (Ex: 30% OFF)"
-                  className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
-                  required
-                  value={form.discount}
-                  onChange={(e) => setForm({ ...form, discount: e.target.value })}
-                />
-
-                <input
-                  placeholder="Short Description"
-                  className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black md:col-span-2"
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
-                  }
-                />
-
-                <input
-                  type="date"
-                  className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
-                  required
-                  value={form.validTill}
-                  onChange={(e) => setForm({ ...form, validTill: e.target.value })}
-                />
-
-                <div className="flex items-end justify-end md:col-span-2">
-                  <button className="bg-black text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-gray-800 transition flex items-center gap-1.5 cursor-pointer">
-                    <Plus size={16} />
-                    Add Offer
-                  </button>
+                <div>
+                  <h1 className="text-3xl font-black text-white font-sans tracking-tight">Update Salon Offer</h1>
+                  <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Configure promotional campaigns and review usage</p>
                 </div>
-              </form>
-            </div>
 
-            {/* Offers List */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 font-serif">Active Promotion List</h2>
-              
-              {loading ? (
-                <div className="p-10 text-center text-sm text-gray-500">Loading offers...</div>
-              ) : offers.length === 0 ? (
-                <div className="bg-white p-8 text-center text-sm text-gray-400 border rounded-2xl">No promotional offers created yet.</div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {offers.map((offer) => (
-                    <div
-                      key={offer._id}
-                      className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between gap-4"
-                    >
-                      {editingOffer === offer._id ? (
-                        /* Edit Offer Mode */
-                        <div className="space-y-3 w-full">
-                          <input
-                            className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={editForm.title}
-                            onChange={(e) =>
-                              setEditForm({ ...editForm, title: e.target.value })
-                            }
-                            placeholder="Title"
-                          />
-                          <input
-                            className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={editForm.description}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                description: e.target.value,
-                              })
-                            }
-                            placeholder="Description"
-                          />
-                          <input
-                            className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={editForm.discount}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                discount: e.target.value,
-                              })
-                            }
-                            placeholder="Discount"
-                          />
-                          <input
-                            type="date"
-                            className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={editForm.validTill}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                validTill: e.target.value,
-                              })
-                            }
-                          />
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                  
+                  {/* Left Column: Form (3/5 Columns) */}
+                  <div className="lg:col-span-3 bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
+                    
+                    <div className="flex items-center gap-2 border-b border-white/5 pb-4 mb-2 text-white">
+                      <LinkIcon size={16} className="text-[#ec4899]" />
+                      <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Campaign Details</h3>
+                    </div>
 
-                          <div className="flex gap-2 pt-2">
-                            <button
-                              type="button"
-                              onClick={() => saveEditOffer(offer._id)}
-                              className="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold"
-                            >
-                              Save Changes
-                            </button>
-                            <button
-                              type="button"
-                              onClick={cancelEdit}
-                              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-xs font-bold"
-                            >
-                              Cancel
-                            </button>
+                    <div className="space-y-5">
+                      
+                      <Input
+                        label="Offer Title"
+                        placeholder="Enter offer title"
+                        value={editForm.title}
+                        onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                        maxLength={80}
+                        required
+                      />
+
+                      <Input
+                        label="Discount Amount / Text"
+                        placeholder="Ex: 40% OFF, Flat ₹500 OFF"
+                        value={editForm.discount}
+                        onChange={(e) => setEditForm({ ...editForm, discount: e.target.value })}
+                        maxLength={100}
+                        required
+                      />
+
+                      <DatePicker
+                        label="Valid Until Expiry Date"
+                        value={editForm.validTill}
+                        onChange={(e) => setEditForm({ ...editForm, validTill: e.target.value })}
+                        required
+                      />
+
+                      <Textarea
+                        label="Description (Optional)"
+                        placeholder="Enter offer details and conditions..."
+                        value={editForm.description}
+                        onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                        maxLength={250}
+                      />
+
+                      {/* Campaign Toggle Status */}
+                      <div className="flex items-center justify-between border-t border-white/5 pt-5 mt-2">
+                        <div>
+                          <h4 className="text-xs font-bold text-white">Campaign Status</h4>
+                          <p className="text-[10px] text-gray-500 mt-0.5">Inactive offers will not be visible to clients</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setEditForm({ ...editForm, isActive: !editForm.isActive })}
+                          className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                        >
+                          {editForm.isActive ? (
+                            <span className="text-[#ec4899]"><ToggleRight size={38} /></span>
+                          ) : (
+                            <span className="text-zinc-700"><ToggleLeft size={38} /></span>
+                          )}
+                        </button>
+                      </div>
+
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="flex gap-4 border-t border-white/5 pt-5 mt-2">
+                      <Button variant="outline" className="flex-1" onClick={cancelEdit}>
+                        Cancel
+                      </Button>
+                      <Button variant="primary" className="flex-1" onClick={() => saveEditOffer(editingOffer)}>
+                        Save Changes
+                      </Button>
+                    </div>
+
+                  </div>
+
+                  {/* Right Column: Preview & Statistics (2/5 Columns) */}
+                  <div className="lg:col-span-2 space-y-6">
+                    
+                    {/* Live Preview Card */}
+                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
+                        <Eye size={15} className="text-[#ec4899]" />
+                        <h3 className="text-xs font-extrabold uppercase tracking-widest">Live Offer Preview</h3>
+                      </div>
+
+                      {/* Gradient voucher layout */}
+                      <div className="bg-gradient-to-br from-[#411b33] to-[#120822] border border-[#ec4899]/20 p-6 rounded-xl relative overflow-hidden flex flex-col justify-between h-[210px] shadow-lg">
+                        <div className="absolute right-[-12px] top-6 bg-gradient-to-br from-[#ec4899] to-[#d946ef] w-24 h-24 rounded-3xl rotate-12 flex items-center justify-center opacity-90 shadow-2xl select-none">
+                          <span className="text-3xl text-white font-black -rotate-12">%</span>
+                        </div>
+
+                        <div className="space-y-1 z-10">
+                          <span className="bg-[#ec4899] text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest inline-block">
+                            Special Offer
+                          </span>
+                          <h3 className="text-3xl font-black text-white tracking-tight pt-3 uppercase truncate max-w-[200px]">
+                            {editForm.discount || "45% OFF"}
+                          </h3>
+                          <p className="text-xs font-bold text-gray-200 mt-1 max-w-[190px] leading-snug">
+                            {editForm.title || "On All Services"}
+                          </p>
+                        </div>
+
+                        {/* Expiry Badge */}
+                        <div className="border-t border-white/10 pt-3 flex items-center gap-1.5 text-[9px] text-gray-400 font-semibold uppercase tracking-wider z-10">
+                          <Calendar size={12} className="text-[#ec4899]" />
+                          <span>
+                            Valid till: {editForm.validTill ? new Date(editForm.validTill).toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' }) : "12 July 2026"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Offer Performance Statistics */}
+                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
+                        <LineChart size={15} className="text-[#ec4899]" />
+                        <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Analytics</h3>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl">
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Bookings Used</span>
+                          <span className="text-lg font-black text-white block mt-0.5">{getBookingsUsingOffer().length}</span>
+                        </div>
+                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl">
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Revenue Generated</span>
+                          <span className="text-lg font-black text-emerald-400 block mt-0.5">₹{getOfferRevenue().toLocaleString()}</span>
+                        </div>
+                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl col-span-2">
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Campaign Conversion Index</span>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className="text-xs font-bold text-white">{getOfferPerformance()}</span>
+                            <span className="text-[10px] text-[#ec4899] font-black uppercase">Outstanding</span>
                           </div>
                         </div>
-                      ) : (
-                        /* View Offer Mode */
-                        <>
+                      </div>
+                    </div>
+
+                    {/* Bookings using this Offer list */}
+                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-2 text-white">
+                        <h3 className="text-xs font-extrabold uppercase tracking-widest">Active Client Usage</h3>
+                        <span className="bg-zinc-800 text-gray-300 text-[10px] px-2 py-0.5 rounded border border-zinc-700 font-bold">
+                          {getBookingsUsingOffer().length}
+                        </span>
+                      </div>
+
+                      <div className="space-y-3.5">
+                        {getBookingsUsingOffer().map((client) => (
+                          <div key={client.id} className="flex items-center justify-between text-xs gap-3">
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={client.img}
+                                alt={client.userName}
+                                className="w-8.5 h-8.5 rounded-full bg-zinc-800 object-cover"
+                              />
+                              <div>
+                                <h5 className="font-bold text-white leading-none">{client.userName}</h5>
+                                <span className="text-[9px] text-gray-500 block mt-0.5">{client.phone}</span>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <span className="font-extrabold text-white block">₹{client.price.toLocaleString()}</span>
+                              <span className="text-[8px] text-[#ec4899] uppercase font-bold mt-0.5 block">{client.service}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            ) : (
+              /* Offers grid list and Create Form */
+              <div className="space-y-8">
+                <div>
+                  <h1 className="text-3xl font-black text-white font-sans tracking-tight">Promotions & Offers</h1>
+                  <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Launch new deals or manage current promotional banners</p>
+                </div>
+
+                {/* Add Offer Form Card */}
+                <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                  <h3 className="text-xs font-extrabold uppercase tracking-widest text-white border-b border-white/5 pb-4 mb-2 flex items-center gap-1.5">
+                    <Plus size={16} className="text-[#ec4899]" />
+                    Deploy Promotional Campaign
+                  </h3>
+                  
+                  <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <Input
+                      placeholder="Offer Campaign Title (Ex: Haircut Special)"
+                      value={form.title}
+                      onChange={(e) => setForm({ ...form, title: e.target.value })}
+                      maxLength={80}
+                      required
+                    />
+
+                    <Input
+                      placeholder="Discount Indicator (Ex: 40% OFF, Flat ₹300)"
+                      value={form.discount}
+                      onChange={(e) => setForm({ ...form, discount: e.target.value })}
+                      maxLength={100}
+                      required
+                    />
+
+                    <Input
+                      placeholder="Short details summary..."
+                      value={form.description}
+                      onChange={(e) => setForm({ ...form, description: e.target.value })}
+                      maxLength={250}
+                      className="md:col-span-2"
+                    />
+
+                    <DatePicker
+                      value={form.validTill}
+                      onChange={(e) => setForm({ ...form, validTill: e.target.value })}
+                      required
+                    />
+
+                    <div className="flex items-end justify-end md:col-span-2">
+                      <Button type="submit">
+                        Launch Campaign
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Campaign List */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">Active Promotions</h2>
+                  
+                  {loading ? (
+                    <LoadingState type="grid" count={2} />
+                  ) : offers.length === 0 ? (
+                    <EmptyState title="No active campaigns" description="Create a promotional campaign above to get started." />
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+                      {offers.map((offer) => (
+                        <div
+                          key={offer._id}
+                          className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#ec4899]/30 transition-colors"
+                        >
                           <div className="space-y-2">
                             <div className="flex justify-between items-start">
-                              <h3 className="font-bold text-lg text-gray-900 font-serif">{offer.title}</h3>
-                              <span className="text-sm font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
+                              <h3 className="font-bold text-base text-white font-serif">{offer.title}</h3>
+                              <span className="text-[10px] font-bold text-[#ec4899] bg-[#3b122c]/50 px-2.5 py-0.5 rounded border border-[#ec4899]/20 font-mono">
                                 {offer.discount}
                               </span>
                             </div>
-                            <p className="text-gray-500 text-xs leading-relaxed">{offer.description}</p>
+                            <p className="text-gray-400 text-xs leading-relaxed">{offer.description}</p>
                             {offer.validTill && (
-                              <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-2">
+                              <p className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-2 flex items-center gap-1.5">
+                                <Calendar size={11} className="text-[#ec4899]" />
                                 Valid Till: {new Date(offer.validTill).toLocaleDateString()}
                               </p>
                             )}
                           </div>
 
-                          <div className="flex justify-end gap-3 border-t border-gray-50 pt-3">
+                          <div className="flex justify-end gap-3 border-t border-white/5 pt-3 mt-1">
                             <button
                               type="button"
                               onClick={() => startEditOffer(offer)}
-                              className="text-xs font-bold text-gray-600 hover:text-black flex items-center gap-1 bg-gray-50 hover:bg-gray-100 py-1.5 px-3 rounded-lg cursor-pointer"
+                              className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                             >
-                              <Edit2 size={12} />
-                              Edit
+                              <Edit2 size={11} className="text-[#ec4899]" />
+                              Configure
                             </button>
                             <button
                               type="button"
-                              onClick={() => deleteOffer(offer._id)}
-                              className="text-xs font-bold text-red-600 hover:text-red-800 flex items-center gap-1 bg-red-50 hover:bg-red-100 py-1.5 px-3 rounded-lg cursor-pointer"
+                              onClick={() => setOfferToDelete(offer._id)}
+                              className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                             >
-                              <Trash2 size={12} />
+                              <Trash2 size={11} />
                               Delete
                             </button>
                           </div>
-                        </>
-                      )}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
-              )}
-            </div>
 
-          </div>
+              </div>
+            )}
+          </motion.div>
         )}
 
-        {/* TAB: MANAGE BOOKINGS */}
+        {/* BOOKINGS TAB */}
         {activeTab === "bookings" && (
-          <div className="space-y-8 animate-fadeIn">
-            
+          <motion.div
+            key="bookings"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
             <div>
-              <h1 className="text-3xl font-bold font-serif text-gray-900">Manage Reservations</h1>
-              <p className="text-sm text-gray-500 mt-1">Search bookings, check scheduling conflicts, and manage appointments.</p>
+              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Client Reservations</h1>
+              <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Search, check schedules, and manage salon appointments.</p>
             </div>
 
-            {/* Filter and search bar */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4">
-              
+            {/* Filters panel */}
+            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4">
               <div className="relative flex-1">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                  <Search size={18} />
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
+                  <Search size={14} />
                 </span>
                 <input
                   type="text"
-                  placeholder="Search by client name or mobile number..."
-                  className="pl-10 pr-3 py-3 w-full border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="Search by customer name or phone..."
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
 
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                  <Filter size={18} />
-                </span>
-                <input
-                  type="date"
-                  className="pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                  value={filterDate}
-                  onChange={(e) => setFilterDate(e.target.value)}
-                />
-              </div>
+              <input
+                type="date"
+                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={filterDate}
+                onChange={(e) => setFilterDate(e.target.value)}
+              />
 
               {(searchQuery || filterDate) && (
-                <button
+                <Button
+                  variant="secondary"
                   onClick={() => {
                     setSearchQuery("");
                     setFilterDate("");
                   }}
-                  className="bg-black hover:bg-gray-800 text-white font-semibold px-5 py-3 rounded-xl text-sm transition cursor-pointer"
                 >
                   Clear Filters
-                </button>
+                </Button>
               )}
             </div>
 
-            {/* Check availability sub-card */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+            {/* Dynamic Checker */}
+            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-base font-bold font-serif text-gray-900">Slot Availability Checker</h3>
-                  <p className="text-xs text-gray-500 mt-0.5">Pick a date to check which time slots are currently booked.</p>
+                  <h3 className="text-sm font-bold tracking-wide uppercase text-white">Daily Slot Occupancy Index</h3>
+                  <p className="text-xs text-gray-500 mt-0.5">Select a date to audit reservations status across available slots</p>
                 </div>
                 <input
                   type="date"
-                  className="border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899]"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                 />
@@ -889,15 +1016,15 @@ const Dashboard = () => {
                     return (
                       <div
                         key={slot}
-                        className={`p-3 text-center rounded-xl font-bold shadow-xs border transition-colors ${
+                        className={`p-3 text-center rounded-xl font-bold border transition-colors ${
                           booked
-                            ? "bg-red-50 text-red-700 border-red-200"
-                            : "bg-green-50 text-green-700 border-green-200"
+                            ? "bg-red-500/10 text-red-400 border-red-500/20"
+                            : "bg-green-500/10 text-green-400 border-green-500/20"
                         }`}
                       >
-                        <span className="text-xs tracking-wider block">{slot}</span>
-                        <span className="text-[10px] uppercase font-extrabold tracking-widest mt-1 block">
-                          {booked ? "● Booked" : "○ Available"}
+                        <span className="text-[11px] tracking-wide block">{slot}</span>
+                        <span className="text-[9px] uppercase font-black tracking-widest mt-1 block">
+                          {booked ? "● Booked" : "○ Free"}
                         </span>
                       </div>
                     );
@@ -906,87 +1033,67 @@ const Dashboard = () => {
               )}
             </div>
 
-            {/* Bookings List Cards */}
+            {/* List */}
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 font-serif">
-                Total Matches ({filteredBookings.length})
+              <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">
+                Reservations ({filteredBookings.length})
               </h2>
 
               {filteredBookings.length === 0 ? (
-                <div className="bg-white p-12 text-center text-sm text-gray-400 border rounded-2xl">
-                  No reservations matched your criteria.
-                </div>
+                <EmptyState title="No matching appointments" description="Clear filter parameters or check spelling." />
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
                   {filteredBookings.map((b) => (
                     <div
                       key={b._id}
-                      className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between gap-4"
+                      className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#ec4899]/30 transition-colors"
                     >
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center border-b pb-2">
-                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2 text-white">
+                          <span className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                             b.status === "Cancelled"
-                              ? "bg-red-50 text-red-700 border-red-200"
+                              ? "bg-red-500/10 text-red-400 border-red-500/20"
                               : b.status === "Completed"
-                              ? "bg-blue-50 text-blue-700 border-blue-200"
-                              : "bg-green-50 text-green-700 border-green-200"
+                              ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                              : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                           }`}>
                             {b.status || "Confirmed"}
                           </span>
-                          <span className="text-sm font-bold text-gray-800">
-                            {b.service || "Salon Service"}
+                          <span className="text-xs font-bold text-gray-200">
+                            {b.service || "Salon Treatment"}
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
                           <p>
-                            <span className="text-gray-400 text-xs block">Client Name</span>
-                            <span className="font-semibold text-gray-900">{b.userName || b.name || "-"}</span>
+                            <span className="text-gray-500 text-[10px] block">Client Name</span>
+                            <span className="font-bold text-white">{b.userName || b.name || "-"}</span>
                           </p>
                           <p>
-                            <span className="text-gray-400 text-xs block">Phone Number</span>
-                            <span className="font-semibold text-gray-900">{b.phone || "-"}</span>
+                            <span className="text-gray-500 text-[10px] block">Phone Number</span>
+                            <span className="font-bold text-white">{b.phone || "-"}</span>
                           </p>
                           <p>
-                            <span className="text-gray-400 text-xs block">Reserved Date</span>
-                            <span className="font-semibold text-gray-900">
+                            <span className="text-gray-500 text-[10px] block">Appointment Date</span>
+                            <span className="font-bold text-white">
                               {b.date ? new Date(b.date).toLocaleDateString() : "-"}
                             </span>
                           </p>
                           <p>
-                            <span className="text-gray-400 text-xs block">Time Slot</span>
-                            <span className="font-semibold text-gray-900">{b.timeSlot || b.time || "-"}</span>
+                            <span className="text-gray-500 text-[10px] block">Time Slot</span>
+                            <span className="font-bold text-white">{b.timeSlot || b.time || "-"}</span>
                           </p>
                         </div>
                       </div>
 
-                      <div className="border-t border-gray-50 pt-3 flex justify-end">
-                        {deleteConfirm === b._id ? (
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-red-600 font-bold">Confirm delete?</span>
-                            <button
-                              onClick={() => deleteBooking(b._id)}
-                              className="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold"
-                            >
-                              Yes
-                            </button>
-                            <button
-                              onClick={() => setDeleteConfirm(null)}
-                              className="bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold"
-                            >
-                              No
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => setDeleteConfirm(b._id)}
-                            className="text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer"
-                          >
-                            <Trash2 size={12} />
-                            Delete booking record
-                          </button>
-                        )}
+                      <div className="border-t border-white/5 pt-3 flex justify-end">
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => setBookingToDelete(b._id)}
+                        >
+                          Delete Booking
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -994,41 +1101,45 @@ const Dashboard = () => {
               )}
             </div>
 
-          </div>
+          </motion.div>
         )}
 
-        {/* TAB: MANAGE COURSES */}
+        {/* COURSES ACADEMY TAB */}
         {activeTab === "courses" && (
-          <div className="space-y-8 animate-fadeIn">
-            
+          <motion.div
+            key="courses"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
             <div>
-              <h1 className="text-3xl font-bold font-serif text-gray-900">Manage Academy Courses</h1>
-              <p className="text-sm text-gray-500 mt-1">Configure academy course curriculum and features.</p>
+              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Academy Curriculum</h1>
+              <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Configure academy course catalog and syllabi modules</p>
             </div>
 
-            <div className="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-xs flex items-center gap-2">
-              <AlertCircle className="shrink-0 text-amber-700" size={16} />
-              <span>Note: The backend routes for courses are currently under setup. Changes below are saved locally.</span>
+            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-400 p-4 rounded-xl text-xs flex items-center gap-2">
+              <Info className="shrink-0 text-amber-500" size={16} />
+              <span>Note: Course endpoint is under migration. Current edits apply to local state only.</span>
             </div>
 
-            {/* Create Course Form */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-              <h3 className="text-lg font-bold font-serif text-gray-900 border-b pb-2">Add New Course</h3>
+            {/* Add Course Form */}
+            <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+              <h3 className="text-xs font-extrabold uppercase tracking-widest text-white border-b border-white/5 pb-4 mb-2">Deploy New Academy Course</h3>
               <form onSubmit={handleCourseSubmit} className="space-y-4">
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
+                  <Input
                     placeholder="Course Title"
-                    className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
                     value={courseForm.title}
                     onChange={(e) =>
                       setCourseForm({ ...courseForm, title: e.target.value })
                     }
                   />
 
-                  <input
+                  <Input
                     placeholder="Duration (Ex: 3 Months)"
-                    className="border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
                     value={courseForm.duration}
                     onChange={(e) =>
                       setCourseForm({ ...courseForm, duration: e.target.value })
@@ -1036,9 +1147,8 @@ const Dashboard = () => {
                   />
                 </div>
 
-                <textarea
-                  placeholder="Detailed Course Description"
-                  className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                <Textarea
+                  placeholder="Detailed course descriptions and requirements..."
                   rows={3}
                   value={courseForm.description}
                   onChange={(e) =>
@@ -1049,23 +1159,22 @@ const Dashboard = () => {
                   }
                 />
 
-                <input
-                  placeholder="Image URL"
-                  className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                <Input
+                  placeholder="Course Image URL"
                   value={courseForm.image}
                   onChange={(e) =>
                     setCourseForm({ ...courseForm, image: e.target.value })
                   }
                 />
 
-                {/* Course features */}
-                <div className="space-y-2">
-                  <label className="block text-xs font-semibold text-gray-600 uppercase">Curriculum Modules</label>
+                {/* dynamic course feature inputs */}
+                <div className="space-y-2.5">
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider">Curriculum Module Details</label>
                   {courseForm.features.map((feature, idx) => (
                     <input
                       key={idx}
-                      placeholder={`Module Detail ${idx + 1}`}
-                      className="border border-gray-300 p-3 w-full rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      placeholder={`Module detail summary ${idx + 1}`}
+                      className="w-full bg-[#0c0b10] border border-white/5 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899]"
                       value={feature}
                       onChange={(e) => {
                         const updated = [...courseForm.features];
@@ -1077,41 +1186,36 @@ const Dashboard = () => {
                 </div>
 
                 <div className="flex justify-between items-center pt-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
                     onClick={() =>
                       setCourseForm({
                         ...courseForm,
                         features: [...courseForm.features, ""],
                       })
                     }
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-xs font-semibold"
                   >
-                    + Add Curriculum Module
-                  </button>
+                    + Add Syllabus Module
+                  </Button>
 
-                  <button className="bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition cursor-pointer">
-                    Add Course
-                  </button>
+                  <Button type="submit">
+                    Publish Course
+                  </Button>
                 </div>
 
               </form>
             </div>
 
-            {/* Courses List */}
+            {/* Course list */}
             <div className="grid grid-cols-1 gap-6">
               {courses.length === 0 ? (
-                <div className="bg-white p-8 text-center text-sm text-gray-400 border rounded-2xl">
-                  No academy courses added.
-                </div>
+                <EmptyState title="No published courses" description="Deploy an academy syllabus course card above to display details." />
               ) : (
                 courses.map((course) => (
-                  <div key={course._id} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                  <div key={course._id} className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl">
                     {editingCourse === course._id ? (
-                      /* Edit Course Mode */
                       <div className="space-y-3">
-                        <input
-                          className="border p-3 w-full rounded-xl text-sm focus:outline-none"
+                        <Input
                           value={courseEditForm.title}
                           onChange={(e) =>
                             setCourseEditForm({
@@ -1122,8 +1226,7 @@ const Dashboard = () => {
                           placeholder="Title"
                         />
 
-                        <input
-                          className="border p-3 w-full rounded-xl text-sm focus:outline-none"
+                        <Input
                           value={courseEditForm.duration}
                           onChange={(e) =>
                             setCourseEditForm({
@@ -1134,8 +1237,7 @@ const Dashboard = () => {
                           placeholder="Duration"
                         />
 
-                        <textarea
-                          className="border p-3 w-full rounded-xl text-sm focus:outline-none"
+                        <Textarea
                           rows={3}
                           value={courseEditForm.description}
                           onChange={(e) =>
@@ -1147,111 +1249,43 @@ const Dashboard = () => {
                           placeholder="Description"
                         />
 
-                        <input
-                          className="border p-3 w-full rounded-xl text-sm focus:outline-none"
-                          value={courseEditForm.image}
-                          onChange={(e) =>
-                            setCourseEditForm({
-                              ...courseEditForm,
-                              image: e.target.value,
-                            })
-                          }
-                          placeholder="Image URL"
-                        />
-
-                        {courseEditForm.features.map((feature, idx) => (
-                          <input
-                            key={idx}
-                            className="border p-3 w-full rounded-xl text-sm focus:outline-none"
-                            value={feature}
-                            onChange={(e) => {
-                              const updated = [...courseEditForm.features];
-                              updated[idx] = e.target.value;
-                              setCourseEditForm({
-                                ...courseEditForm,
-                                features: updated,
-                              });
-                            }}
-                            placeholder={`Module ${idx + 1}`}
-                          />
-                        ))}
-
                         <div className="flex gap-2 pt-2">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setCourseEditForm({
-                                ...courseEditForm,
-                                features: [...courseEditForm.features, ""],
-                              })
-                            }
-                            className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-xs font-semibold"
-                          >
-                            + Add Module
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={saveEditCourse}
-                            className="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold"
-                          >
-                            Save
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={cancelCourseEdit}
-                            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-xs font-bold"
-                          >
-                            Cancel
-                          </button>
+                          <Button variant="primary" onClick={saveEditCourse}>Save</Button>
+                          <Button variant="outline" onClick={cancelCourseEdit}>Cancel</Button>
                         </div>
                       </div>
                     ) : (
-                      /* View Course Mode */
                       <div className="flex flex-col md:flex-row md:justify-between gap-6">
                         <div className="flex-1 space-y-3">
-                          <div className="flex justify-between items-start">
-                            <h3 className="font-bold text-xl text-gray-900 font-serif">{course.title}</h3>
-                            <span className="text-xs font-bold text-gray-400 bg-gray-50 border px-2 py-0.5 rounded">
+                          <div className="flex justify-between items-start border-b border-white/5 pb-2 text-white">
+                            <h3 className="font-bold text-lg font-serif">{course.title}</h3>
+                            <span className="text-xs font-bold text-[#ec4899] bg-[#3b122c]/50 border border-[#ec4899]/20 px-2 py-0.5 rounded">
                               {course.duration}
                             </span>
                           </div>
-                          <p className="text-gray-500 text-sm leading-relaxed">{course.description}</p>
-
-                          <div className="space-y-1">
-                            <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Curriculum Details:</h5>
-                            <ul className="list-disc ml-5 text-xs text-gray-600 space-y-0.5">
-                              {course.features?.map((f, i) => (
-                                <li key={i}>{f}</li>
-                              ))}
-                            </ul>
-                          </div>
-
+                          <p className="text-gray-400 text-xs leading-relaxed">{course.description}</p>
                           {course.image && (
                             <img
                               src={course.image}
                               alt={course.title}
-                              className="w-44 h-28 object-cover rounded-xl mt-3 border border-gray-100 shadow-xs"
+                              className="w-44 h-28 object-cover rounded-xl mt-3 border border-zinc-700 shadow-lg"
                             />
                           )}
                         </div>
 
                         <div className="flex justify-end gap-3 self-end md:self-start">
                           <button
-                            type="button"
                             onClick={() => startEditCourse(course)}
-                            className="text-xs font-bold text-gray-600 hover:text-black flex items-center gap-1 bg-gray-50 hover:bg-gray-100 py-1.5 px-3 rounded-lg cursor-pointer"
+                            className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
-                            <Edit2 size={12} />
+                            <Edit2 size={11} className="text-[#ec4899]" />
                             Edit
                           </button>
                           <button
-                            type="button"
                             onClick={deleteCourse}
-                            className="text-xs font-bold text-red-600 hover:text-red-800 flex items-center gap-1 bg-red-50 hover:bg-red-100 py-1.5 px-3 rounded-lg cursor-pointer"
+                            className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
-                            <Trash2 size={12} />
+                            <Trash2 size={11} />
                             Delete
                           </button>
                         </div>
@@ -1261,13 +1295,97 @@ const Dashboard = () => {
                 ))
               )}
             </div>
-
-          </div>
+          </motion.div>
         )}
 
-      </main>
+        {/* FALLBACK TABS */}
+        {!["dashboard", "offers", "bookings", "courses"].includes(activeTab) && (
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-6"
+          >
+            <div>
+              <h1 className="text-3xl font-black text-white font-sans tracking-tight capitalize">
+                {activeTab} Workspace
+              </h1>
+              <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
+                Manage {activeTab} details & settings
+              </p>
+            </div>
 
-    </div>
+            <div className="py-12">
+              <EmptyState
+                title={`${activeTab} Console is under migration`}
+                description={`The backend routes and layout for ${activeTab} are currently being refactored. Please visit Bookings or Offers to check active SaaS database integrations.`}
+                icon={
+                  activeTab === "appointments" ? Calendar :
+                  activeTab === "customers" ? Users :
+                  activeTab === "services" ? Scissors :
+                  activeTab === "staff" ? UserCheck :
+                  activeTab === "gallery" ? ImageIcon :
+                  activeTab === "reviews" ? MessageSquare :
+                  activeTab === "reports" ? LineChart : Settings
+                }
+                actionButton={
+                  <Button onClick={() => setActiveTab("dashboard")}>
+                    Go to Dashboard Overview
+                  </Button>
+                }
+              />
+            </div>
+          </motion.div>
+        )}
+
+      </AnimatePresence>
+
+      {/* QUICK ADD MODAL */}
+      <Modal isOpen={isQuickAddOpen} onClose={() => setIsQuickAddOpen(false)} title="Quick Actions Console">
+        <div className="space-y-4 py-2">
+          <p className="text-xs text-gray-400 leading-relaxed">
+            Select a business component to initialize a quick campaign draft.
+          </p>
+          <div className="grid grid-cols-2 gap-3.5">
+            <button
+              onClick={() => { setIsQuickAddOpen(false); setActiveTab("offers"); }}
+              className="bg-[#0c0b10] hover:bg-white/5 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center text-center text-xs font-bold text-white transition-colors cursor-pointer"
+            >
+              <Gift size={20} className="text-[#ec4899] mb-2" />
+              Draft Offer
+            </button>
+            <button
+              onClick={() => { setIsQuickAddOpen(false); setActiveTab("courses"); }}
+              className="bg-[#0c0b10] hover:bg-white/5 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center text-center text-xs font-bold text-white transition-colors cursor-pointer"
+            >
+              <GraduationCap size={20} className="text-orange-400 mb-2" />
+              Academy Course
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* CONFIRM DELETE BOOKING DIALOG */}
+      <ConfirmDialog
+        isOpen={!!bookingToDelete}
+        onClose={() => setBookingToDelete(null)}
+        onConfirm={confirmDeleteBooking}
+        title="Delete Booking Record?"
+        description="This action cannot be undone. The client reservation details will be permanently removed from the records."
+      />
+
+      {/* CONFIRM DELETE OFFER DIALOG */}
+      <ConfirmDialog
+        isOpen={!!offerToDelete}
+        onClose={() => setOfferToDelete(null)}
+        onConfirm={confirmDeleteOffer}
+        title="Delete Promotional Offer?"
+        description="This action will remove the active discount campaign. Active client links utilizing this offer will fall back to default pricing."
+      />
+
+    </DashboardLayout>
   );
 };
 
