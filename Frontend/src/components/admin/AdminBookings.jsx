@@ -43,6 +43,8 @@ const AdminBookings = () => {
   } catch (err) {
     console.error("Error fetching bookings:", err);
     setBookings([]);
+  } finally {
+    setLoading(false);
   }
     };
 
