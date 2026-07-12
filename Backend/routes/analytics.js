@@ -1,9 +1,10 @@
 const express = require("express");
 const Booking = require("../models/Booking");
+const protect = require("../middleware/protect");
 
 const router = express.Router();
 
-router.get("/dashboard", async (req, res) => {
+router.get("/dashboard", protect, async (req, res) => {
   try {
     const totalBookings = await Booking.countDocuments();
 

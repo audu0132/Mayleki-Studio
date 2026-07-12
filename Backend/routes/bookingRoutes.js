@@ -180,7 +180,7 @@ router.put("/:id/reschedule", protectUser, async (req, res) => {
 });
 
 // ✅ GET ALL BOOKINGS (ADMIN)
-router.get("/", async (req, res) => {
+router.get("/", protect, async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
     res.json(bookings);
@@ -191,7 +191,7 @@ router.get("/", async (req, res) => {
 });
 
 // ✅ DELETE BOOKING (ADMIN)
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, async (req, res) => {
   try {
     const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
 
