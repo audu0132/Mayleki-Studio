@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
 const protectUser = require("../middleware/authMiddleware");
+const protect = require("../middleware/protect");
 const jwt = require("jsonwebtoken");
 
 const timeSlots = [
