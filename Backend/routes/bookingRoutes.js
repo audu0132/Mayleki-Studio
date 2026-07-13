@@ -190,6 +190,48 @@ router.get("/", protect, async (req, res) => {
   }
 });
 
+// ✅ UPDATE BOOKING STATUS / DETAILS (ADMIN)
+router.put("/:id", protect, async (req, res) => {
+  try {
+    const { userName, phone, date, timeSlot, service, price, status } = req.body;
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    
+    // Check conflicts if date/time slot are changing
+    if (date || timeSlot) {
+      const newDate = date || booking.date;
+      const newSlot = timeSlot || booking.timeSlot;
+      if (newDate !== booking.date || newSlot !== booking.timeSlot) {
+        const existing = await Booking.findOne({
+          date: newDate,
+          timeSlot: newSlot,
+          status: { $ne: "Cancelled" },
+          _id: { $ne: booking._id }
+        });
+        if (existing) {
+          return res.status(400).json({ message: "Slot already booked" });
+        }
+      }
+    }
+
+    if (userName !== undefined) booking.userName = userName;
+    if (phone !== undefined) booking.phone = phone;
+    if (date !== undefined) booking.date = date;
+    if (timeSlot !== undefined) booking.timeSlot = timeSlot;
+    if (service !== undefined) booking.service = service;
+    if (price !== undefined) booking.price = price;
+    if (status !== undefined) booking.status = status;
+
+    await booking.save();
+    res.json({ message: "Booking updated successfully", booking });
+  } catch (err) {
+    console.error("Update booking error:", err);
+    res.status(500).json({ message: "Error updating booking" });
+  }
+});
+
 // ✅ DELETE BOOKING (ADMIN)
 router.delete("/:id", protect, async (req, res) => {
   try {
