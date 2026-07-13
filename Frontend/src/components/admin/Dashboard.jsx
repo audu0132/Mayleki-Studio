@@ -1458,6 +1458,461 @@ const Dashboard = () => {
               )}
             </div>
           </motion.div>
+        {/* APPOINTMENTS TAB */}
+        {activeTab === "appointments" && (
+          <motion.div
+            key="appointments"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
+            {/* Header Block */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Appointments Workspace</h1>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
+                  Manage live schedule, book clients, and adjust workspace timing configurations
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowSchedulerSettings(!showSchedulerSettings)}
+                  className="flex items-center gap-2"
+                >
+                  <Sliders size={13} className="text-[#ec4899]" />
+                  {showSchedulerSettings ? "Close Settings" : "Configure Desk"}
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    setAppointmentForm({
+                      name: "",
+                      phone: "",
+                      service: schedulerSettings.services[0]?.name || "",
+                      price: schedulerSettings.services[0]?.price || "",
+                      timeSlot: schedulerSettings.timeSlots[0] || "10:00 AM",
+                      date: selectedSchedulerDate,
+                      status: "Confirmed",
+                    });
+                    setAppointmentError("");
+                    setIsAppointmentModalOpen(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Plus size={14} />
+                  Quick Book
+                </Button>
+              </div>
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Day Occupancy</span>
+                  <h4 className="text-xl font-extrabold text-white mt-1">
+                    {getSchedulerStats().occupied} / {schedulerSettings.timeSlots.length}
+                  </h4>
+                </div>
+                <div className="p-3 bg-[#ec4899]/10 rounded-xl text-[#ec4899]">
+                  <Calendar size={18} />
+                </div>
+              </div>
+
+              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Confirmed Slots</span>
+                  <h4 className="text-xl font-extrabold text-emerald-400 mt-1">
+                    {getSchedulerStats().confirmed}
+                  </h4>
+                </div>
+                <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-400">
+                  <Activity size={18} />
+                </div>
+              </div>
+
+              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Pending Requests</span>
+                  <h4 className="text-xl font-extrabold text-amber-400 mt-1">
+                    {getSchedulerStats().pending}
+                  </h4>
+                </div>
+                <div className="p-3 bg-amber-500/10 rounded-xl text-amber-400">
+                  <Bell size={18} />
+                </div>
+              </div>
+
+              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Projected Revenue</span>
+                  <h4 className="text-xl font-extrabold text-white mt-1 flex items-center">
+                    <IndianRupee size={15} />
+                    {getSchedulerStats().revenue}
+                  </h4>
+                </div>
+                <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-400">
+                  <TrendingUp size={18} />
+                </div>
+              </div>
+            </div>
+
+            {/* Split Console */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              {/* Left Column: Interactive Scheduler Grid */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                    <div>
+                      <h3 className="text-sm font-bold tracking-wide uppercase text-white">Interactive Schedule</h3>
+                      <p className="text-xs text-gray-500 mt-0.5">Select a date to audit, reschedule, or configure bookings.</p>
+                    </div>
+                    <input
+                      type="date"
+                      className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                      value={selectedSchedulerDate}
+                      onChange={(e) => setSelectedSchedulerDate(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="space-y-3 pt-2">
+                    {schedulerSettings.timeSlots.map((slot) => {
+                      const booking = getBookingForSlot(slot);
+                      const isBooked = booking && booking.status !== "Cancelled";
+                      const isCancelled = booking && booking.status === "Cancelled";
+
+                      return (
+                        <div
+                          key={slot}
+                          className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group ${
+                            isBooked
+                              ? "bg-[#161f30]/60 border-white/10 hover:border-[#ec4899]/30"
+                              : isCancelled
+                              ? "bg-red-950/10 border-red-500/10 hover:bg-red-950/20"
+                              : "border-dashed border-zinc-800/80 hover:border-zinc-600 hover:bg-white/5"
+                          }`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className={`py-1.5 px-3 rounded-xl text-[11px] font-bold font-mono tracking-wider flex items-center gap-1.5 shrink-0 ${
+                              isBooked
+                                ? "bg-[#ec4899]/10 text-[#ec4899]"
+                                : "bg-zinc-800 text-gray-400"
+                            }`}>
+                              <Clock size={11} />
+                              {slot}
+                            </div>
+                            
+                            {isBooked ? (
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-extrabold text-sm text-white truncate">
+                                    {booking.userName || booking.name}
+                                  </h4>
+                                  <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border leading-none ${
+                                    booking.status === "Completed"
+                                      ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                                      : booking.status === "Pending"
+                                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                      : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                  }`}>
+                                    {booking.status || "Confirmed"}
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-2">
+                                  <span className="text-[#ec4899] font-bold">★</span> {booking.service || "Salon Treatment"}
+                                  <span className="text-zinc-700">|</span> 
+                                  <span className="font-mono text-zinc-500">{booking.phone || "-"}</span>
+                                </p>
+                              </div>
+                            ) : isCancelled ? (
+                              <div>
+                                <h4 className="font-bold text-xs text-gray-500 line-through">
+                                  {booking.userName || booking.name} (Cancelled)
+                                </h4>
+                                <p className="text-[9px] uppercase tracking-wider text-red-400 font-extrabold mt-0.5">
+                                  Slot freed & available for booking
+                                </p>
+                              </div>
+                            ) : (
+                              <div>
+                                <h4 className="font-bold text-xs text-gray-500">Available Slot</h4>
+                                <p className="text-[10px] text-gray-600 mt-0.5">Click + Assign Slot to book client</p>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-end gap-3 shrink-0">
+                            {isBooked ? (
+                              <>
+                                <div className="text-xs font-black text-white font-mono bg-zinc-800/80 px-2.5 py-1 rounded border border-white/5">
+                                  ₹{booking.price || 0}
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setAppointmentForm({
+                                      name: booking.userName || booking.name || "",
+                                      phone: booking.phone || "",
+                                      service: booking.service || "",
+                                      price: booking.price || "",
+                                      timeSlot: booking.timeSlot || slot,
+                                      date: booking.date || selectedSchedulerDate,
+                                      status: booking.status || "Confirmed",
+                                    });
+                                    setEditingAppointment(booking);
+                                    setAppointmentError("");
+                                    setIsEditAppointmentModalOpen(true);
+                                  }}
+                                  className="p-2 rounded-lg bg-zinc-800 hover:bg-[#ec4899]/10 text-gray-400 hover:text-[#ec4899] transition-all cursor-pointer"
+                                  title="Edit Reservation"
+                                >
+                                  <Edit2 size={13} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setBookingToDelete(booking._id)}
+                                  className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all cursor-pointer"
+                                  title="Delete Appointment"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
+                              </>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setAppointmentForm({
+                                    name: "",
+                                    phone: "",
+                                    service: schedulerSettings.services[0]?.name || "",
+                                    price: schedulerSettings.services[0]?.price || "",
+                                    timeSlot: slot,
+                                    date: selectedSchedulerDate,
+                                    status: "Confirmed",
+                                  });
+                                  setAppointmentError("");
+                                  setIsAppointmentModalOpen(true);
+                                }}
+                                className="py-1.5 px-3 bg-zinc-900 border border-[#232033] hover:border-[#ec4899]/30 text-xs font-bold text-gray-300 hover:text-white rounded-xl flex items-center gap-1.5 transition-all cursor-pointer group-hover:scale-[1.02]"
+                              >
+                                <Plus size={12} className="text-[#ec4899]" />
+                                Assign Slot
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Inline Configuration Settings or Selected Slot Detail panel */}
+              <div className="space-y-6">
+                {showSchedulerSettings ? (
+                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4 animate-fadeIn">
+                    <div className="flex items-center gap-2 border-b border-white/5 pb-3">
+                      <Sliders size={15} className="text-[#ec4899]" />
+                      <h3 className="font-extrabold text-sm uppercase text-white">Desk Configurator</h3>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold uppercase text-gray-400 tracking-wider">Business Operating Hours</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Input
+                          placeholder="Start (e.g. 10:00 AM)"
+                          value={schedulerSettings.businessHours.start}
+                          onChange={(e) => {
+                            handleSaveSchedulerSettings({
+                              ...schedulerSettings,
+                              businessHours: { ...schedulerSettings.businessHours, start: e.target.value }
+                            });
+                          }}
+                        />
+                        <Input
+                          placeholder="End (e.g. 08:00 PM)"
+                          value={schedulerSettings.businessHours.end}
+                          onChange={(e) => {
+                            handleSaveSchedulerSettings({
+                              ...schedulerSettings,
+                              businessHours: { ...schedulerSettings.businessHours, end: e.target.value }
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      <label className="block text-[10px] font-bold uppercase text-gray-400 tracking-wider">Active Time Slots ({schedulerSettings.timeSlots.length})</label>
+                      <div className="max-h-[160px] overflow-y-auto pr-1 space-y-1.5 border border-white/5 p-2 rounded-xl bg-[#0c0b10]">
+                        {schedulerSettings.timeSlots.map((ts, idx) => (
+                          <div key={ts} className="flex justify-between items-center bg-zinc-900 px-3 py-1.5 rounded-lg text-xs border border-white/5">
+                            <span className="font-bold text-white font-mono">{ts}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const list = schedulerSettings.timeSlots.filter((_, i) => i !== idx);
+                                handleSaveSchedulerSettings({ ...schedulerSettings, timeSlots: list });
+                              }}
+                              className="text-red-400 hover:text-red-300 font-bold"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <input
+                          id="new-slot-input"
+                          type="text"
+                          placeholder="Ex: 09:00 AM"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#ec4899] flex-1"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              const val = e.target.value.trim();
+                              if (val && !schedulerSettings.timeSlots.includes(val)) {
+                                handleSaveSchedulerSettings({
+                                  ...schedulerSettings,
+                                  timeSlots: [...schedulerSettings.timeSlots, val].sort()
+                                });
+                                e.target.value = "";
+                              }
+                            }
+                          }}
+                        />
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => {
+                            const el = document.getElementById("new-slot-input");
+                            const val = el?.value.trim();
+                            if (val && !schedulerSettings.timeSlots.includes(val)) {
+                              handleSaveSchedulerSettings({
+                                ...schedulerSettings,
+                                timeSlots: [...schedulerSettings.timeSlots, val].sort()
+                              });
+                              if (el) el.value = "";
+                            }
+                          }}
+                        >
+                          + Add
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      <label className="block text-[10px] font-bold uppercase text-gray-400 tracking-wider">Services Catalog Presets</label>
+                      <div className="max-h-[160px] overflow-y-auto pr-1 space-y-1.5 border border-white/5 p-2 rounded-xl bg-[#0c0b10]">
+                        {schedulerSettings.services.map((srv, idx) => (
+                          <div key={srv.name} className="flex justify-between items-center bg-zinc-900 px-3 py-1.5 rounded-lg text-[11px] border border-white/5">
+                            <span className="font-bold text-gray-200">{srv.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-white text-xs font-bold">₹{srv.price}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const list = schedulerSettings.services.filter((_, i) => i !== idx);
+                                  handleSaveSchedulerSettings({ ...schedulerSettings, services: list });
+                                }}
+                                className="text-red-400 hover:text-red-300 font-bold"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-2">
+                        <input
+                          id="new-srv-name"
+                          type="text"
+                          placeholder="Service Name"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#ec4899] w-1/2"
+                        />
+                        <input
+                          id="new-srv-price"
+                          type="number"
+                          placeholder="Price"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#ec4899] w-1/4 font-mono"
+                        />
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => {
+                            const nameEl = document.getElementById("new-srv-name");
+                            const priceEl = document.getElementById("new-srv-price");
+                            const name = nameEl?.value.trim();
+                            const price = Number(priceEl?.value || 0);
+                            
+                            if (name && price > 0) {
+                              handleSaveSchedulerSettings({
+                                ...schedulerSettings,
+                                services: [...schedulerSettings.services, { name, price }]
+                              });
+                              if (nameEl) nameEl.value = "";
+                              if (priceEl) priceEl.value = "";
+                            }
+                          }}
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="border-b border-white/5 pb-3">
+                      <h3 className="font-extrabold text-sm uppercase text-white">Daily Summary Panel</h3>
+                      <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold mt-0.5">
+                        Selected Date: {new Date(selectedSchedulerDate).toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="bg-[#0c0b10] p-4 rounded-xl space-y-2 border border-white/5">
+                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">Occupancy Rate</h4>
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-gray-400">Total Available Slots</span>
+                          <span className="font-bold font-mono text-white">{schedulerSettings.timeSlots.length}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-gray-400">Booked Reservations</span>
+                          <span className="font-bold font-mono text-[#ec4899]">{getSchedulerStats().occupied}</span>
+                        </div>
+                        
+                        <div className="w-full bg-zinc-800 rounded-full h-1.5 mt-2 overflow-hidden">
+                          <div 
+                            className="bg-gradient-to-r from-[#d946ef] to-[#ec4899] h-1.5 rounded-full transition-all"
+                            style={{ 
+                              width: `${(getSchedulerStats().occupied / (schedulerSettings.timeSlots.length || 1)) * 100}%` 
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Need Help?</h4>
+                        <div className="bg-[#ec4899]/5 border border-[#ec4899]/15 p-3.5 rounded-xl text-[11px] text-gray-400 leading-relaxed">
+                          <span className="font-bold text-white block mb-0.5">Scheduler Guidelines:</span>
+                          Select any slot to quickly deploy new bookings or reschedule active customer slots. Conflicting slots are automatically prevented to prevent double booking.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+          </motion.div>
         )}
 
         {/* FALLBACK TABS */}
