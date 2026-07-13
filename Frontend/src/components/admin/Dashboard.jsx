@@ -1458,6 +1458,7 @@ const Dashboard = () => {
               )}
             </div>
           </motion.div>
+        )}
         {/* APPOINTMENTS TAB */}
         {activeTab === "appointments" && (
           <motion.div
