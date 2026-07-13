@@ -1461,7 +1461,7 @@ const Dashboard = () => {
         )}
 
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
