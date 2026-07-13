@@ -1983,6 +1983,198 @@ const Dashboard = () => {
           </div>
         </div>
       </Modal>
+      
+      {/* QUICK BOOK APPOINTMENT MODAL */}
+      <Modal isOpen={isAppointmentModalOpen} onClose={() => setIsAppointmentModalOpen(false)} title="Quick Book Appointment">
+        <form onSubmit={handleCreateAppointment} className="space-y-4 py-2">
+          {appointmentError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {appointmentError}
+            </div>
+          )}
+
+          <Input
+            label="Client Name"
+            placeholder="Ex: Priya Sharma"
+            value={appointmentForm.name}
+            onChange={(e) => setAppointmentForm({ ...appointmentForm, name: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Phone Number"
+            placeholder="Ex: 9876543210"
+            value={appointmentForm.phone}
+            onChange={(e) => setAppointmentForm({ ...appointmentForm, phone: e.target.value })}
+            required
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Service</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={appointmentForm.service}
+                onChange={(e) => {
+                  const srv = schedulerSettings.services.find(s => s.name === e.target.value);
+                  setAppointmentForm({
+                    ...appointmentForm,
+                    service: e.target.value,
+                    price: srv ? String(srv.price) : appointmentForm.price
+                  });
+                }}
+                required
+              >
+                <option value="">Select Service...</option>
+                {schedulerSettings.services.map(s => (
+                  <option key={s.name} value={s.name}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <Input
+              label="Price (₹)"
+              type="number"
+              placeholder="1800"
+              value={appointmentForm.price}
+              onChange={(e) => setAppointmentForm({ ...appointmentForm, price: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Time Slot</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all font-mono"
+                value={appointmentForm.timeSlot}
+                onChange={(e) => setAppointmentForm({ ...appointmentForm, timeSlot: e.target.value })}
+                required
+              >
+                {schedulerSettings.timeSlots.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+
+            <Input
+              label="Appointment Date"
+              type="date"
+              value={selectedSchedulerDate}
+              disabled
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsAppointmentModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Confirm Booking</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* EDIT APPOINTMENT MODAL */}
+      <Modal isOpen={isEditAppointmentModalOpen} onClose={() => setIsEditAppointmentModalOpen(false)} title="Modify Appointment Details">
+        <form onSubmit={handleUpdateAppointment} className="space-y-4 py-2">
+          {appointmentError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {appointmentError}
+            </div>
+          )}
+
+          <Input
+            label="Client Name"
+            placeholder="Ex: Priya Sharma"
+            value={appointmentForm.name}
+            onChange={(e) => setAppointmentForm({ ...appointmentForm, name: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Phone Number"
+            placeholder="Ex: 9876543210"
+            value={appointmentForm.phone}
+            onChange={(e) => setAppointmentForm({ ...appointmentForm, phone: e.target.value })}
+            required
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Service</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={appointmentForm.service}
+                onChange={(e) => {
+                  const srv = schedulerSettings.services.find(s => s.name === e.target.value);
+                  setAppointmentForm({
+                    ...appointmentForm,
+                    service: e.target.value,
+                    price: srv ? String(srv.price) : appointmentForm.price
+                  });
+                }}
+                required
+              >
+                <option value="">Select Service...</option>
+                {schedulerSettings.services.map(s => (
+                  <option key={s.name} value={s.name}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <Input
+              label="Price (₹)"
+              type="number"
+              placeholder="1800"
+              value={appointmentForm.price}
+              onChange={(e) => setAppointmentForm({ ...appointmentForm, price: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Time Slot</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all font-mono"
+                value={appointmentForm.timeSlot}
+                onChange={(e) => setAppointmentForm({ ...appointmentForm, timeSlot: e.target.value })}
+                required
+              >
+                {schedulerSettings.timeSlots.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+
+            <Input
+              label="Appointment Date"
+              type="date"
+              value={appointmentForm.date ? appointmentForm.date.split("T")[0] : ""}
+              onChange={(e) => setAppointmentForm({ ...appointmentForm, date: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="space-y-1.5 w-full">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Booking Status</label>
+            <select
+              className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+              value={appointmentForm.status}
+              onChange={(e) => setAppointmentForm({ ...appointmentForm, status: e.target.value })}
+              required
+            >
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsEditAppointmentModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Save Changes</Button>
+          </div>
+        </form>
+      </Modal>
 
       {/* CONFIRM DELETE BOOKING DIALOG */}
       <ConfirmDialog
