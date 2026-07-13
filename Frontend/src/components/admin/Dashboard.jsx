@@ -34,7 +34,9 @@ import {
   ShieldCheck,
   AlertTriangle,
   LogOut,
-  ArrowRight
+  ArrowRight,
+  Clock,
+  Sliders
 } from "lucide-react";
 
 // Import new modular UI components
@@ -64,6 +66,49 @@ const Dashboard = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDate, setFilterDate] = useState("");
+
+  // Appointments Workspace State
+  const [selectedSchedulerDate, setSelectedSchedulerDate] = useState(() => {
+    return new Date().toISOString().split("T")[0];
+  });
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
+  const [isEditAppointmentModalOpen, setIsEditAppointmentModalOpen] = useState(false);
+  const [editingAppointment, setEditingAppointment] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [showSchedulerSettings, setShowSchedulerSettings] = useState(false);
+  const [appointmentError, setAppointmentError] = useState("");
+
+  const [appointmentForm, setAppointmentForm] = useState({
+    name: "",
+    phone: "",
+    service: "",
+    price: "",
+    timeSlot: "",
+    date: "",
+    status: "Confirmed",
+  });
+
+  const [schedulerSettings, setSchedulerSettings] = useState(() => {
+    const saved = localStorage.getItem("mayleki_appointment_settings");
+    return saved ? JSON.parse(saved) : {
+      timeSlots: [
+        "10:00 AM", "11:00 AM", "12:00 PM",
+        "1:00 PM", "2:00 PM", "3:00 PM",
+        "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"
+      ],
+      services: [
+        { name: "Hair Smoothening", price: 1800 },
+        { name: "Hair Coloring", price: 2400 },
+        { name: "Keratin Treatment", price: 3000 },
+        { name: "Hair Spa", price: 900 },
+        { name: "Haircut & Styling", price: 500 },
+        { name: "Facial Care", price: 1200 },
+        { name: "Bridal Makeup", price: 8000 }
+      ],
+      autoConfirm: true,
+      businessHours: { start: "10:00 AM", end: "08:00 PM" }
+    };
+  });
 
   const [analytics, setAnalytics] = useState({
     totalBookings: 0,
@@ -400,6 +445,123 @@ const Dashboard = () => {
 
   const deleteCourse = () => {
     alert("Courses backend route not added yet.");
+  };
+
+  // Appointments Scheduler Helpers
+  const getBookingForSlot = (slotTime) => {
+    const sDate = new Date(selectedSchedulerDate).toISOString().split("T")[0];
+    return bookings.find((b) => {
+      if (!b.date) return false;
+      const bDate = new Date(b.date).toISOString().split("T")[0];
+      return bDate === sDate && b.timeSlot === slotTime;
+    });
+  };
+
+  const getSchedulerStats = () => {
+    const sDate = new Date(selectedSchedulerDate).toISOString().split("T")[0];
+    const dayBookings = bookings.filter((b) => {
+      if (!b.date) return false;
+      const bDate = new Date(b.date).toISOString().split("T")[0];
+      return bDate === sDate;
+    });
+
+    const activeBookings = dayBookings.filter(b => b.status !== "Cancelled");
+    const completed = dayBookings.filter(b => b.status === "Completed").length;
+    const confirmed = dayBookings.filter(b => b.status === "Confirmed").length;
+    const pending = dayBookings.filter(b => b.status === "Pending").length;
+    
+    const occupiedCount = activeBookings.length;
+    const totalSlotsCount = schedulerSettings.timeSlots.length;
+    const availableCount = Math.max(0, totalSlotsCount - occupiedCount);
+    const revenue = activeBookings.reduce((sum, b) => sum + (b.price || 0), 0);
+
+    return {
+      total: dayBookings.length,
+      occupied: occupiedCount,
+      available: availableCount,
+      completed,
+      confirmed,
+      pending,
+      revenue
+    };
+  };
+
+  const handleCreateAppointment = async (e) => {
+    e.preventDefault();
+    setAppointmentError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/bookings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: appointmentForm.name,
+          phone: appointmentForm.phone,
+          date: selectedSchedulerDate,
+          time: appointmentForm.timeSlot,
+          service: appointmentForm.service,
+          price: Number(appointmentForm.price || 0),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create booking");
+      }
+
+      setIsAppointmentModalOpen(false);
+      setAppointmentForm({
+        name: "",
+        phone: "",
+        service: "",
+        price: "",
+        timeSlot: "",
+        date: "",
+        status: "Confirmed",
+      });
+      fetchBookings();
+      fetchAnalytics();
+    } catch (err) {
+      setAppointmentError(err.message);
+    }
+  };
+
+  const handleUpdateAppointment = async (e) => {
+    e.preventDefault();
+    setAppointmentError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/booking/${editingAppointment._id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          userName: appointmentForm.name,
+          phone: appointmentForm.phone,
+          date: appointmentForm.date,
+          timeSlot: appointmentForm.timeSlot,
+          service: appointmentForm.service,
+          price: Number(appointmentForm.price || 0),
+          status: appointmentForm.status,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update appointment");
+      }
+
+      setIsEditAppointmentModalOpen(false);
+      setEditingAppointment(null);
+      fetchBookings();
+      fetchAnalytics();
+    } catch (err) {
+      setAppointmentError(err.message);
+    }
+  };
+
+  const handleSaveSchedulerSettings = (newSettings) => {
+    setSchedulerSettings(newSettings);
+    localStorage.setItem("mayleki_appointment_settings", JSON.stringify(newSettings));
   };
 
   const handleLogout = () => {
