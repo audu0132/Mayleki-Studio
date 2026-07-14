@@ -2528,8 +2528,228 @@ const Dashboard = () => {
           </motion.div>
         )}
 
+        {/* SERVICES TAB */}
+        {activeTab === "services" && (
+          <motion.div
+            key="services"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
+            {/* Header Block */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Services Workspace</h1>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
+                  Manage salon catalog services, descriptions, pricing, and availability
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    setServiceForm({
+                      name: "",
+                      description: "",
+                      price: "",
+                      duration: "",
+                      category: "Hair",
+                      image: "",
+                      isActive: true,
+                    });
+                    setServiceError("");
+                    setIsServiceModalOpen(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Plus size={14} />
+                  Add Service
+                </Button>
+              </div>
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StatCard
+                title="Total Services"
+                value={services.length}
+                icon={Scissors}
+                iconBg="bg-blue-500/10"
+                iconColor="text-blue-400"
+              />
+              <StatCard
+                title="Active Services"
+                value={services.filter(s => s.isActive).length}
+                icon={Sparkles}
+                iconBg="bg-[#ec4899]/10"
+                iconColor="text-[#ec4899]"
+              />
+              <StatCard
+                title="Avg Price"
+                value={`₹${Math.round(services.length ? services.reduce((sum, s) => sum + (s.price || 0), 0) / services.length : 0).toLocaleString()}`}
+                icon={IndianRupee}
+                iconBg="bg-green-500/10"
+                iconColor="text-green-400"
+              />
+              <StatCard
+                title="Premium Services"
+                value={services.filter(s => s.price >= 3000).length}
+                icon={Gift}
+                iconBg="bg-purple-500/10"
+                iconColor="text-purple-400"
+                trendValue="Price >= ₹3,000"
+              />
+            </div>
+
+            {/* Toolbar Filter */}
+            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1">
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
+                  <Search size={14} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search services by name or description..."
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                  value={serviceSearchQuery}
+                  onChange={(e) => setServiceSearchQuery(e.target.value)}
+                />
+              </div>
+
+              <select
+                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={selectedCategoryFilter}
+                onChange={(e) => setSelectedCategoryFilter(e.target.value)}
+              >
+                <option value="">All Categories</option>
+                <option value="Hair">Hair</option>
+                <option value="Skin">Skin</option>
+                <option value="Bridal">Bridal</option>
+                <option value="Makeup">Makeup</option>
+              </select>
+
+              {(serviceSearchQuery || selectedCategoryFilter) && (
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setServiceSearchQuery("");
+                    setSelectedCategoryFilter("");
+                  }}
+                >
+                  Clear Filters
+                </Button>
+              )}
+            </div>
+
+            {/* Services Grid */}
+            {serviceLoading ? (
+              <LoadingState type="grid" count={4} />
+            ) : services.length === 0 ? (
+              <EmptyState title="No services found" description="Create a service above to configure your salon catalog." />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {services
+                  .filter(s => {
+                    const q = serviceSearchQuery.toLowerCase();
+                    const matchesSearch = s.name?.toLowerCase().includes(q) || s.description?.toLowerCase().includes(q);
+                    const matchesCategory = !selectedCategoryFilter || s.category === selectedCategoryFilter;
+                    return matchesSearch && matchesCategory;
+                  })
+                  .map((srv) => (
+                    <div
+                      key={srv._id}
+                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#ec4899]/30 transition-all duration-300"
+                    >
+                      <div className="relative aspect-video bg-zinc-900 overflow-hidden">
+                        {srv.image ? (
+                          <img
+                            src={srv.image}
+                            alt={srv.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 border-b border-white/5 text-gray-600">
+                            <Scissors size={32} className="text-[#ec4899]/30 mb-2" />
+                            <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500">No Image</span>
+                          </div>
+                        )}
+                        <span className="absolute top-3 left-3 bg-[#0c0b10]/80 backdrop-blur-xs border border-white/5 text-[9px] font-bold text-white uppercase tracking-wider px-2 py-0.5 rounded-lg select-none">
+                          {srv.category || "General"}
+                        </span>
+                        
+                        {!srv.isActive && (
+                          <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center">
+                            <span className="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded">
+                              Inactive
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="p-5 flex-1 flex flex-col justify-between gap-4">
+                        <div className="space-y-2">
+                          <h3 className="font-bold text-base text-white truncate font-serif" title={srv.name}>
+                            {srv.name}
+                          </h3>
+                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 min-h-[54px]">
+                            {srv.description || "No description provided."}
+                          </p>
+                          <div className="flex gap-4 pt-1 select-none">
+                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                              <Clock size={11} className="text-[#ec4899]" />
+                              {srv.duration ? `${srv.duration} mins` : "Flexible"}
+                            </div>
+                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                              <span className="text-[#ec4899] font-bold">₹</span>
+                              {srv.price}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2.5 border-t border-white/5 pt-4 mt-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingService(srv);
+                              setServiceForm({
+                                name: srv.name || "",
+                                description: srv.description || "",
+                                price: srv.price || "",
+                                duration: srv.duration || "",
+                                category: srv.category || "Hair",
+                                image: srv.image || "",
+                                isActive: srv.isActive ?? true,
+                              });
+                              setServiceError("");
+                              setIsEditServiceModalOpen(true);
+                            }}
+                            className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                          >
+                            <Edit2 size={11} className="text-[#ec4899]" />
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setServiceToDelete(srv._id)}
+                            className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                          >
+                            <Trash2 size={11} />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
