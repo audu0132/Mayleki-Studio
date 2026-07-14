@@ -3127,6 +3127,191 @@ const Dashboard = () => {
         description="This action cannot be undone. The registered customer profile will be permanently deleted, and their bookings will be unlinked."
       />
 
+      {/* ADD SERVICE MODAL */}
+      <Modal isOpen={isServiceModalOpen} onClose={() => setIsServiceModalOpen(false)} title="Add New Service">
+        <form onSubmit={handleCreateService} className="space-y-4 py-2">
+          {serviceError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {serviceError}
+            </div>
+          )}
+
+          <Input
+            label="Service Name"
+            placeholder="Ex: Hair Coloring"
+            value={serviceForm.name}
+            onChange={(e) => setServiceForm({ ...serviceForm, name: e.target.value })}
+            required
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Price (₹)"
+              type="number"
+              placeholder="Ex: 2400"
+              value={serviceForm.price}
+              onChange={(e) => setServiceForm({ ...serviceForm, price: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Duration (minutes)"
+              type="number"
+              placeholder="Ex: 60"
+              value={serviceForm.duration}
+              onChange={(e) => setServiceForm({ ...serviceForm, duration: e.target.value })}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={serviceForm.category}
+                onChange={(e) => setServiceForm({ ...serviceForm, category: e.target.value })}
+                required
+              >
+                <option value="Hair">Hair</option>
+                <option value="Skin">Skin</option>
+                <option value="Bridal">Bridal</option>
+                <option value="Makeup">Makeup</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={serviceForm.isActive ? "true" : "false"}
+                onChange={(e) => setServiceForm({ ...serviceForm, isActive: e.target.value === "true" })}
+                required
+              >
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <Input
+            label="Service Image URL"
+            placeholder="Ex: https://images.unsplash.com/photo-..."
+            value={serviceForm.image}
+            onChange={(e) => setServiceForm({ ...serviceForm, image: e.target.value })}
+          />
+
+          <Textarea
+            label="Service Description"
+            placeholder="Provide a detailed description of the service and what it includes..."
+            rows={3}
+            value={serviceForm.description}
+            onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })}
+          />
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsServiceModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Create Service</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* EDIT SERVICE MODAL */}
+      <Modal isOpen={isEditServiceModalOpen} onClose={() => setIsEditServiceModalOpen(false)} title="Modify Service Details">
+        <form onSubmit={handleUpdateService} className="space-y-4 py-2">
+          {serviceError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {serviceError}
+            </div>
+          )}
+
+          <Input
+            label="Service Name"
+            placeholder="Ex: Hair Coloring"
+            value={serviceForm.name}
+            onChange={(e) => setServiceForm({ ...serviceForm, name: e.target.value })}
+            required
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Price (₹)"
+              type="number"
+              placeholder="Ex: 2400"
+              value={serviceForm.price}
+              onChange={(e) => setServiceForm({ ...serviceForm, price: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Duration (minutes)"
+              type="number"
+              placeholder="Ex: 60"
+              value={serviceForm.duration}
+              onChange={(e) => setServiceForm({ ...serviceForm, duration: e.target.value })}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={serviceForm.category}
+                onChange={(e) => setServiceForm({ ...serviceForm, category: e.target.value })}
+                required
+              >
+                <option value="Hair">Hair</option>
+                <option value="Skin">Skin</option>
+                <option value="Bridal">Bridal</option>
+                <option value="Makeup">Makeup</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={serviceForm.isActive ? "true" : "false"}
+                onChange={(e) => setServiceForm({ ...serviceForm, isActive: e.target.value === "true" })}
+                required
+              >
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <Input
+            label="Service Image URL"
+            placeholder="Ex: https://images.unsplash.com/photo-..."
+            value={serviceForm.image}
+            onChange={(e) => setServiceForm({ ...serviceForm, image: e.target.value })}
+          />
+
+          <Textarea
+            label="Service Description"
+            placeholder="Provide a detailed description of the service and what it includes..."
+            rows={3}
+            value={serviceForm.description}
+            onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })}
+          />
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsEditServiceModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Save Changes</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* CONFIRM DELETE SERVICE DIALOG */}
+      <ConfirmDialog
+        isOpen={!!serviceToDelete}
+        onClose={() => setServiceToDelete(null)}
+        onConfirm={confirmDeleteService}
+        title="Delete Service Profile?"
+        description="This action cannot be undone. The catalog service profile will be permanently deleted from the database."
+      />
+
     </DashboardLayout>
   );
 };
