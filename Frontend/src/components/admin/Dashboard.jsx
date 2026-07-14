@@ -1971,8 +1971,8 @@ const Dashboard = () => {
                                   setAppointmentForm({
                                     name: "",
                                     phone: "",
-                                    service: schedulerSettings.services[0]?.name || "",
-                                    price: schedulerSettings.services[0]?.price || "",
+                                    service: servicePresets[0]?.name || "",
+                                    price: servicePresets[0]?.price || "",
                                     timeSlot: slot,
                                     date: selectedSchedulerDate,
                                     status: "Confirmed",
@@ -2629,7 +2629,7 @@ const Dashboard = () => {
                 className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
                 value={appointmentForm.service}
                 onChange={(e) => {
-                  const srv = schedulerSettings.services.find(s => s.name === e.target.value);
+                  const srv = servicePresets.find(s => s.name === e.target.value);
                   setAppointmentForm({
                     ...appointmentForm,
                     service: e.target.value,
@@ -2639,7 +2639,7 @@ const Dashboard = () => {
                 required
               >
                 <option value="">Select Service...</option>
-                {schedulerSettings.services.map(s => (
+                {servicePresets.map(s => (
                   <option key={s.name} value={s.name}>{s.name}</option>
                 ))}
               </select>
