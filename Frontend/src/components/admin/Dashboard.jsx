@@ -148,6 +148,26 @@ const Dashboard = () => {
   });
   const [customerError, setCustomerError] = useState("");
 
+  // Services Workspace State
+  const [services, setServices] = useState([]);
+  const [serviceLoading, setServiceLoading] = useState(false);
+  const [serviceSearchQuery, setServiceSearchQuery] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState("");
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [isEditServiceModalOpen, setIsEditServiceModalOpen] = useState(false);
+  const [editingService, setEditingService] = useState(null);
+  const [serviceToDelete, setServiceToDelete] = useState(null);
+  const [serviceForm, setServiceForm] = useState({
+    name: "",
+    description: "",
+    price: "",
+    duration: "",
+    category: "Hair",
+    image: "",
+    isActive: true,
+  });
+  const [serviceError, setServiceError] = useState("");
+
   const [form, setForm] = useState({
     title: "",
     description: "",
