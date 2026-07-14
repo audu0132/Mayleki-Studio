@@ -270,6 +270,127 @@ const Dashboard = () => {
     fetchAnalytics();
   }, []);
 
+  const fetchCustomers = async () => {
+    try {
+      setCustomerLoading(true);
+      const res = await fetch(`${API_BASE_URL}/api/admin/customers`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch customers: ${res.status}`);
+      }
+      const data = await res.json();
+      setCustomers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching customers:", err);
+      setCustomers([]);
+    } finally {
+      setCustomerLoading(false);
+    }
+  };
+
+  const fetchCustomerBookings = async (customerId) => {
+    try {
+      setCustomerBookingsLoading(true);
+      const res = await fetch(`${API_BASE_URL}/api/admin/customers/${customerId}/bookings`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch bookings: ${res.status}`);
+      }
+      const data = await res.json();
+      setCustomerBookings(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching customer bookings:", err);
+      setCustomerBookings([]);
+    } finally {
+      setCustomerBookingsLoading(false);
+    }
+  };
+
+  const handleCreateCustomer = async (e) => {
+    e.preventDefault();
+    setCustomerError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/customers`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(customerForm),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create customer");
+      }
+      setIsCustomerModalOpen(false);
+      setCustomerForm({ name: "", email: "", phone: "", password: "" });
+      fetchCustomers();
+    } catch (err) {
+      setCustomerError(err.message);
+    }
+  };
+
+  const handleUpdateCustomer = async (e) => {
+    e.preventDefault();
+    setCustomerError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/customers/${editingCustomer._id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          name: customerForm.name,
+          email: customerForm.email,
+          phone: customerForm.phone,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update customer");
+      }
+      setIsEditCustomerModalOpen(false);
+      setEditingCustomer(null);
+      setCustomerForm({ name: "", email: "", phone: "", password: "" });
+      fetchCustomers();
+    } catch (err) {
+      setCustomerError(err.message);
+    }
+  };
+
+  const confirmDeleteCustomer = async () => {
+    if (!customerToDelete) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/customers/${customerToDelete}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to delete customer");
+      }
+      setCustomerToDelete(null);
+      if (selectedCustomer && selectedCustomer._id === customerToDelete) {
+        setSelectedCustomer(null);
+      }
+      fetchCustomers();
+    } catch (err) {
+      console.error("Error deleting customer:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedCustomer) {
+      fetchCustomerBookings(selectedCustomer._id);
+    } else {
+      setCustomerBookings([]);
+    }
+  }, [selectedCustomer]);
+
+  useEffect(() => {
+    if (activeTab === "customers") {
+      fetchCustomers();
+      setSelectedCustomer(null);
+    }
+  }, [activeTab]);
+
   const getTodayBookings = () => {
     const today = new Date().toISOString().split("T")[0];
     return bookings.filter((b) => {
