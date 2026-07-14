@@ -2053,11 +2053,340 @@ const Dashboard = () => {
 
             </div>
 
+        {/* APPOINTMENTS TAB END */}
+        {activeTab === "customers" && (
+          <motion.div
+            key="customers"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
+            {/* Header Block */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Customers Workspace</h1>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
+                  Manage registered salon clients, inspect visits, and view total customer spend
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    setCustomerForm({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      password: "",
+                    });
+                    setCustomerError("");
+                    setIsCustomerModalOpen(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Plus size={14} />
+                  Add Customer
+                </Button>
+              </div>
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StatCard
+                title="Total Registered"
+                value={customers.length}
+                icon={Users}
+                iconBg="bg-blue-500/10"
+                iconColor="text-blue-400"
+              />
+              <StatCard
+                title="VIP Customers"
+                value={customers.filter(c => c.totalSpent >= 5000).length}
+                icon={Sparkles}
+                iconBg="bg-[#ec4899]/10"
+                iconColor="text-[#ec4899]"
+                trendValue="Spent >= ₹5,000"
+              />
+              <StatCard
+                title="Total Logged Visits"
+                value={customers.reduce((sum, c) => sum + (c.totalBookings || 0), 0)}
+                icon={Calendar}
+                iconBg="bg-purple-500/10"
+                iconColor="text-purple-400"
+              />
+              <StatCard
+                title="Avg Spend per Customer"
+                value={`₹${Math.round(customers.length ? customers.reduce((sum, c) => sum + (c.totalSpent || 0), 0) / customers.length : 0).toLocaleString()}`}
+                icon={IndianRupee}
+                iconBg="bg-green-500/10"
+                iconColor="text-green-400"
+              />
+            </div>
+
+            {/* Split Workspace */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              {/* Left Column: Customers Table */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
+                      <Search size={14} />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Search customers by name, email, or phone..."
+                      className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                      value={customerSearchQuery}
+                      onChange={(e) => setCustomerSearchQuery(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Customer Table List */}
+                  {customerLoading ? (
+                    <LoadingState type="table" count={5} />
+                  ) : customers.length === 0 ? (
+                    <EmptyState title="No registered customers" description="Add a new client to get started." />
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-left">
+                        <thead className="bg-[#0c0b10] border-b border-white/8 text-[10px] font-bold uppercase tracking-wider text-gray-400 select-none">
+                          <tr>
+                            <th className="px-6 py-4 font-extrabold">Client</th>
+                            <th className="px-6 py-4 font-extrabold">Contact Info</th>
+                            <th className="px-6 py-4 font-extrabold text-center">Visits</th>
+                            <th className="px-6 py-4 font-extrabold text-right">Spent</th>
+                            <th className="px-6 py-4 font-extrabold text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5 font-medium text-gray-300">
+                          {customers
+                            .filter(c => {
+                              const q = customerSearchQuery.toLowerCase();
+                              return (
+                                c.name?.toLowerCase().includes(q) ||
+                                c.email?.toLowerCase().includes(q) ||
+                                c.phone?.includes(q)
+                              );
+                            })
+                            .map((customer) => {
+                              const isSelected = selectedCustomer?._id === customer._id;
+                              return (
+                                <tr
+                                  key={customer._id}
+                                  onClick={() => setSelectedCustomer(customer)}
+                                  className={`transition-colors cursor-pointer ${
+                                    isSelected ? "bg-[#ec4899]/5 border-l-2 border-[#ec4899]" : "hover:bg-white/5"
+                                  }`}
+                                >
+                                  <td className="px-6 py-4 font-bold text-white flex items-center gap-3">
+                                    <img
+                                      src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${customer.name || "user"}`}
+                                      alt="client avatar"
+                                      className="w-8 h-8 rounded-full bg-zinc-800 border border-[#ec4899]/20"
+                                    />
+                                    <div>
+                                      <span className="block font-bold text-sm">{customer.name}</span>
+                                      <span className="text-[10px] text-gray-500 font-mono">ID: {customer._id.slice(-6)}</span>
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 text-gray-400">
+                                    <span className="block text-white font-mono">{customer.phone}</span>
+                                    <span className="block text-[10px] text-gray-500 truncate max-w-[180px]">{customer.email}</span>
+                                  </td>
+                                  <td className="px-6 py-4 text-center font-mono font-bold text-white">
+                                    {customer.totalBookings || 0}
+                                  </td>
+                                  <td className="px-6 py-4 text-right font-mono font-bold text-emerald-400">
+                                    ₹{(customer.totalSpent || 0).toLocaleString()}
+                                  </td>
+                                  <td className="px-6 py-4 text-right">
+                                    <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setEditingCustomer(customer);
+                                          setCustomerForm({
+                                            name: customer.name || "",
+                                            email: customer.email || "",
+                                            phone: customer.phone || "",
+                                            password: "",
+                                          });
+                                          setCustomerError("");
+                                          setIsEditCustomerModalOpen(true);
+                                        }}
+                                        className="p-1.5 rounded-lg bg-zinc-800 hover:bg-[#ec4899]/10 text-gray-400 hover:text-[#ec4899] transition-all cursor-pointer"
+                                        title="Edit Profile"
+                                      >
+                                        <Edit2 size={12} />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => setCustomerToDelete(customer._id)}
+                                        className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all cursor-pointer"
+                                        title="Delete Customer"
+                                      >
+                                        <Trash2 size={12} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: Selected Customer Bookings Timeline */}
+              <div className="space-y-6">
+                {selectedCustomer ? (
+                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                      <div>
+                        <h3 className="font-extrabold text-sm uppercase text-white truncate max-w-[180px]">
+                          {selectedCustomer.name}
+                        </h3>
+                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-0.5 font-mono">
+                          {selectedCustomer.phone}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setSelectedCustomer(null)}
+                        className="text-xs font-bold text-gray-400 hover:text-white"
+                      >
+                        Clear
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                        Booking Timeline ({customerBookings.length})
+                      </h4>
+
+                      {customerBookingsLoading ? (
+                        <LoadingState type="grid" count={2} />
+                      ) : customerBookings.length === 0 ? (
+                        <div className="text-center py-8 text-gray-500 text-xs">
+                          No booking history found for this customer.
+                        </div>
+                      ) : (
+                        <div className="max-h-[420px] overflow-y-auto pr-1 space-y-3 scrollbar-none">
+                          {customerBookings.map((b) => (
+                            <div
+                              key={b._id}
+                              className="bg-[#0c0b10] border border-white/5 p-4 rounded-xl space-y-2 flex flex-col justify-between"
+                            >
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <span className="text-xs font-extrabold text-white block">
+                                    {b.service || "Salon Treatment"}
+                                  </span>
+                                  <span className="text-[10px] text-gray-500 font-mono mt-0.5 block flex items-center gap-1">
+                                    <Clock size={10} className="text-[#ec4899]" />
+                                    {new Date(b.date).toLocaleDateString("en-GB", { day: 'numeric', month: 'short' })} • {b.timeSlot || b.time}
+                                  </span>
+                                </div>
+                                <span className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                                  b.status === "Cancelled"
+                                    ? "bg-red-500/10 text-red-400 border-red-500/20"
+                                    : b.status === "Completed"
+                                    ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                    : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                }`}>
+                                  {b.status || "Confirmed"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center border-t border-white/5 pt-2 mt-1">
+                                <span className="font-mono text-white text-xs font-bold">₹{b.price || 0}</span>
+                                
+                                <div className="flex gap-2">
+                                  <select
+                                    value={b.status || "Confirmed"}
+                                    onChange={async (e) => {
+                                      const newStatus = e.target.value;
+                                      try {
+                                        const res = await fetch(`${API_BASE_URL}/api/booking/${b._id}`, {
+                                          method: "PUT",
+                                          headers: getAuthHeaders(),
+                                          body: JSON.stringify({ status: newStatus }),
+                                        });
+                                        if (res.ok) {
+                                          fetchCustomerBookings(selectedCustomer._id);
+                                          fetchCustomers();
+                                        }
+                                      } catch (err) {
+                                        console.error("Failed to update status:", err);
+                                      }
+                                    }}
+                                    className="bg-zinc-900 border border-white/5 rounded px-1.5 py-0.5 text-[10px] text-gray-300 focus:outline-none"
+                                  >
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                  </select>
+
+                                  <button
+                                    type="button"
+                                    onClick={async () => {
+                                      if (confirm("Are you sure you want to delete this booking record?")) {
+                                        try {
+                                          const res = await fetch(`${API_BASE_URL}/api/booking/${b._id}`, {
+                                            method: "DELETE",
+                                            headers: getAuthHeaders(),
+                                          });
+                                          if (res.ok) {
+                                            fetchCustomerBookings(selectedCustomer._id);
+                                            fetchCustomers();
+                                          }
+                                        } catch (err) {
+                                          console.error("Failed to delete booking:", err);
+                                        }
+                                      }
+                                    }}
+                                    className="p-1 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"
+                                    title="Delete Record"
+                                  >
+                                    <Trash2 size={10} />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="border-b border-white/5 pb-3">
+                      <h3 className="font-extrabold text-sm uppercase text-white">Customer Insights</h3>
+                      <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold mt-0.5">
+                        Select a customer to inspect visits
+                      </p>
+                    </div>
+                    <div className="bg-[#ec4899]/5 border border-[#ec4899]/15 p-4 rounded-xl text-xs text-gray-400 leading-relaxed space-y-2">
+                      <span className="font-bold text-white block">Workspace Overview:</span>
+                      <p>Click on any row in the customers table to review their detailed timeline reservation history. You can audit service logs, adjust reservation states, or delete booking details directly from their workspace card.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
           </motion.div>
         )}
 
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
