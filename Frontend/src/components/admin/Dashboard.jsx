@@ -883,6 +883,8 @@ const Dashboard = () => {
     return "High (86%)";
   };
 
+  const servicePresets = services.length > 0 ? services : schedulerSettings.services;
+
   return (
     <DashboardLayout
       activeTab={activeTab}
