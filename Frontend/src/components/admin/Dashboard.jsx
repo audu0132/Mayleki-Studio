@@ -411,6 +411,124 @@ const Dashboard = () => {
     }
   }, [activeTab]);
 
+  const fetchServices = async () => {
+    try {
+      setServiceLoading(true);
+      const res = await fetch(`${API_BASE_URL}/api/services/admin`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch services: ${res.status}`);
+      }
+      const data = await res.json();
+      setServices(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching services:", err);
+      setServices([]);
+    } finally {
+      setServiceLoading(false);
+    }
+  };
+
+  const handleCreateService = async (e) => {
+    e.preventDefault();
+    setServiceError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/services`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          ...serviceForm,
+          price: Number(serviceForm.price || 0),
+          duration: Number(serviceForm.duration || 0),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create service");
+      }
+      setIsServiceModalOpen(false);
+      setServiceForm({
+        name: "",
+        description: "",
+        price: "",
+        duration: "",
+        category: "Hair",
+        image: "",
+        isActive: true,
+      });
+      fetchServices();
+    } catch (err) {
+      setServiceError(err.message);
+    }
+  };
+
+  const handleUpdateService = async (e) => {
+    e.preventDefault();
+    setServiceError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/services/${editingService._id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          name: serviceForm.name,
+          description: serviceForm.description,
+          price: Number(serviceForm.price || 0),
+          duration: Number(serviceForm.duration || 0),
+          category: serviceForm.category,
+          image: serviceForm.image,
+          isActive: serviceForm.isActive,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update service");
+      }
+      setIsEditServiceModalOpen(false);
+      setEditingService(null);
+      setServiceForm({
+        name: "",
+        description: "",
+        price: "",
+        duration: "",
+        category: "Hair",
+        image: "",
+        isActive: true,
+      });
+      fetchServices();
+    } catch (err) {
+      setServiceError(err.message);
+    }
+  };
+
+  const confirmDeleteService = async () => {
+    if (!serviceToDelete) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/services/${serviceToDelete}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to delete service");
+      }
+      setServiceToDelete(null);
+      fetchServices();
+    } catch (err) {
+      console.error("Error deleting service:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "services") {
+      fetchServices();
+    }
+  }, [activeTab]);
+
   const getTodayBookings = () => {
     const today = new Date().toISOString().split("T")[0];
     return bookings.filter((b) => {
