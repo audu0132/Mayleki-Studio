@@ -57,12 +57,12 @@ function App() {
           <Route path="/admin/registration" element={<AdminRegistration />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
-          
+
           {/* Customer Authentication Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          
+
           {/* Protected Customer Routes */}
           <Route
             path="/dashboard"
