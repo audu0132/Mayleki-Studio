@@ -2664,6 +2664,106 @@ const Dashboard = () => {
         description="This action will remove the active discount campaign. Active client links utilizing this offer will fall back to default pricing."
       />
 
+      {/* ADD CUSTOMER MODAL */}
+      <Modal isOpen={isCustomerModalOpen} onClose={() => setIsCustomerModalOpen(false)} title="Add New Customer">
+        <form onSubmit={handleCreateCustomer} className="space-y-4 py-2">
+          {customerError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {customerError}
+            </div>
+          )}
+
+          <Input
+            label="Client Name"
+            placeholder="Ex: Priya Sharma"
+            value={customerForm.name}
+            onChange={(e) => setCustomerForm({ ...customerForm, name: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="Ex: priya@example.com"
+            value={customerForm.email}
+            onChange={(e) => setCustomerForm({ ...customerForm, email: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Phone Number"
+            placeholder="Ex: 9876543210"
+            value={customerForm.phone}
+            onChange={(e) => setCustomerForm({ ...customerForm, phone: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Ex: Min 6 characters"
+            value={customerForm.password}
+            onChange={(e) => setCustomerForm({ ...customerForm, password: e.target.value })}
+            required
+          />
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsCustomerModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Create Customer</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* EDIT CUSTOMER MODAL */}
+      <Modal isOpen={isEditCustomerModalOpen} onClose={() => setIsEditCustomerModalOpen(false)} title="Modify Customer Details">
+        <form onSubmit={handleUpdateCustomer} className="space-y-4 py-2">
+          {customerError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {customerError}
+            </div>
+          )}
+
+          <Input
+            label="Client Name"
+            placeholder="Ex: Priya Sharma"
+            value={customerForm.name}
+            onChange={(e) => setCustomerForm({ ...customerForm, name: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="Ex: priya@example.com"
+            value={customerForm.email}
+            onChange={(e) => setCustomerForm({ ...customerForm, email: e.target.value })}
+            required
+          />
+
+          <Input
+            label="Phone Number"
+            placeholder="Ex: 9876543210"
+            value={customerForm.phone}
+            onChange={(e) => setCustomerForm({ ...customerForm, phone: e.target.value })}
+            required
+          />
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsEditCustomerModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Save Changes</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* CONFIRM DELETE CUSTOMER DIALOG */}
+      <ConfirmDialog
+        isOpen={!!customerToDelete}
+        onClose={() => setCustomerToDelete(null)}
+        onConfirm={confirmDeleteCustomer}
+        title="Delete Customer Profile?"
+        description="This action cannot be undone. The registered customer profile will be permanently deleted, and their bookings will be unlinked."
+      />
+
     </DashboardLayout>
   );
 };
