@@ -1774,8 +1774,8 @@ const Dashboard = () => {
                     setAppointmentForm({
                       name: "",
                       phone: "",
-                      service: schedulerSettings.services[0]?.name || "",
-                      price: schedulerSettings.services[0]?.price || "",
+                      service: servicePresets[0]?.name || "",
+                      price: servicePresets[0]?.price || "",
                       timeSlot: schedulerSettings.timeSlots[0] || "10:00 AM",
                       date: selectedSchedulerDate,
                       status: "Confirmed",
