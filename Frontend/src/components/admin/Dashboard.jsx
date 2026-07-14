@@ -129,6 +129,25 @@ const Dashboard = () => {
   const [offerToDelete, setOfferToDelete] = useState(null);
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
+  // Customers Workspace State
+  const [customers, setCustomers] = useState([]);
+  const [customerLoading, setCustomerLoading] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [customerBookings, setCustomerBookings] = useState([]);
+  const [customerBookingsLoading, setCustomerBookingsLoading] = useState(false);
+  const [isCustomerModalOpen, setIsCustomerModalOpen] = useState(false);
+  const [isEditCustomerModalOpen, setIsEditCustomerModalOpen] = useState(false);
+  const [editingCustomer, setEditingCustomer] = useState(null);
+  const [customerToDelete, setCustomerToDelete] = useState(null);
+  const [customerSearchQuery, setCustomerSearchQuery] = useState("");
+  const [customerForm, setCustomerForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const [customerError, setCustomerError] = useState("");
+
   const [form, setForm] = useState({
     title: "",
     description: "",
