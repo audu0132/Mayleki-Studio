@@ -2916,8 +2916,259 @@ const Dashboard = () => {
           </motion.div>
         )}
 
+        {/* STAFF TAB */}
+        {activeTab === "staff" && (
+          <motion.div
+            key="staff"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8"
+          >
+            {/* Header Block */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Staff Workspace</h1>
+                <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
+                  Manage staff details, assigned services, specialties, and shifts
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    setStaffForm({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      role: "",
+                      status: "Active",
+                      specialties: "",
+                      services: [],
+                      image: "",
+                      workingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                      workingHoursStart: "10:00 AM",
+                      workingHoursEnd: "08:00 PM"
+                    });
+                    setStaffError("");
+                    setIsStaffModalOpen(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Plus size={14} />
+                  Add Staff Member
+                </Button>
+              </div>
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StatCard
+                title="Total Staff"
+                value={staff.length}
+                icon={Users}
+                iconBg="bg-blue-500/10"
+                iconColor="text-blue-400"
+              />
+              <StatCard
+                title="Active Staff"
+                value={staff.filter(s => s.status === "Active").length}
+                icon={UserCheck}
+                iconBg="bg-green-500/10"
+                iconColor="text-green-400"
+              />
+              <StatCard
+                title="On Leave"
+                value={staff.filter(s => s.status === "On Leave").length}
+                icon={Calendar}
+                iconBg="bg-amber-500/10"
+                iconColor="text-amber-400"
+              />
+              <StatCard
+                title="Inactive"
+                value={staff.filter(s => s.status === "Inactive").length}
+                icon={Info}
+                iconBg="bg-red-500/10"
+                iconColor="text-red-400"
+              />
+            </div>
+
+            {/* Toolbar Filter */}
+            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1">
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
+                  <Search size={14} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search staff by name, email, or role..."
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                  value={staffSearchQuery}
+                  onChange={(e) => setStaffSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {staffSearchQuery && (
+                <Button
+                  variant="secondary"
+                  onClick={() => setStaffSearchQuery("")}
+                >
+                  Clear Filters
+                </Button>
+              )}
+            </div>
+
+            {/* Staff Grid */}
+            {staffLoading ? (
+              <LoadingState type="grid" count={4} />
+            ) : staff.length === 0 ? (
+              <EmptyState title="No staff members found" description="Add a staff profile to manage your team." />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {staff
+                  .filter(s => {
+                    const q = staffSearchQuery.toLowerCase();
+                    return (
+                      s.name?.toLowerCase().includes(q) ||
+                      s.email?.toLowerCase().includes(q) ||
+                      s.role?.toLowerCase().includes(q)
+                    );
+                  })
+                  .map((member) => (
+                    <div
+                      key={member._id}
+                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#ec4899]/30 transition-all duration-300"
+                    >
+                      <div className="p-5 flex-1 flex flex-col justify-between gap-4">
+                        <div className="space-y-4">
+                          {/* Profile Header */}
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={member.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.name}`}
+                              alt={member.name}
+                              className="w-12 h-12 rounded-full border border-white/10 object-cover bg-zinc-900"
+                            />
+                            <div className="min-w-0">
+                              <h3 className="font-bold text-sm text-white truncate" title={member.name}>
+                                {member.name}
+                              </h3>
+                              <span className="inline-block bg-[#ec4899]/10 text-[#ec4899] border border-[#ec4899]/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mt-1">
+                                {member.role}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Contact Details */}
+                          <div className="space-y-1.5 text-xs text-gray-400 border-t border-white/5 pt-3">
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Email:</span>
+                              <span className="truncate max-w-[150px] text-white" title={member.email}>{member.email}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Phone:</span>
+                              <span className="text-white">{member.phone}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Status:</span>
+                              <span className={`font-semibold ${
+                                member.status === "Active" ? "text-green-400" :
+                                member.status === "On Leave" ? "text-amber-400" : "text-red-400"
+                              }`}>
+                                {member.status}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Specialties */}
+                          {member.specialties && member.specialties.length > 0 && (
+                            <div className="space-y-1">
+                              <span className="text-[10px] text-zinc-500 uppercase font-black tracking-wider block">Specialties</span>
+                              <div className="flex flex-wrap gap-1">
+                                {member.specialties.map((spec, i) => (
+                                  <span key={i} className="bg-zinc-800 text-zinc-300 text-[9px] px-1.5 py-0.5 rounded border border-white/5">
+                                    {spec}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Working Hours / Days */}
+                          <div className="space-y-1 text-[10px]">
+                            <span className="text-zinc-500 uppercase font-black tracking-wider block">Hours & Schedule</span>
+                            <div className="text-gray-400 bg-black/30 p-2 rounded-lg border border-white/5 space-y-1">
+                              <div>🕒 {member.workingHours?.start || "10:00 AM"} - {member.workingHours?.end || "08:00 PM"}</div>
+                              <div className="truncate text-white" title={member.workingDays?.join(", ")}>
+                                📅 {member.workingDays && member.workingDays.length === 7 ? "Everyday" : member.workingDays?.join(", ")}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Services */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] text-zinc-500 uppercase font-black tracking-wider block">Assigned Services</span>
+                            <div className="flex flex-wrap gap-1 max-h-[72px] overflow-y-auto pr-0.5 scrollbar-none">
+                              {member.services && member.services.length > 0 ? (
+                                member.services.map((srv) => (
+                                  <span key={srv._id} className="bg-[#ec4899]/5 text-zinc-300 border border-[#ec4899]/15 text-[9px] px-1.5 py-0.5 rounded">
+                                    {srv.name}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-[10px] text-zinc-600 italic">No services assigned</span>
+                              )}
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div className="flex justify-end gap-2 border-t border-white/5 pt-4 mt-4">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingStaff(member);
+                              setStaffForm({
+                                name: member.name || "",
+                                email: member.email || "",
+                                phone: member.phone || "",
+                                role: member.role || "",
+                                status: member.status || "Active",
+                                specialties: member.specialties ? member.specialties.join(", ") : "",
+                                services: member.services ? member.services.map(s => s._id) : [],
+                                image: member.image || "",
+                                workingDays: member.workingDays || ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                                workingHoursStart: member.workingHours?.start || "10:00 AM",
+                                workingHoursEnd: member.workingHours?.end || "08:00 PM"
+                              });
+                              setStaffError("");
+                              setIsEditStaffModalOpen(true);
+                            }}
+                            className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                          >
+                            <Edit2 size={11} className="text-[#ec4899]" />
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setStaffToDelete(member._id)}
+                            className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                          >
+                            <Trash2 size={11} />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
