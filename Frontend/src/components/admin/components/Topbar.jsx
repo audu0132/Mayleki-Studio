@@ -80,9 +80,9 @@ const Topbar = ({
             className="flex items-center gap-2 border-l border-white/5 pl-4 ml-1 cursor-pointer select-none group"
           >
             <img
-              src="https://api.dicebear.com/7.x/adventurer/svg?seed=mayleki-shop"
+              src={logo}
               alt="Shop Logo"
-              className="w-8 h-8 rounded-full bg-zinc-800 border border-[#ec4899]/20 p-0.5 object-cover"
+              className="w-8 h-8 rounded-full bg-zinc-800 border border-[#ec4899]/20 p-0.5 object-contain"
             />
             <span className="text-xs font-bold text-gray-300 group-hover:text-white hidden sm:block transition-colors">
               Mayleki Studio
