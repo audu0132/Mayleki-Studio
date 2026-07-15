@@ -38,12 +38,9 @@ const Header = () => {
           {/* Logo – flush left */}
           <Link
             to="/"
-            className="text-2xl font-serif font-bold uppercase tracking-wider text-primary"
+            className="flex items-center gap-3 group"
           >
-            Mayleki
-            <span className="block text-sm font-sans font-normal tracking-widest text-muted-foreground normal-case">
-              Studio & Academy
-            </span>
+            <img src={logo} alt="Mayleki Logo" className="h-14 w-auto object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
