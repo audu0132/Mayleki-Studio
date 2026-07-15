@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, Bell, ChevronDown, Menu, Moon, Sun, Plus, Sparkles, Check, LogOut, Settings } from "lucide-react";
+import logo from "../../../assets/logo.png";
 
 const Topbar = ({
   onToggleMobile,
