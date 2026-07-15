@@ -35,12 +35,15 @@ const Header = () => {
       <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto max-w-9x2">
         <div className="flex h-20 items-center justify-between px-4">
           
-          {/* Logo – flush left */}
           <Link
             to="/"
             className="flex items-center gap-3 group"
           >
             <img src={logo} alt="Mayleki Logo" className="h-14 w-auto object-contain" />
+            <span className="flex flex-col justify-center leading-none text-left">
+              <span className="text-lg font-serif font-bold uppercase tracking-wider text-primary">Mayleki</span>
+              <span className="text-[10px] font-sans font-normal tracking-widest text-primary/60 uppercase mt-0.5">Studio & Academy</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
