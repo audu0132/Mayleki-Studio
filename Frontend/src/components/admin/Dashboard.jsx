@@ -3731,6 +3731,327 @@ const Dashboard = () => {
         description="This action cannot be undone. The catalog service profile will be permanently deleted from the database."
       />
 
+      {/* ADD STAFF MODAL */}
+      <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} title="Add New Staff Profile">
+        <form onSubmit={handleCreateStaff} className="space-y-4 py-2">
+          {staffError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {staffError}
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Full Name"
+              placeholder="Ex: Maya Sharma"
+              value={staffForm.name}
+              onChange={(e) => setStaffForm({ ...staffForm, name: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Role/Designation"
+              placeholder="Ex: Senior Stylist"
+              value={staffForm.role}
+              onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="Ex: maya@mayleki.com"
+              value={staffForm.email}
+              onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Mobile Number"
+              placeholder="Ex: +91 98765 43210"
+              value={staffForm.phone}
+              onChange={(e) => setStaffForm({ ...staffForm, phone: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={staffForm.status}
+                onChange={(e) => setStaffForm({ ...staffForm, status: e.target.value })}
+                required
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="On Leave">On Leave</option>
+              </select>
+            </div>
+
+            <Input
+              label="Specialties (comma-separated)"
+              placeholder="Ex: Balayage, Nail Art, Facials"
+              value={staffForm.specialties}
+              onChange={(e) => setStaffForm({ ...staffForm, specialties: e.target.value })}
+            />
+          </div>
+
+          <Input
+            label="Profile Image URL"
+            placeholder="Ex: https://images.unsplash.com/photo-..."
+            value={staffForm.image}
+            onChange={(e) => setStaffForm({ ...staffForm, image: e.target.value })}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Shift Start"
+              placeholder="Ex: 10:00 AM"
+              value={staffForm.workingHoursStart}
+              onChange={(e) => setStaffForm({ ...staffForm, workingHoursStart: e.target.value })}
+            />
+            <Input
+              label="Shift End"
+              placeholder="Ex: 08:00 PM"
+              value={staffForm.workingHoursEnd}
+              onChange={(e) => setStaffForm({ ...staffForm, workingHoursEnd: e.target.value })}
+            />
+          </div>
+
+          {/* Working Days */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Working Days</label>
+            <div className="flex flex-wrap gap-2">
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => {
+                const isSelected = staffForm.workingDays.includes(day);
+                return (
+                  <button
+                    type="button"
+                    key={day}
+                    onClick={() => {
+                      const newDays = isSelected
+                        ? staffForm.workingDays.filter((d) => d !== day)
+                        : [...staffForm.workingDays, day];
+                      setStaffForm({ ...staffForm, workingDays: newDays });
+                    }}
+                    className={`px-3 py-1.5 text-xs rounded-xl border font-semibold cursor-pointer transition-all ${
+                      isSelected
+                        ? "bg-[#ec4899]/10 text-[#ec4899] border-[#ec4899]"
+                        : "bg-[#0c0b10] text-gray-400 border-white/5 hover:border-white/10"
+                    }`}
+                  >
+                    {day.substring(0, 3)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Assigned Services */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Assigned Services</label>
+            <div className="max-h-40 overflow-y-auto border border-[#232033] bg-[#0c0b10] rounded-xl p-3 grid grid-cols-2 gap-2 scrollbar-thin">
+              {services.map((srv) => {
+                const isChecked = staffForm.services.includes(srv._id);
+                return (
+                  <label key={srv._id} className="flex items-center gap-2 text-xs text-gray-300 hover:text-white cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => {
+                        const newServices = isChecked
+                          ? staffForm.services.filter((id) => id !== srv._id)
+                          : [...staffForm.services, srv._id];
+                        setStaffForm({ ...staffForm, services: newServices });
+                      }}
+                      className="accent-[#ec4899] cursor-pointer"
+                    />
+                    <span>{srv.name}</span>
+                  </label>
+                );
+              })}
+              {services.length === 0 && (
+                <span className="text-zinc-500 italic text-xs col-span-2">No services available. Please create services first.</span>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsStaffModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Create Profile</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* EDIT STAFF MODAL */}
+      <Modal isOpen={isEditStaffModalOpen} onClose={() => setIsEditStaffModalOpen(false)} title="Modify Staff Profile">
+        <form onSubmit={handleUpdateStaff} className="space-y-4 py-2">
+          {staffError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-bold">
+              {staffError}
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Full Name"
+              placeholder="Ex: Maya Sharma"
+              value={staffForm.name}
+              onChange={(e) => setStaffForm({ ...staffForm, name: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Role/Designation"
+              placeholder="Ex: Senior Stylist"
+              value={staffForm.role}
+              onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="Ex: maya@mayleki.com"
+              value={staffForm.email}
+              onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
+              required
+            />
+
+            <Input
+              label="Mobile Number"
+              placeholder="Ex: +91 98765 43210"
+              value={staffForm.phone}
+              onChange={(e) => setStaffForm({ ...staffForm, phone: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 w-full">
+              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
+              <select
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                value={staffForm.status}
+                onChange={(e) => setStaffForm({ ...staffForm, status: e.target.value })}
+                required
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="On Leave">On Leave</option>
+              </select>
+            </div>
+
+            <Input
+              label="Specialties (comma-separated)"
+              placeholder="Ex: Balayage, Nail Art, Facials"
+              value={staffForm.specialties}
+              onChange={(e) => setStaffForm({ ...staffForm, specialties: e.target.value })}
+            />
+          </div>
+
+          <Input
+            label="Profile Image URL"
+            placeholder="Ex: https://images.unsplash.com/photo-..."
+            value={staffForm.image}
+            onChange={(e) => setStaffForm({ ...staffForm, image: e.target.value })}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Shift Start"
+              placeholder="Ex: 10:00 AM"
+              value={staffForm.workingHoursStart}
+              onChange={(e) => setStaffForm({ ...staffForm, workingHoursStart: e.target.value })}
+            />
+            <Input
+              label="Shift End"
+              placeholder="Ex: 08:00 PM"
+              value={staffForm.workingHoursEnd}
+              onChange={(e) => setStaffForm({ ...staffForm, workingHoursEnd: e.target.value })}
+            />
+          </div>
+
+          {/* Working Days */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Working Days</label>
+            <div className="flex flex-wrap gap-2">
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => {
+                const isSelected = staffForm.workingDays.includes(day);
+                return (
+                  <button
+                    type="button"
+                    key={day}
+                    onClick={() => {
+                      const newDays = isSelected
+                        ? staffForm.workingDays.filter((d) => d !== day)
+                        : [...staffForm.workingDays, day];
+                      setStaffForm({ ...staffForm, workingDays: newDays });
+                    }}
+                    className={`px-3 py-1.5 text-xs rounded-xl border font-semibold cursor-pointer transition-all ${
+                      isSelected
+                        ? "bg-[#ec4899]/10 text-[#ec4899] border-[#ec4899]"
+                        : "bg-[#0c0b10] text-gray-400 border-white/5 hover:border-white/10"
+                    }`}
+                  >
+                    {day.substring(0, 3)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Assigned Services */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Assigned Services</label>
+            <div className="max-h-40 overflow-y-auto border border-[#232033] bg-[#0c0b10] rounded-xl p-3 grid grid-cols-2 gap-2 scrollbar-thin">
+              {services.map((srv) => {
+                const isChecked = staffForm.services.includes(srv._id);
+                return (
+                  <label key={srv._id} className="flex items-center gap-2 text-xs text-gray-300 hover:text-white cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => {
+                        const newServices = isChecked
+                          ? staffForm.services.filter((id) => id !== srv._id)
+                          : [...staffForm.services, srv._id];
+                        setStaffForm({ ...staffForm, services: newServices });
+                      }}
+                      className="accent-[#ec4899] cursor-pointer"
+                    />
+                    <span>{srv.name}</span>
+                  </label>
+                );
+              })}
+              {services.length === 0 && (
+                <span className="text-zinc-500 italic text-xs col-span-2">No services available. Please create services first.</span>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsEditStaffModalOpen(false)}>Cancel</Button>
+            <Button type="submit" variant="primary">Save Changes</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* CONFIRM DELETE STAFF DIALOG */}
+      <ConfirmDialog
+        isOpen={!!staffToDelete}
+        onClose={() => setStaffToDelete(null)}
+        onConfirm={confirmDeleteStaff}
+        title="Remove Staff Profile?"
+        description="This action cannot be undone. All details for this staff member will be permanently deleted from the database."
+      />
+
     </DashboardLayout>
   );
 };
