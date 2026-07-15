@@ -58,21 +58,11 @@ const Sidebar = ({
         
         {/* Logo block */}
         <div className={`flex items-center gap-3 border-b border-white/5 pb-5 mt-2 shrink-0 ${isCollapsed ? "justify-center" : ""}`}>
-          <div className="p-1.5 rounded-xl bg-[#ec4899]/10 text-[#ec4899] shrink-0">
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C11.5 5 9 8.5 6 9.5c3-1 5.5-4 6-7.5zm0 0c.5 3.5 3 6.5 6 7.5-3-1-5.5-4-6-7.5zM6 9.5c-2.5 1-4 3.5-4 6.5 2.5-1.5 3.5-4 4-6.5zm12 0c2.5 1 4 3.5 4 6.5-2.5-1.5-3.5-4-4-6.5zM12 9c-1.5 2.5-3 5.5-3 8.5 1.5-1.5 2.5-4 3-8.5zm0 0c1.5 2.5 3 5.5 3 8.5-1.5-1.5-2.5-4-3-8.5zM5 17c0 2.5 3 4.5 7 4.5s7-2 7-4.5H5z"/>
-            </svg>
-          </div>
-          {!isCollapsed && (
-            <div>
-              <h2 className="text-base font-bold font-serif text-white uppercase tracking-wider leading-none">
-                Mayleki
-              </h2>
-              <span className="text-[9px] uppercase tracking-widest text-[#ec4899] font-sans font-black">
-                Studio & Academy
-              </span>
-            </div>
-          )}
+          <img
+            src={logo}
+            alt="Mayleki Logo"
+            className={`${isCollapsed ? "h-8 w-8 rounded-lg object-cover" : "h-14 w-auto object-contain px-2"}`}
+          />
         </div>
 
         {/* Admin profile widget */}
