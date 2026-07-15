@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import api from "../services/api";
 import Profile from "./Profile";
+import logo from "../assets/logo.png";
 import {
   Calendar,
   Clock,
