@@ -172,12 +172,9 @@ const CustomerDashboard = () => {
       <aside className="w-full md:w-64 bg-black text-white shrink-0 flex flex-col border-r border-gray-900">
         
         {/* Logo */}
-        <div className="p-6 border-b border-gray-900 text-center md:text-left">
-          <a href="/" className="text-2xl font-serif font-bold uppercase tracking-wider text-white">
-            Mayleki
-            <span className="block text-xs font-sans font-normal tracking-widest text-gray-400 normal-case">
-              Studio & Academy
-            </span>
+        <div className="p-6 border-b border-gray-900 flex justify-center md:justify-start">
+          <a href="/">
+            <img src={logo} alt="Mayleki Logo" className="h-14 w-auto object-contain" />
           </a>
         </div>
 
