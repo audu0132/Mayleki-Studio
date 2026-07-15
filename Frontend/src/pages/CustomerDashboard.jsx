@@ -173,8 +173,12 @@ const CustomerDashboard = () => {
         
         {/* Logo */}
         <div className="p-6 border-b border-gray-900 flex justify-center md:justify-start">
-          <a href="/">
+          <a href="/" className="flex items-center gap-3 group">
             <img src={logo} alt="Mayleki Logo" className="h-14 w-auto object-contain" />
+            <span className="flex flex-col justify-center leading-none text-left">
+              <span className="text-lg font-serif font-bold uppercase tracking-wider text-white">Mayleki</span>
+              <span className="text-[10px] font-sans font-normal tracking-widest text-white/60 uppercase mt-0.5">Studio & Academy</span>
+            </span>
           </a>
         </div>
 
