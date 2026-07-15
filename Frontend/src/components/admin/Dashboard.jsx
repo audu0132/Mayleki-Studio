@@ -168,6 +168,29 @@ const Dashboard = () => {
   });
   const [serviceError, setServiceError] = useState("");
 
+  // Staff Workspace State
+  const [staff, setStaff] = useState([]);
+  const [staffLoading, setStaffLoading] = useState(false);
+  const [staffSearchQuery, setStaffSearchQuery] = useState("");
+  const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
+  const [isEditStaffModalOpen, setIsEditStaffModalOpen] = useState(false);
+  const [editingStaff, setEditingStaff] = useState(null);
+  const [staffToDelete, setStaffToDelete] = useState(null);
+  const [staffForm, setStaffForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+    status: "Active",
+    specialties: "",
+    services: [],
+    image: "",
+    workingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    workingHoursStart: "10:00 AM",
+    workingHoursEnd: "08:00 PM"
+  });
+  const [staffError, setStaffError] = useState("");
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -519,12 +542,157 @@ const Dashboard = () => {
     }
   };
 
+  const fetchStaff = async () => {
+    try {
+      setStaffLoading(true);
+      const res = await fetch(`${API_BASE_URL}/api/staff/admin`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch staff: ${res.status}`);
+      }
+      const data = await res.json();
+      setStaff(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching staff:", err);
+      setStaff([]);
+    } finally {
+      setStaffLoading(false);
+    }
+  };
+
+  const handleCreateStaff = async (e) => {
+    e.preventDefault();
+    setStaffError("");
+    try {
+      const specialtiesArray = staffForm.specialties
+        ? staffForm.specialties.split(",").map(s => s.trim()).filter(Boolean)
+        : [];
+      const res = await fetch(`${API_BASE_URL}/api/staff`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          name: staffForm.name,
+          email: staffForm.email,
+          phone: staffForm.phone,
+          role: staffForm.role,
+          status: staffForm.status,
+          specialties: specialtiesArray,
+          services: staffForm.services,
+          image: staffForm.image,
+          workingDays: staffForm.workingDays,
+          workingHours: {
+            start: staffForm.workingHoursStart,
+            end: staffForm.workingHoursEnd
+          }
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create staff member");
+      }
+      setIsStaffModalOpen(false);
+      setStaffForm({
+        name: "",
+        email: "",
+        phone: "",
+        role: "",
+        status: "Active",
+        specialties: "",
+        services: [],
+        image: "",
+        workingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        workingHoursStart: "10:00 AM",
+        workingHoursEnd: "08:00 PM"
+      });
+      fetchStaff();
+    } catch (err) {
+      setStaffError(err.message);
+    }
+  };
+
+  const handleUpdateStaff = async (e) => {
+    e.preventDefault();
+    setStaffError("");
+    try {
+      const specialtiesArray = staffForm.specialties
+        ? (typeof staffForm.specialties === "string"
+            ? staffForm.specialties.split(",").map(s => s.trim()).filter(Boolean)
+            : staffForm.specialties)
+        : [];
+      const res = await fetch(`${API_BASE_URL}/api/staff/${editingStaff._id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          name: staffForm.name,
+          email: staffForm.email,
+          phone: staffForm.phone,
+          role: staffForm.role,
+          status: staffForm.status,
+          specialties: specialtiesArray,
+          services: staffForm.services,
+          image: staffForm.image,
+          workingDays: staffForm.workingDays,
+          workingHours: {
+            start: staffForm.workingHoursStart,
+            end: staffForm.workingHoursEnd
+          }
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update staff member");
+      }
+      setIsEditStaffModalOpen(false);
+      setEditingStaff(null);
+      setStaffForm({
+        name: "",
+        email: "",
+        phone: "",
+        role: "",
+        status: "Active",
+        specialties: "",
+        services: [],
+        image: "",
+        workingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        workingHoursStart: "10:00 AM",
+        workingHoursEnd: "08:00 PM"
+      });
+      fetchStaff();
+    } catch (err) {
+      setStaffError(err.message);
+    }
+  };
+
+  const confirmDeleteStaff = async () => {
+    if (!staffToDelete) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/staff/${staffToDelete}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to delete staff member");
+      }
+      setStaffToDelete(null);
+      fetchStaff();
+    } catch (err) {
+      console.error("Error deleting staff:", err);
+    }
+  };
+
   useEffect(() => {
     fetchServices();
+    fetchStaff();
   }, []);
 
   useEffect(() => {
     if (activeTab === "services") {
+      fetchServices();
+    }
+    if (activeTab === "staff") {
+      fetchStaff();
       fetchServices();
     }
   }, [activeTab]);
