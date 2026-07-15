@@ -63,6 +63,12 @@ const Sidebar = ({
             alt="Mayleki Logo"
             className={`${isCollapsed ? "h-8 w-8 rounded-lg object-cover" : "h-14 w-auto object-contain px-2"}`}
           />
+          {!isCollapsed && (
+            <span className="flex flex-col justify-center leading-none text-left select-none">
+              <span className="text-lg font-serif font-bold uppercase tracking-wider text-white">Mayleki</span>
+              <span className="text-[10px] font-sans font-normal tracking-widest text-white/60 uppercase mt-0.5">Studio & Academy</span>
+            </span>
+          )}
         </div>
 
         {/* Admin profile widget */}
