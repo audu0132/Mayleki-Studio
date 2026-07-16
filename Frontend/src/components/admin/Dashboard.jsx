@@ -3185,8 +3185,16 @@ const Dashboard = () => {
           <ReportsWorkspace bookings={bookings} />
         )}
 
+        {/* REVIEWS TAB */}
+        {activeTab === "reviews" && (
+          <ReviewsWorkspace
+            API_BASE_URL={API_BASE_URL}
+            getAuthHeaders={getAuthHeaders}
+          />
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings", "reports"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings", "reports", "reviews"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
