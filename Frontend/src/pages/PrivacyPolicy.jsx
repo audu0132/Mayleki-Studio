@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
                     <p className="text-primary/70 font-light text-lg">
                         Last updated: {new Date().toLocaleDateString()}
                     </p>
-                </motion.div>
+                </motion.div> 
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
