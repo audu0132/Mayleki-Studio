@@ -39,6 +39,7 @@ app.use("/api/services", require("./routes/serviceRoutes"));
 app.use("/api/staff", require("./routes/staffRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
+app.use("/api/gallery", require("./routes/galleryRoutes"));
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/analytics", analyticsRoutes);
