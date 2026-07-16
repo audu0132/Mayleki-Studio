@@ -5,8 +5,8 @@ const StatCard = ({
   title,
   value,
   icon: Icon,
-  iconColor = "text-[#ec4899]",
-  iconBg = "bg-[#ec4899]/10",
+  iconColor = "text-[#F9FAFB]",
+  iconBg = "bg-[#F9FAFB]/10",
   trendValue,
   trendDirection = "up", // "up" | "down"
   className = "",
