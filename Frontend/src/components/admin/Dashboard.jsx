@@ -52,6 +52,7 @@ import EmptyState from "./components/EmptyState";
 import LoadingState from "./components/LoadingState";
 import Modal from "./components/Modal";
 import ConfirmDialog from "./components/ConfirmDialog";
+import SettingsWorkspace from "./SettingsWorkspace";
 
 const Dashboard = () => {
   const navigate = useNavigate();
