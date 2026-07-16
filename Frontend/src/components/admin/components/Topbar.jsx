@@ -31,7 +31,7 @@ const Topbar = ({
           <input
             type="text"
             placeholder="Search here..."
-            className="pl-10 pr-16 py-2.5 w-full bg-[#111827] border border-white/8 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+            className="pl-10 pr-16 py-2.5 w-full bg-[#111827] border border-white/8 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
           />
           <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center">
             <kbd className="bg-zinc-800/80 text-gray-400 text-[8px] px-2 py-0.5 rounded font-mono select-none border border-zinc-700/60 font-bold uppercase">
@@ -49,7 +49,7 @@ const Topbar = ({
         {onQuickAdd && (
           <button
             onClick={onQuickAdd}
-            className="bg-[#ec4899]/10 hover:bg-[#ec4899]/20 text-[#ec4899] border border-[#ec4899]/25 p-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer uppercase tracking-wider px-3"
+            className="bg-[#F9FAFB]/10 hover:bg-[#F9FAFB]/20 text-[#F9FAFB] border border-[#F9FAFB]/25 p-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer uppercase tracking-wider px-3"
           >
             <Plus size={14} />
             <span className="hidden sm:inline">Quick Add</span>
@@ -68,7 +68,7 @@ const Topbar = ({
         {/* Notifications Icon with dynamic badge */}
         <button className="relative p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition cursor-pointer">
           <Bell size={15} />
-          <span className="absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-[#ec4899] text-white text-[8px] font-black rounded-full flex items-center justify-center border-2 border-[#07070a]">
+          <span className="absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-[#F9FAFB] text-white text-[8px] font-black rounded-full flex items-center justify-center border-2 border-[#07070a]">
             5
           </span>
         </button>
@@ -82,7 +82,7 @@ const Topbar = ({
             <img
               src={logo}
               alt="Shop Logo"
-              className="w-8 h-8 rounded-full bg-zinc-800 border border-[#ec4899]/20 p-0.5 object-contain"
+              className="w-8 h-8 rounded-full bg-zinc-800 border border-[#F9FAFB]/20 p-0.5 object-contain"
             />
             <span className="text-xs font-bold text-gray-300 group-hover:text-white hidden sm:block transition-colors">
               Mayleki Studio
@@ -99,7 +99,7 @@ const Topbar = ({
               />
               <div className="absolute right-0 mt-2.5 w-48 bg-[#111827] border border-white/8 rounded-2xl py-2 shadow-2xl z-50 animate-fadeIn">
                 <div className="px-4 py-2 border-b border-white/5">
-                  <p className="text-[10px] font-bold text-[#ec4899] uppercase tracking-wider">Premium Partner</p>
+                  <p className="text-[10px] font-bold text-[#F9FAFB] uppercase tracking-wider">Premium Partner</p>
                   <p className="text-xs font-bold text-white truncate mt-0.5">Mayleki Academy</p>
                 </div>
                 <button
