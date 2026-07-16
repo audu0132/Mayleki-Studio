@@ -1084,8 +1084,8 @@ const Dashboard = () => {
                 title="Today's Appointments"
                 value={getTodayBookings()}
                 icon={CalendarDays}
-                iconBg="bg-[#ec4899]/10"
-                iconColor="text-[#ec4899]"
+                iconBg="bg-[#F9FAFB]/10"
+                iconColor="text-[#F9FAFB]"
                 trendValue="12% vs yesterday"
                 trendDirection="up"
               />
@@ -1136,12 +1136,12 @@ const Dashboard = () => {
                   <svg viewBox="0 0 500 200" className="w-full h-full overflow-visible">
                     <defs>
                       <linearGradient id="glowArea" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.25" />
-                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.0" />
+                        <stop offset="0%" stopColor="#F9FAFB" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#F9FAFB" stopOpacity="0.0" />
                       </linearGradient>
                       <linearGradient id="glowLine" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#A855F7" />
-                        <stop offset="50%" stopColor="#EC4899" />
+                        <stop offset="50%" stopColor="#F9FAFB" />
                         <stop offset="100%" stopColor="#F472B6" />
                       </linearGradient>
                     </defs>
@@ -1179,7 +1179,7 @@ const Dashboard = () => {
                       </div>
                       <div className="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-[#A855F7] to-[#ec4899] h-full rounded-full"
+                          className="bg-gradient-to-r from-[#A855F7] to-[#F9FAFB] h-full rounded-full"
                           style={{ width: s.pct }}
                         />
                       </div>
@@ -1204,7 +1204,7 @@ const Dashboard = () => {
                         <img
                           src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${booking.userName || booking.name || "user"}`}
                           alt="client avatar"
-                          className="w-7 h-7 rounded-full bg-zinc-800 border border-[#ec4899]/20"
+                          className="w-7 h-7 rounded-full bg-zinc-800 border border-[#F9FAFB]/20"
                         />
                         {booking.userName || booking.name || "-"}
                       </td>
@@ -1250,7 +1250,7 @@ const Dashboard = () => {
                 
                 <button
                   onClick={cancelEdit}
-                  className="text-xs font-bold text-[#ec4899] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
+                  className="text-xs font-bold text-[#F9FAFB] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
                 >
                   <ArrowLeft size={13} />
                   Back to active offers
@@ -1267,7 +1267,7 @@ const Dashboard = () => {
                   <div className="lg:col-span-3 bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
                     
                     <div className="flex items-center gap-2 border-b border-white/5 pb-4 mb-2 text-white">
-                      <LinkIcon size={16} className="text-[#ec4899]" />
+                      <LinkIcon size={16} className="text-[#F9FAFB]" />
                       <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Campaign Details</h3>
                     </div>
 
@@ -1318,7 +1318,7 @@ const Dashboard = () => {
                           className="text-gray-400 hover:text-white transition-colors cursor-pointer"
                         >
                           {editForm.isActive ? (
-                            <span className="text-[#ec4899]"><ToggleRight size={38} /></span>
+                            <span className="text-[#F9FAFB]"><ToggleRight size={38} /></span>
                           ) : (
                             <span className="text-zinc-700"><ToggleLeft size={38} /></span>
                           )}
@@ -1345,18 +1345,18 @@ const Dashboard = () => {
                     {/* Live Preview Card */}
                     <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
                       <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
-                        <Eye size={15} className="text-[#ec4899]" />
+                        <Eye size={15} className="text-[#F9FAFB]" />
                         <h3 className="text-xs font-extrabold uppercase tracking-widest">Live Offer Preview</h3>
                       </div>
 
                       {/* Gradient voucher layout */}
-                      <div className="bg-gradient-to-br from-[#411b33] to-[#120822] border border-[#ec4899]/20 p-6 rounded-xl relative overflow-hidden flex flex-col justify-between h-[210px] shadow-lg">
-                        <div className="absolute right-[-12px] top-6 bg-gradient-to-br from-[#ec4899] to-[#d946ef] w-24 h-24 rounded-3xl rotate-12 flex items-center justify-center opacity-90 shadow-2xl select-none">
+                      <div className="bg-gradient-to-br from-[#411b33] to-[#120822] border border-[#F9FAFB]/20 p-6 rounded-xl relative overflow-hidden flex flex-col justify-between h-[210px] shadow-lg">
+                        <div className="absolute right-[-12px] top-6 bg-gradient-to-br from-[#F9FAFB] to-[#d946ef] w-24 h-24 rounded-3xl rotate-12 flex items-center justify-center opacity-90 shadow-2xl select-none">
                           <span className="text-3xl text-white font-black -rotate-12">%</span>
                         </div>
 
                         <div className="space-y-1 z-10">
-                          <span className="bg-[#ec4899] text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest inline-block">
+                          <span className="bg-[#F9FAFB] text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest inline-block">
                             Special Offer
                           </span>
                           <h3 className="text-3xl font-black text-white tracking-tight pt-3 uppercase truncate max-w-[200px]">
@@ -1369,7 +1369,7 @@ const Dashboard = () => {
 
                         {/* Expiry Badge */}
                         <div className="border-t border-white/10 pt-3 flex items-center gap-1.5 text-[9px] text-gray-400 font-semibold uppercase tracking-wider z-10">
-                          <Calendar size={12} className="text-[#ec4899]" />
+                          <Calendar size={12} className="text-[#F9FAFB]" />
                           <span>
                             Valid till: {editForm.validTill ? new Date(editForm.validTill).toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' }) : "12 July 2026"}
                           </span>
@@ -1380,7 +1380,7 @@ const Dashboard = () => {
                     {/* Offer Performance Statistics */}
                     <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
                       <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
-                        <LineChart size={15} className="text-[#ec4899]" />
+                        <LineChart size={15} className="text-[#F9FAFB]" />
                         <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Analytics</h3>
                       </div>
 
@@ -1397,7 +1397,7 @@ const Dashboard = () => {
                           <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Campaign Conversion Index</span>
                           <div className="flex items-center justify-between mt-1">
                             <span className="text-xs font-bold text-white">{getOfferPerformance()}</span>
-                            <span className="text-[10px] text-[#ec4899] font-black uppercase">Outstanding</span>
+                            <span className="text-[10px] text-[#F9FAFB] font-black uppercase">Outstanding</span>
                           </div>
                         </div>
                       </div>
@@ -1428,7 +1428,7 @@ const Dashboard = () => {
                             </div>
                             <div className="text-right">
                               <span className="font-extrabold text-white block">₹{client.price.toLocaleString()}</span>
-                              <span className="text-[8px] text-[#ec4899] uppercase font-bold mt-0.5 block">{client.service}</span>
+                              <span className="text-[8px] text-[#F9FAFB] uppercase font-bold mt-0.5 block">{client.service}</span>
                             </div>
                           </div>
                         ))}
@@ -1451,7 +1451,7 @@ const Dashboard = () => {
                 {/* Add Offer Form Card */}
                 <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
                   <h3 className="text-xs font-extrabold uppercase tracking-widest text-white border-b border-white/5 pb-4 mb-2 flex items-center gap-1.5">
-                    <Plus size={16} className="text-[#ec4899]" />
+                    <Plus size={16} className="text-[#F9FAFB]" />
                     Deploy Promotional Campaign
                   </h3>
                   
@@ -1507,19 +1507,19 @@ const Dashboard = () => {
                       {offers.map((offer) => (
                         <div
                           key={offer._id}
-                          className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#ec4899]/30 transition-colors"
+                          className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#F9FAFB]/30 transition-colors"
                         >
                           <div className="space-y-2">
                             <div className="flex justify-between items-start">
                               <h3 className="font-bold text-base text-white font-serif">{offer.title}</h3>
-                              <span className="text-[10px] font-bold text-[#ec4899] bg-[#3b122c]/50 px-2.5 py-0.5 rounded border border-[#ec4899]/20 font-mono">
+                              <span className="text-[10px] font-bold text-[#F9FAFB] bg-[#3b122c]/50 px-2.5 py-0.5 rounded border border-[#F9FAFB]/20 font-mono">
                                 {offer.discount}
                               </span>
                             </div>
                             <p className="text-gray-400 text-xs leading-relaxed">{offer.description}</p>
                             {offer.validTill && (
                               <p className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-2 flex items-center gap-1.5">
-                                <Calendar size={11} className="text-[#ec4899]" />
+                                <Calendar size={11} className="text-[#F9FAFB]" />
                                 Valid Till: {new Date(offer.validTill).toLocaleDateString()}
                               </p>
                             )}
@@ -1531,7 +1531,7 @@ const Dashboard = () => {
                               onClick={() => startEditOffer(offer)}
                               className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                             >
-                              <Edit2 size={11} className="text-[#ec4899]" />
+                              <Edit2 size={11} className="text-[#F9FAFB]" />
                               Configure
                             </button>
                             <button
@@ -1578,7 +1578,7 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search by customer name or phone..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -1586,7 +1586,7 @@ const Dashboard = () => {
 
               <input
                 type="date"
-                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={filterDate}
                 onChange={(e) => setFilterDate(e.target.value)}
               />
@@ -1613,7 +1613,7 @@ const Dashboard = () => {
                 </div>
                 <input
                   type="date"
-                  className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899]"
+                  className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB]"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                 />
@@ -1656,7 +1656,7 @@ const Dashboard = () => {
                   {filteredBookings.map((b) => (
                     <div
                       key={b._id}
-                      className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#ec4899]/30 transition-colors"
+                      className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#F9FAFB]/30 transition-colors"
                     >
                       <div className="space-y-3">
                         <div className="flex justify-between items-center border-b border-white/5 pb-2 text-white">
@@ -1784,7 +1784,7 @@ const Dashboard = () => {
                     <input
                       key={idx}
                       placeholder={`Module detail summary ${idx + 1}`}
-                      className="w-full bg-[#0c0b10] border border-white/5 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899]"
+                      className="w-full bg-[#0c0b10] border border-white/5 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB]"
                       value={feature}
                       onChange={(e) => {
                         const updated = [...courseForm.features];
@@ -1869,7 +1869,7 @@ const Dashboard = () => {
                         <div className="flex-1 space-y-3">
                           <div className="flex justify-between items-start border-b border-white/5 pb-2 text-white">
                             <h3 className="font-bold text-lg font-serif">{course.title}</h3>
-                            <span className="text-xs font-bold text-[#ec4899] bg-[#3b122c]/50 border border-[#ec4899]/20 px-2 py-0.5 rounded">
+                            <span className="text-xs font-bold text-[#F9FAFB] bg-[#3b122c]/50 border border-[#F9FAFB]/20 px-2 py-0.5 rounded">
                               {course.duration}
                             </span>
                           </div>
@@ -1888,7 +1888,7 @@ const Dashboard = () => {
                             onClick={() => startEditCourse(course)}
                             className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
-                            <Edit2 size={11} className="text-[#ec4899]" />
+                            <Edit2 size={11} className="text-[#F9FAFB]" />
                             Edit
                           </button>
                           <button
@@ -1932,7 +1932,7 @@ const Dashboard = () => {
                   onClick={() => setShowSchedulerSettings(!showSchedulerSettings)}
                   className="flex items-center gap-2"
                 >
-                  <Sliders size={13} className="text-[#ec4899]" />
+                  <Sliders size={13} className="text-[#F9FAFB]" />
                   {showSchedulerSettings ? "Close Settings" : "Configure Desk"}
                 </Button>
                 <Button
@@ -1968,7 +1968,7 @@ const Dashboard = () => {
                     {getSchedulerStats().occupied} / {schedulerSettings.timeSlots.length}
                   </h4>
                 </div>
-                <div className="p-3 bg-[#ec4899]/10 rounded-xl text-[#ec4899]">
+                <div className="p-3 bg-[#F9FAFB]/10 rounded-xl text-[#F9FAFB]">
                   <Calendar size={18} />
                 </div>
               </div>
@@ -2024,7 +2024,7 @@ const Dashboard = () => {
                     </div>
                     <input
                       type="date"
-                      className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                      className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                       value={selectedSchedulerDate}
                       onChange={(e) => setSelectedSchedulerDate(e.target.value)}
                     />
@@ -2041,7 +2041,7 @@ const Dashboard = () => {
                           key={slot}
                           className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group ${
                             isBooked
-                              ? "bg-[#161f30]/60 border-white/10 hover:border-[#ec4899]/30"
+                              ? "bg-[#161f30]/60 border-white/10 hover:border-[#F9FAFB]/30"
                               : isCancelled
                               ? "bg-red-950/10 border-red-500/10 hover:bg-red-950/20"
                               : "border-dashed border-zinc-800/80 hover:border-zinc-600 hover:bg-white/5"
@@ -2050,7 +2050,7 @@ const Dashboard = () => {
                           <div className="flex items-center gap-4">
                             <div className={`py-1.5 px-3 rounded-xl text-[11px] font-bold font-mono tracking-wider flex items-center gap-1.5 shrink-0 ${
                               isBooked
-                                ? "bg-[#ec4899]/10 text-[#ec4899]"
+                                ? "bg-[#F9FAFB]/10 text-[#F9FAFB]"
                                 : "bg-zinc-800 text-gray-400"
                             }`}>
                               <Clock size={11} />
@@ -2074,7 +2074,7 @@ const Dashboard = () => {
                                   </span>
                                 </div>
                                 <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-2">
-                                  <span className="text-[#ec4899] font-bold">★</span> {booking.service || "Salon Treatment"}
+                                  <span className="text-[#F9FAFB] font-bold">★</span> {booking.service || "Salon Treatment"}
                                   <span className="text-zinc-700">|</span> 
                                   <span className="font-mono text-zinc-500">{booking.phone || "-"}</span>
                                 </p>
@@ -2118,7 +2118,7 @@ const Dashboard = () => {
                                     setAppointmentError("");
                                     setIsEditAppointmentModalOpen(true);
                                   }}
-                                  className="p-2 rounded-lg bg-zinc-800 hover:bg-[#ec4899]/10 text-gray-400 hover:text-[#ec4899] transition-all cursor-pointer"
+                                  className="p-2 rounded-lg bg-zinc-800 hover:bg-[#F9FAFB]/10 text-gray-400 hover:text-[#F9FAFB] transition-all cursor-pointer"
                                   title="Edit Reservation"
                                 >
                                   <Edit2 size={13} />
@@ -2148,9 +2148,9 @@ const Dashboard = () => {
                                   setAppointmentError("");
                                   setIsAppointmentModalOpen(true);
                                 }}
-                                className="py-1.5 px-3 bg-zinc-900 border border-[#232033] hover:border-[#ec4899]/30 text-xs font-bold text-gray-300 hover:text-white rounded-xl flex items-center gap-1.5 transition-all cursor-pointer group-hover:scale-[1.02]"
+                                className="py-1.5 px-3 bg-zinc-900 border border-[#232033] hover:border-[#F9FAFB]/30 text-xs font-bold text-gray-300 hover:text-white rounded-xl flex items-center gap-1.5 transition-all cursor-pointer group-hover:scale-[1.02]"
                               >
-                                <Plus size={12} className="text-[#ec4899]" />
+                                <Plus size={12} className="text-[#F9FAFB]" />
                                 Assign Slot
                               </button>
                             )}
@@ -2167,7 +2167,7 @@ const Dashboard = () => {
                 {showSchedulerSettings ? (
                   <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4 animate-fadeIn">
                     <div className="flex items-center gap-2 border-b border-white/5 pb-3">
-                      <Sliders size={15} className="text-[#ec4899]" />
+                      <Sliders size={15} className="text-[#F9FAFB]" />
                       <h3 className="font-extrabold text-sm uppercase text-white">Desk Configurator</h3>
                     </div>
 
@@ -2222,7 +2222,7 @@ const Dashboard = () => {
                           id="new-slot-input"
                           type="text"
                           placeholder="Ex: 09:00 AM"
-                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#ec4899] flex-1"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#F9FAFB] flex-1"
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               const val = e.target.value.trim();
@@ -2284,13 +2284,13 @@ const Dashboard = () => {
                           id="new-srv-name"
                           type="text"
                           placeholder="Service Name"
-                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#ec4899] w-1/2"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#F9FAFB] w-1/2"
                         />
                         <input
                           id="new-srv-price"
                           type="number"
                           placeholder="Price"
-                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#ec4899] w-1/4 font-mono"
+                          className="bg-[#0c0b10] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] text-white focus:outline-none focus:border-[#F9FAFB] w-1/4 font-mono"
                         />
                         <Button
                           variant="secondary"
@@ -2334,12 +2334,12 @@ const Dashboard = () => {
                         </div>
                         <div className="flex justify-between items-center text-xs">
                           <span className="text-gray-400">Booked Reservations</span>
-                          <span className="font-bold font-mono text-[#ec4899]">{getSchedulerStats().occupied}</span>
+                          <span className="font-bold font-mono text-[#F9FAFB]">{getSchedulerStats().occupied}</span>
                         </div>
                         
                         <div className="w-full bg-zinc-800 rounded-full h-1.5 mt-2 overflow-hidden">
                           <div 
-                            className="bg-gradient-to-r from-[#d946ef] to-[#ec4899] h-1.5 rounded-full transition-all"
+                            className="bg-gradient-to-r from-[#d946ef] to-[#F9FAFB] h-1.5 rounded-full transition-all"
                             style={{ 
                               width: `${(getSchedulerStats().occupied / (schedulerSettings.timeSlots.length || 1)) * 100}%` 
                             }}
@@ -2349,7 +2349,7 @@ const Dashboard = () => {
 
                       <div className="space-y-2">
                         <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Need Help?</h4>
-                        <div className="bg-[#ec4899]/5 border border-[#ec4899]/15 p-3.5 rounded-xl text-[11px] text-gray-400 leading-relaxed">
+                        <div className="bg-[#F9FAFB]/5 border border-[#F9FAFB]/15 p-3.5 rounded-xl text-[11px] text-gray-400 leading-relaxed">
                           <span className="font-bold text-white block mb-0.5">Scheduler Guidelines:</span>
                           Select any slot to quickly deploy new bookings or reschedule active customer slots. Conflicting slots are automatically prevented to prevent double booking.
                         </div>
@@ -2417,8 +2417,8 @@ const Dashboard = () => {
                 title="VIP Customers"
                 value={customers.filter(c => c.totalSpent >= 5000).length}
                 icon={Sparkles}
-                iconBg="bg-[#ec4899]/10"
-                iconColor="text-[#ec4899]"
+                iconBg="bg-[#F9FAFB]/10"
+                iconColor="text-[#F9FAFB]"
                 trendValue="Spent >= ₹5,000"
               />
               <StatCard
@@ -2451,7 +2451,7 @@ const Dashboard = () => {
                     <input
                       type="text"
                       placeholder="Search customers by name, email, or phone..."
-                      className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                      className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                       value={customerSearchQuery}
                       onChange={(e) => setCustomerSearchQuery(e.target.value)}
                     />
@@ -2491,14 +2491,14 @@ const Dashboard = () => {
                                   key={customer._id}
                                   onClick={() => setSelectedCustomer(customer)}
                                   className={`transition-colors cursor-pointer ${
-                                    isSelected ? "bg-[#ec4899]/5 border-l-2 border-[#ec4899]" : "hover:bg-white/5"
+                                    isSelected ? "bg-[#F9FAFB]/5 border-l-2 border-[#F9FAFB]" : "hover:bg-white/5"
                                   }`}
                                 >
                                   <td className="px-6 py-4 font-bold text-white flex items-center gap-3">
                                     <img
                                       src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${customer.name || "user"}`}
                                       alt="client avatar"
-                                      className="w-8 h-8 rounded-full bg-zinc-800 border border-[#ec4899]/20"
+                                      className="w-8 h-8 rounded-full bg-zinc-800 border border-[#F9FAFB]/20"
                                     />
                                     <div>
                                       <span className="block font-bold text-sm">{customer.name}</span>
@@ -2530,7 +2530,7 @@ const Dashboard = () => {
                                           setCustomerError("");
                                           setIsEditCustomerModalOpen(true);
                                         }}
-                                        className="p-1.5 rounded-lg bg-zinc-800 hover:bg-[#ec4899]/10 text-gray-400 hover:text-[#ec4899] transition-all cursor-pointer"
+                                        className="p-1.5 rounded-lg bg-zinc-800 hover:bg-[#F9FAFB]/10 text-gray-400 hover:text-[#F9FAFB] transition-all cursor-pointer"
                                         title="Edit Profile"
                                       >
                                         <Edit2 size={12} />
@@ -2600,7 +2600,7 @@ const Dashboard = () => {
                                     {b.service || "Salon Treatment"}
                                   </span>
                                   <span className="text-[10px] text-gray-500 font-mono mt-0.5 block flex items-center gap-1">
-                                    <Clock size={10} className="text-[#ec4899]" />
+                                    <Clock size={10} className="text-[#F9FAFB]" />
                                     {new Date(b.date).toLocaleDateString("en-GB", { day: 'numeric', month: 'short' })} • {b.timeSlot || b.time}
                                   </span>
                                 </div>
@@ -2683,7 +2683,7 @@ const Dashboard = () => {
                         Select a customer to inspect visits
                       </p>
                     </div>
-                    <div className="bg-[#ec4899]/5 border border-[#ec4899]/15 p-4 rounded-xl text-xs text-gray-400 leading-relaxed space-y-2">
+                    <div className="bg-[#F9FAFB]/5 border border-[#F9FAFB]/15 p-4 rounded-xl text-xs text-gray-400 leading-relaxed space-y-2">
                       <span className="font-bold text-white block">Workspace Overview:</span>
                       <p>Click on any row in the customers table to review their detailed timeline reservation history. You can audit service logs, adjust reservation states, or delete booking details directly from their workspace card.</p>
                     </div>
@@ -2752,8 +2752,8 @@ const Dashboard = () => {
                 title="Active Services"
                 value={services.filter(s => s.isActive).length}
                 icon={Sparkles}
-                iconBg="bg-[#ec4899]/10"
-                iconColor="text-[#ec4899]"
+                iconBg="bg-[#F9FAFB]/10"
+                iconColor="text-[#F9FAFB]"
               />
               <StatCard
                 title="Avg Price"
@@ -2781,14 +2781,14 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search services by name or description..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                   value={serviceSearchQuery}
                   onChange={(e) => setServiceSearchQuery(e.target.value)}
                 />
               </div>
 
               <select
-                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={selectedCategoryFilter}
                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
               >
@@ -2829,7 +2829,7 @@ const Dashboard = () => {
                   .map((srv) => (
                     <div
                       key={srv._id}
-                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#ec4899]/30 transition-all duration-300"
+                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#F9FAFB]/30 transition-all duration-300"
                     >
                       <div className="relative aspect-video bg-zinc-900 overflow-hidden">
                         {srv.image ? (
@@ -2840,7 +2840,7 @@ const Dashboard = () => {
                           />
                         ) : (
                           <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 border-b border-white/5 text-gray-600">
-                            <Scissors size={32} className="text-[#ec4899]/30 mb-2" />
+                            <Scissors size={32} className="text-[#F9FAFB]/30 mb-2" />
                             <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500">No Image</span>
                           </div>
                         )}
@@ -2867,11 +2867,11 @@ const Dashboard = () => {
                           </p>
                           <div className="flex gap-4 pt-1 select-none">
                             <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
-                              <Clock size={11} className="text-[#ec4899]" />
+                              <Clock size={11} className="text-[#F9FAFB]" />
                               {srv.duration ? `${srv.duration} mins` : "Flexible"}
                             </div>
                             <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
-                              <span className="text-[#ec4899] font-bold">₹</span>
+                              <span className="text-[#F9FAFB] font-bold">₹</span>
                               {srv.price}
                             </div>
                           </div>
@@ -2896,7 +2896,7 @@ const Dashboard = () => {
                             }}
                             className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
-                            <Edit2 size={11} className="text-[#ec4899]" />
+                            <Edit2 size={11} className="text-[#F9FAFB]" />
                             Edit
                           </button>
                           <button
@@ -3004,7 +3004,7 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search staff by name, email, or role..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                   value={staffSearchQuery}
                   onChange={(e) => setStaffSearchQuery(e.target.value)}
                 />
@@ -3039,7 +3039,7 @@ const Dashboard = () => {
                   .map((member) => (
                     <div
                       key={member._id}
-                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#ec4899]/30 transition-all duration-300"
+                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#F9FAFB]/30 transition-all duration-300"
                     >
                       <div className="p-5 flex-1 flex flex-col justify-between gap-4">
                         <div className="space-y-4">
@@ -3054,7 +3054,7 @@ const Dashboard = () => {
                               <h3 className="font-bold text-sm text-white truncate" title={member.name}>
                                 {member.name}
                               </h3>
-                              <span className="inline-block bg-[#ec4899]/10 text-[#ec4899] border border-[#ec4899]/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mt-1">
+                              <span className="inline-block bg-[#F9FAFB]/10 text-[#F9FAFB] border border-[#F9FAFB]/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mt-1">
                                 {member.role}
                               </span>
                             </div>
@@ -3112,7 +3112,7 @@ const Dashboard = () => {
                             <div className="flex flex-wrap gap-1 max-h-[72px] overflow-y-auto pr-0.5 scrollbar-none">
                               {member.services && member.services.length > 0 ? (
                                 member.services.map((srv) => (
-                                  <span key={srv._id} className="bg-[#ec4899]/5 text-zinc-300 border border-[#ec4899]/15 text-[9px] px-1.5 py-0.5 rounded">
+                                  <span key={srv._id} className="bg-[#F9FAFB]/5 text-zinc-300 border border-[#F9FAFB]/15 text-[9px] px-1.5 py-0.5 rounded">
                                     {srv.name}
                                   </span>
                                 ))
@@ -3147,7 +3147,7 @@ const Dashboard = () => {
                             }}
                             className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
-                            <Edit2 size={11} className="text-[#ec4899]" />
+                            <Edit2 size={11} className="text-[#F9FAFB]" />
                             Edit
                           </button>
                           <button
@@ -3222,7 +3222,7 @@ const Dashboard = () => {
               onClick={() => { setIsQuickAddOpen(false); setActiveTab("offers"); }}
               className="bg-[#0c0b10] hover:bg-white/5 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center text-center text-xs font-bold text-white transition-colors cursor-pointer"
             >
-              <Gift size={20} className="text-[#ec4899] mb-2" />
+              <Gift size={20} className="text-[#F9FAFB] mb-2" />
               Draft Offer
             </button>
             <button
@@ -3265,7 +3265,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Service</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={appointmentForm.service}
                 onChange={(e) => {
                   const srv = servicePresets.find(s => s.name === e.target.value);
@@ -3298,7 +3298,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Time Slot</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all font-mono"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all font-mono"
                 value={appointmentForm.timeSlot}
                 onChange={(e) => setAppointmentForm({ ...appointmentForm, timeSlot: e.target.value })}
                 required
@@ -3353,7 +3353,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Service</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={appointmentForm.service}
                 onChange={(e) => {
                   const srv = servicePresets.find(s => s.name === e.target.value);
@@ -3386,7 +3386,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Time Slot</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all font-mono"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all font-mono"
                 value={appointmentForm.timeSlot}
                 onChange={(e) => setAppointmentForm({ ...appointmentForm, timeSlot: e.target.value })}
                 required
@@ -3409,7 +3409,7 @@ const Dashboard = () => {
           <div className="space-y-1.5 w-full">
             <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Booking Status</label>
             <select
-              className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+              className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
               value={appointmentForm.status}
               onChange={(e) => setAppointmentForm({ ...appointmentForm, status: e.target.value })}
               required
@@ -3586,7 +3586,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={serviceForm.category}
                 onChange={(e) => setServiceForm({ ...serviceForm, category: e.target.value })}
                 required
@@ -3601,7 +3601,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={serviceForm.isActive ? "true" : "false"}
                 onChange={(e) => setServiceForm({ ...serviceForm, isActive: e.target.value === "true" })}
                 required
@@ -3674,7 +3674,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Category</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={serviceForm.category}
                 onChange={(e) => setServiceForm({ ...serviceForm, category: e.target.value })}
                 required
@@ -3689,7 +3689,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={serviceForm.isActive ? "true" : "false"}
                 onChange={(e) => setServiceForm({ ...serviceForm, isActive: e.target.value === "true" })}
                 required
@@ -3781,7 +3781,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={staffForm.status}
                 onChange={(e) => setStaffForm({ ...staffForm, status: e.target.value })}
                 required
@@ -3840,7 +3840,7 @@ const Dashboard = () => {
                     }}
                     className={`px-3 py-1.5 text-xs rounded-xl border font-semibold cursor-pointer transition-all ${
                       isSelected
-                        ? "bg-[#ec4899]/10 text-[#ec4899] border-[#ec4899]"
+                        ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-[#F9FAFB]"
                         : "bg-[#0c0b10] text-gray-400 border-white/5 hover:border-white/10"
                     }`}
                   >
@@ -3868,7 +3868,7 @@ const Dashboard = () => {
                           : [...staffForm.services, srv._id];
                         setStaffForm({ ...staffForm, services: newServices });
                       }}
-                      className="accent-[#ec4899] cursor-pointer"
+                      className="accent-[#F9FAFB] cursor-pointer"
                     />
                     <span>{srv.name}</span>
                   </label>
@@ -3937,7 +3937,7 @@ const Dashboard = () => {
             <div className="space-y-1.5 w-full">
               <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={staffForm.status}
                 onChange={(e) => setStaffForm({ ...staffForm, status: e.target.value })}
                 required
@@ -3996,7 +3996,7 @@ const Dashboard = () => {
                     }}
                     className={`px-3 py-1.5 text-xs rounded-xl border font-semibold cursor-pointer transition-all ${
                       isSelected
-                        ? "bg-[#ec4899]/10 text-[#ec4899] border-[#ec4899]"
+                        ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-[#F9FAFB]"
                         : "bg-[#0c0b10] text-gray-400 border-white/5 hover:border-white/10"
                     }`}
                   >
@@ -4024,7 +4024,7 @@ const Dashboard = () => {
                           : [...staffForm.services, srv._id];
                         setStaffForm({ ...staffForm, services: newServices });
                       }}
-                      className="accent-[#ec4899] cursor-pointer"
+                      className="accent-[#F9FAFB] cursor-pointer"
                     />
                     <span>{srv.name}</span>
                   </label>
