@@ -54,6 +54,7 @@ import Modal from "./components/Modal";
 import ConfirmDialog from "./components/ConfirmDialog";
 import SettingsWorkspace from "./SettingsWorkspace";
 import ReportsWorkspace from "./ReportsWorkspace";
+import ReviewsWorkspace from "./ReviewsWorkspace";
 
 const Dashboard = () => {
   const navigate = useNavigate();
