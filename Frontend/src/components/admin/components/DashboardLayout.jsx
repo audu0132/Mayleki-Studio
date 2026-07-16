@@ -14,7 +14,7 @@ const DashboardLayout = ({
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-[#0b1120] text-[#f4f4f5] font-sans selection:bg-[#ec4899] selection:text-white overflow-hidden">
+    <div className="flex h-screen bg-[#f8fafc] dark:bg-[#0b1120] text-gray-800 dark:text-[#f4f4f5] font-sans selection:bg-[#ec4899] selection:text-white overflow-hidden">
       
       {/* Collapsible desktop and sliding mobile Sidebar */}
       <Sidebar

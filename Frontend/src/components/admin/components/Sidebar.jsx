@@ -53,11 +53,11 @@ const Sidebar = ({
   };
 
   const sidebarContent = (
-    <div className="h-full flex flex-col justify-between p-4 bg-[#070b16] overflow-hidden">
+    <div className="h-full flex flex-col justify-between p-4 bg-white dark:bg-[#070b16] border-r border-slate-200 dark:border-white/5 overflow-hidden">
       <div className="flex flex-col flex-1 min-h-0">
         
         {/* Logo block */}
-        <div className={`flex items-center gap-3 border-b border-white/5 pb-5 mt-2 shrink-0 ${isCollapsed ? "justify-center" : ""}`}>
+        <div className={`flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-5 mt-2 shrink-0 ${isCollapsed ? "justify-center" : ""}`}>
           <img
             src={logo}
             alt="Mayleki Logo"
@@ -65,28 +65,28 @@ const Sidebar = ({
           />
           {!isCollapsed && (
             <span className="flex flex-col justify-center leading-none text-left select-none">
-              <span className="text-lg font-serif font-bold uppercase tracking-wider text-white">Mayleki</span>
-              <span className="text-[10px] font-sans font-normal tracking-widest text-white/60 uppercase mt-0.5">Studio & Academy</span>
+              <span className="text-lg font-serif font-bold uppercase tracking-wider text-gray-900 dark:text-white">Mayleki</span>
+              <span className="text-[10px] font-sans font-normal tracking-widest text-gray-500 dark:text-white/60 uppercase mt-0.5">Studio & Academy</span>
             </span>
           )}
         </div>
 
         {/* Admin profile widget */}
-        <div className={`bg-[#111827] border border-white/8 rounded-2xl p-3.5 flex items-center gap-3 mt-4 shrink-0 ${isCollapsed ? "justify-center" : ""}`}>
+        <div className={`bg-slate-50 dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-3.5 flex items-center gap-3 mt-4 shrink-0 ${isCollapsed ? "justify-center" : ""}`}>
           <div className="relative shrink-0">
             <img
               src="https://api.dicebear.com/7.x/adventurer/svg?seed=admin-mayleki"
               alt="Admin Profile"
-              className="w-9 h-9 rounded-full bg-gray-600 border border-[#F9FAFB] p-0.5 object-cover"
+              className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-600 border border-slate-400 dark:border-[#F9FAFB] p-0.5 object-cover"
             />
-            <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-green-500 border border-[#111827]"></span>
+            <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-green-500 border border-white dark:border-[#111827]"></span>
           </div>
           {!isCollapsed && (
             <div className="min-w-0">
-              <h4 className="text-[11px] font-bold text-white tracking-wide truncate">Admin</h4>
-              <p className="text-[8px] text-[#a1a1aa] font-semibold flex items-center gap-0.5 mt-0.5 uppercase tracking-wider truncate">
+              <h4 className="text-[11px] font-bold text-gray-900 dark:text-white tracking-wide truncate">Admin</h4>
+              <p className="text-[8px] text-gray-500 dark:text-[#a1a1aa] font-semibold flex items-center gap-0.5 mt-0.5 uppercase tracking-wider truncate">
                 Administrator
-                <span className="text-[#F9FAFB]">✔</span>
+                <span className="text-gray-900 dark:text-[#F9FAFB]">✔</span>
               </p>
             </div>
           )}
@@ -117,14 +117,14 @@ const Sidebar = ({
       </div>
 
       {/* Upgrade business and Logout block - Fixed bottom */}
-      <div className="space-y-5 border-t border-white/5 pt-4 mt-4 shrink-0">
+      <div className="space-y-5 border-t border-slate-200 dark:border-white/5 pt-4 mt-4 shrink-0">
         {!isCollapsed && (
-          <div className="bg-gradient-to-br from-[#411b33] to-[#120822] border border-[#522241]/30 p-3.5 rounded-xl space-y-2 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#411b33] dark:to-[#120822] border border-slate-200 dark:border-[#522241]/30 p-3.5 rounded-xl space-y-2 relative overflow-hidden">
             <div>
-              <h5 className="text-[10px] font-bold text-white tracking-wide">Upgrade Your Business</h5>
-              <p className="text-[8px] text-[#a1a1aa] leading-tight mt-0.5">Explore premium features to grow your salon</p>
+              <h5 className="text-[10px] font-bold text-gray-900 dark:text-white tracking-wide">Upgrade Your Business</h5>
+              <p className="text-[8px] text-gray-500 dark:text-[#a1a1aa] leading-tight mt-0.5">Explore premium features to grow your salon</p>
             </div>
-            <button className="w-full bg-gradient-to-r from-[#d946ef] to-[#F9FAFB] text-white py-1.5 rounded-xl text-[9px] uppercase font-bold tracking-widest hover:opacity-95 transition-opacity cursor-pointer">
+            <button className="w-full bg-gradient-to-r from-[#d946ef] to-[#ec4899] text-white py-1.5 rounded-xl text-[9px] uppercase font-bold tracking-widest hover:opacity-95 transition-opacity cursor-pointer">
               Upgrade Now
             </button>
           </div>
@@ -132,7 +132,7 @@ const Sidebar = ({
 
         <button
           onClick={handleLogout}
-          className={`w-full bg-[#111827] border border-white/8 hover:bg-[#1c1a26] text-gray-300 hover:text-white py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+          className={`w-full bg-slate-50 dark:bg-[#111827] border border-slate-200 dark:border-white/8 hover:bg-slate-100 dark:hover:bg-[#1c1a26] text-gray-700 dark:text-gray-300 hover:text-gray-950 dark:hover:text-white py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
             isCollapsed ? "px-0" : ""
           }`}
           title={isCollapsed ? "Logout" : undefined}
@@ -151,7 +151,7 @@ const Sidebar = ({
       <motion.aside
         animate={{ width: isCollapsed ? 76 : 288 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="hidden lg:flex flex-col border-r border-white/5 bg-[#070b16] shrink-0 h-screen sticky top-0"
+        className="hidden lg:flex flex-col border-r border-slate-200 dark:border-white/5 bg-white dark:bg-[#070b16] shrink-0 h-screen sticky top-0"
       >
         {/* Toggle Collapse bar on desktop */}
         <button
@@ -181,7 +181,7 @@ const Sidebar = ({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.25 }}
-              className="fixed inset-y-0 left-0 w-72 bg-[#070b16] z-50 lg:hidden border-r border-white/5 shadow-2xl h-screen"
+              className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-[#070b16] z-50 lg:hidden border-r border-slate-200 dark:border-white/5 shadow-2xl h-screen"
             >
               {/* Close drawer icon */}
               <button
