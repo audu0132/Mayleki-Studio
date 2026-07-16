@@ -3194,8 +3194,16 @@ const Dashboard = () => {
           />
         )}
 
+        {/* GALLERY TAB */}
+        {activeTab === "gallery" && (
+          <GalleryWorkspace
+            API_BASE_URL={API_BASE_URL}
+            getAuthHeaders={getAuthHeaders}
+          />
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings", "reports", "reviews"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings", "reports", "reviews", "gallery"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
