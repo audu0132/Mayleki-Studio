@@ -55,6 +55,7 @@ import ConfirmDialog from "./components/ConfirmDialog";
 import SettingsWorkspace from "./SettingsWorkspace";
 import ReportsWorkspace from "./ReportsWorkspace";
 import ReviewsWorkspace from "./ReviewsWorkspace";
+import GalleryWorkspace from "./GalleryWorkspace";
 
 const Dashboard = () => {
   const navigate = useNavigate();
