@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Bell, ChevronDown, Menu, Moon, Sun, Plus, Sparkles, Check, LogOut, Settings } from "lucide-react";
 import logo from "../../../assets/logo.png";
 
@@ -6,7 +6,22 @@ const Topbar = ({
   onToggleMobile,
   onQuickAdd,
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved === "dark";
+    return document.documentElement.classList.contains("dark");
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
