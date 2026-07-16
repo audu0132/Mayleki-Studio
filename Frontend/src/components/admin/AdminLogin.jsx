@@ -67,7 +67,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-pink-50">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <form
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4"
@@ -132,7 +132,7 @@ const AdminLogin = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-pink-600 text-white py-2 rounded-lg flex justify-center items-center gap-2 disabled:bg-pink-300"
+          className="w-full bg-black text-white py-2 rounded-lg flex justify-center items-center gap-2 disabled:bg-black"
         >
           {loading ? (
             <>
@@ -148,7 +148,7 @@ const AdminLogin = () => {
         <div className="text-center text-sm">
           <Link
             to="/admin/registration"
-            className="text-pink-600 hover:underline"
+            className="text-black-600 hover:underline"
           >
             Create Admin Account
           </Link>
