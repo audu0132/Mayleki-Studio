@@ -3179,8 +3179,13 @@ const Dashboard = () => {
           />
         )}
 
+        {/* REPORTS TAB */}
+        {activeTab === "reports" && (
+          <ReportsWorkspace bookings={bookings} />
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings", "reports"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
