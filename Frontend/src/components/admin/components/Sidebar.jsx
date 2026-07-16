@@ -77,7 +77,7 @@ const Sidebar = ({
             <img
               src="https://api.dicebear.com/7.x/adventurer/svg?seed=admin-mayleki"
               alt="Admin Profile"
-              className="w-9 h-9 rounded-full bg-pink-100 border border-[#ec4899] p-0.5 object-cover"
+              className="w-9 h-9 rounded-full bg-gray-600 border border-[#F9FAFB] p-0.5 object-cover"
             />
             <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-green-500 border border-[#111827]"></span>
           </div>
@@ -86,7 +86,7 @@ const Sidebar = ({
               <h4 className="text-[11px] font-bold text-white tracking-wide truncate">Admin</h4>
               <p className="text-[8px] text-[#a1a1aa] font-semibold flex items-center gap-0.5 mt-0.5 uppercase tracking-wider truncate">
                 Administrator
-                <span className="text-[#ec4899]">✔</span>
+                <span className="text-[#F9FAFB]">✔</span>
               </p>
             </div>
           )}
@@ -103,7 +103,7 @@ const Sidebar = ({
                 onClick={() => handleTabClick(item.id)}
                 className={`w-full py-2.5 px-3.5 rounded-xl text-[12px] font-bold transition-all flex items-center relative gap-3 cursor-pointer shrink-0 ${
                   isActive
-                    ? "bg-[#ec4899]/10 text-[#ec4899] border-l-2 border-[#ec4899]"
+                    ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-l-2 border-[#F9FAFB]"
                     : "text-[#a1a1aa] hover:bg-white/5 hover:text-white"
                 } ${isCollapsed ? "justify-center" : ""}`}
                 title={isCollapsed ? item.label : undefined}
@@ -124,7 +124,7 @@ const Sidebar = ({
               <h5 className="text-[10px] font-bold text-white tracking-wide">Upgrade Your Business</h5>
               <p className="text-[8px] text-[#a1a1aa] leading-tight mt-0.5">Explore premium features to grow your salon</p>
             </div>
-            <button className="w-full bg-gradient-to-r from-[#d946ef] to-[#ec4899] text-white py-1.5 rounded-xl text-[9px] uppercase font-bold tracking-widest hover:opacity-95 transition-opacity cursor-pointer">
+            <button className="w-full bg-gradient-to-r from-[#d946ef] to-[#F9FAFB] text-white py-1.5 rounded-xl text-[9px] uppercase font-bold tracking-widest hover:opacity-95 transition-opacity cursor-pointer">
               Upgrade Now
             </button>
           </div>
