@@ -3168,8 +3168,18 @@ const Dashboard = () => {
           </motion.div>
         )}
 
+        {/* SETTINGS TAB */}
+        {activeTab === "settings" && (
+          <SettingsWorkspace
+            API_BASE_URL={API_BASE_URL}
+            getAuthHeaders={getAuthHeaders}
+            schedulerSettings={schedulerSettings}
+            onSaveSchedulerSettings={handleSaveSchedulerSettings}
+          />
+        )}
+
         {/* FALLBACK TABS */}
-        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff"].includes(activeTab) && (
+        {!["dashboard", "offers", "bookings", "courses", "appointments", "customers", "services", "staff", "settings"].includes(activeTab) && (
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 15 }}
