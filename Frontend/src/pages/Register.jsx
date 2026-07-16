@@ -52,7 +52,7 @@ const Register = () => {
     }
 
     // Email regex check
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
       return;
