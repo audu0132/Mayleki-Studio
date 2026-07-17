@@ -1,5 +1,6 @@
 import pytest
 import uuid
+import requests
 
 @pytest.fixture(scope="session")
 def api_base_url():
@@ -18,12 +19,21 @@ def unique_user_payload():
         "name": f"Test User {uid}",
         "email": f"test_{uid}@example.com",
         "phone": phone,
-        "password": "password123"
+        "password": "password123",
+        "confirmPassword": "password123"
     }
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def admin_credentials():
     return {
         "email": "admin@gmail.com",
         "password": "123456"
     }
+
+@pytest.fixture(scope="session", autouse=True)
+def ensure_admin_exists(api_base_url, admin_credentials):
+    """Automatically register the default admin user at the start of the test session."""
+    try:
+        requests.post(f"{api_base_url}/admin/register", json=admin_credentials, timeout=5)
+    except Exception as e:
+        print(f"Warning: Failed to ensure admin registration: {e}")
