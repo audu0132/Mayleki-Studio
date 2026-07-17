@@ -63,14 +63,14 @@ def test_customer_auth_lifecycle(api_base_url, unique_user_payload):
     response = requests.get(f"{api_base_url}/auth/profile", headers=headers)
     assert response.status_code == 200
     profile_data = response.json()
-    assert profile_data["email"] == unique_user_payload["email"]
+    assert profile_data["user"]["email"] == unique_user_payload["email"]
 
     # 5. Update Profile
     update_payload = {"name": "Updated Name"}
     response = requests.put(f"{api_base_url}/auth/profile", headers=headers, json=update_payload)
     assert response.status_code == 200
     updated_data = response.json()
-    assert updated_data["name"] == "Updated Name"
+    assert updated_data["user"]["name"] == "Updated Name"
 
     # 6. Logout
     response = requests.post(f"{api_base_url}/auth/logout")
