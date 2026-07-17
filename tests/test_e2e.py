@@ -6,11 +6,11 @@ def test_homepage_elements(page: Page, frontend_base_url):
     """Test that all key sections on the homepage render correctly."""
     page.goto(frontend_base_url)
 
-    # 1. Verify Header / Branding
-    expect(page.locator("text=Mayleki Studio & Academy").first).to_be_visible()
+    # 1. Verify Header Logo is visible
+    expect(page.locator("img[alt='Mayleki Logo']").first).to_be_visible()
 
     # 2. Verify Hero section elements
-    expect(page.locator("text=Mayleki").first).to_be_visible()
+    expect(page.locator("text=Reveal Your Natural Radiance").first).to_be_visible()
 
     # 3. Verify Services section is visible
     services_section = page.locator("#services")
@@ -48,9 +48,8 @@ def test_customer_registration_and_profile(page: Page, frontend_base_url):
     page.goto(f"{frontend_base_url}/profile")
     page.wait_for_url(f"{frontend_base_url}/profile")
 
-    # Verify input values in profile match registered details
+    # Verify input values in profile match registered details (email is not editable in profile)
     expect(page.locator("input[name='name']")).to_have_value(f"E2E Test User {uid}")
-    expect(page.locator("input[name='email']")).to_have_value(email)
     expect(page.locator("input[name='phone']")).to_have_value(phone)
 
 
@@ -68,11 +67,11 @@ def test_booking_flow(page: Page, frontend_base_url):
         dialog.accept()
     page.on("dialog", handle_dialog)
 
-    # Click first "Book Now" button on a service card
-    page.click("text=Book Now", strict=False)
+    # Click first "Book Now" button on a service card inside the services section
+    page.locator("#services button:has-text('Book Now')").first.click()
 
     # Verify Booking Modal appears
-    expect(page.locator("h2:has-text('Book')")).to_be_visible()
+    expect(page.locator("h2:has-text('Book')").first).to_be_visible()
 
     # Fill name & phone
     page.fill("input[placeholder='Your Name']", "E2E Booking Customer")
