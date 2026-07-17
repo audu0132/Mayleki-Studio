@@ -241,7 +241,7 @@ const SettingsWorkspace = ({
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white font-sans tracking-tight">Settings Workspace</h1>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Settings Workspace</h1>
           <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
             Manage business configurations, scheduler parameters & platform details
           </p>
@@ -249,7 +249,7 @@ const SettingsWorkspace = ({
       </div>
 
       {/* Sub-tab Navigation */}
-      <div className="flex border-b border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
+      <div className="flex border-b border-slate-200 dark:border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
         {subTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSubTab === tab.id;
@@ -259,8 +259,8 @@ const SettingsWorkspace = ({
               onClick={() => setActiveSubTab(tab.id)}
               className={`py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer border shrink-0 ${
                 isActive
-                  ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-white/10"
-                  : "text-[#a1a1aa] hover:bg-white/5 hover:text-white border-transparent"
+                  ? "bg-pink-50 dark:bg-pink-950/15 text-[#ec4899] border-[#ec4899]/20 dark:border-[#ec4899]/30"
+                  : "text-slate-500 dark:text-[#a1a1aa] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white border-transparent"
               }`}
             >
               <Icon size={14} />
@@ -379,9 +379,9 @@ const SettingsWorkspace = ({
                 <Card title="Booking Workflow" subtitle="Configure automated rules and service hours">
                   <div className="space-y-6 mt-2">
                     {/* Toggle auto confirm */}
-                    <div className="flex items-center justify-between bg-[#0c0b10] border border-[#232033] p-4.5 rounded-2xl">
+                    <div className="flex items-center justify-between bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] p-4.5 rounded-2xl">
                       <div className="space-y-1 pr-4">
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">Auto-Confirm Bookings</h4>
+                        <h4 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">Auto-Confirm Bookings</h4>
                         <p className="text-[10px] text-gray-500 leading-relaxed font-medium">
                           If enabled, new customer bookings are instantly marked as 'Confirmed'. If disabled, bookings enter 'Pending' status awaiting admin approval.
                         </p>
@@ -409,8 +409,8 @@ const SettingsWorkspace = ({
                     </div>
 
                     {/* Business Hours start/end */}
-                    <div className="bg-[#0c0b10] border border-[#232033] p-5 rounded-2xl space-y-4">
-                      <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <div className="bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] p-5 rounded-2xl space-y-4">
+                      <h4 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
                         <Clock size={14} className="text-[#ec4899]" />
                         Daily Operation Hours
                       </h4>
@@ -462,7 +462,7 @@ const SettingsWorkspace = ({
                 {/* Time Slots Section */}
                 <Card title="Appointment Time Slots" subtitle="Manage available booking slots on the scheduler">
                   <div className="space-y-5 mt-2">
-                    <div className="flex flex-wrap gap-2 p-4 bg-[#0c0b10] border border-[#232033] rounded-2xl min-h-[80px] items-center">
+                    <div className="flex flex-wrap gap-2 p-4 bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-2xl min-h-[80px] items-center">
                       {schedulerSettings?.timeSlots?.length === 0 ? (
                         <p className="text-[10px] text-gray-600 font-semibold uppercase tracking-wider mx-auto">
                           No active slots. Add slots below.
@@ -471,7 +471,7 @@ const SettingsWorkspace = ({
                         schedulerSettings?.timeSlots?.map((slot, idx) => (
                           <div
                             key={idx}
-                            className="bg-[#1f2937] border border-white/5 text-gray-200 text-[10px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 select-none"
+                            className="bg-slate-100 dark:bg-[#1f2937] border border-slate-200 dark:border-white/5 text-slate-700 dark:text-gray-200 text-[10px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 select-none"
                           >
                             <span>{slot}</span>
                             <button
@@ -503,16 +503,16 @@ const SettingsWorkspace = ({
                 {/* Quick Services Presets */}
                 <Card title="Quick-Add Service Presets" subtitle="Manage shortcuts for rapid appointment drafting">
                   <div className="space-y-5 mt-2">
-                    <div className="bg-[#0c0b10] border border-[#232033] rounded-2xl overflow-hidden">
+                    <div className="bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-2xl overflow-hidden">
                       <table className="w-full text-left border-collapse">
                         <thead>
-                          <tr className="border-b border-[#232033] bg-[#111827]">
-                            <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Service Name</th>
-                            <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Default Price</th>
-                            <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center w-20">Actions</th>
+                          <tr className="border-b border-slate-200 dark:border-[#232033] bg-slate-50 dark:bg-[#111827]">
+                            <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Service Name</th>
+                            <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Default Price</th>
+                            <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-center w-20">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#232033]/50">
+                        <tbody className="divide-y divide-slate-100 dark:divide-[#232033]/50">
                           {schedulerSettings?.services?.length === 0 ? (
                             <tr>
                               <td colSpan="3" className="p-8 text-center text-[10px] text-gray-600 font-semibold uppercase tracking-wider">
@@ -521,9 +521,9 @@ const SettingsWorkspace = ({
                             </tr>
                           ) : (
                             schedulerSettings?.services?.map((srv, idx) => (
-                              <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
-                                <td className="p-3.5 text-xs text-white font-medium">{srv.name}</td>
-                                <td className="p-3.5 text-xs text-gray-400 font-mono">₹{srv.price}</td>
+                              <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-colors">
+                                <td className="p-3.5 text-xs text-slate-800 dark:text-white font-medium">{srv.name}</td>
+                                <td className="p-3.5 text-xs text-slate-500 dark:text-gray-400 font-mono">₹{srv.price}</td>
                                 <td className="p-3.5 text-center">
                                   <button
                                     type="button"
