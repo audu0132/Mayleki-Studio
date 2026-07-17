@@ -1078,7 +1078,7 @@ const Dashboard = () => {
             className="space-y-8"
           >
             <div>
-              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Dashboard Workspace</h1>
+              <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Dashboard Workspace</h1>
               <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Real-time statistics & business metrics</p>
             </div>
 
@@ -1178,12 +1178,12 @@ const Dashboard = () => {
                   ].map((s, idx) => (
                     <div key={idx} className="space-y-1">
                       <div className="flex justify-between text-xs font-bold">
-                        <span className="text-white">{s.name}</span>
-                        <span className="text-gray-400">{s.count} bookings</span>
+                        <span className="text-slate-800 dark:text-white">{s.name}</span>
+                        <span className="text-slate-500 dark:text-gray-400">{s.count} bookings</span>
                       </div>
-                      <div className="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+                      <div className="w-full bg-slate-100 dark:bg-zinc-800 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-[#A855F7] to-[#F9FAFB] h-full rounded-full"
+                          className="bg-gradient-to-r from-[#A855F7] to-[#ec4899] h-full rounded-full"
                           style={{ width: s.pct }}
                         />
                       </div>
@@ -1196,26 +1196,26 @@ const Dashboard = () => {
 
             {/* Recent Activity Section */}
             <div className="space-y-4">
-              <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">Recent Reservation Logs</h2>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">Recent Reservation Logs</h2>
               
               {getRecentBookings().length === 0 ? (
                 <EmptyState title="No recent reservations" description="New customer bookings will appear here." />
               ) : (
                 <Table headers={["Customer", "Reserved Date", "Time Slot", "Status Badge"]}>
                   {getRecentBookings().map((booking) => (
-                    <tr key={booking._id} className="hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4 font-bold text-white flex items-center gap-2">
+                    <tr key={booking._id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                      <td className="px-6 py-4 font-bold text-slate-800 dark:text-white flex items-center gap-2">
                         <img
                           src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${booking.userName || booking.name || "user"}`}
                           alt="client avatar"
-                          className="w-7 h-7 rounded-full bg-zinc-800 border border-[#F9FAFB]/20"
+                          className="w-7 h-7 rounded-full bg-slate-100 dark:bg-zinc-800 border border-[#F9FAFB]/20"
                         />
                         {booking.userName || booking.name || "-"}
                       </td>
-                      <td className="px-6 py-4 text-gray-400">
+                      <td className="px-6 py-4 text-slate-500 dark:text-gray-400">
                         {booking.date ? new Date(booking.date).toLocaleDateString() : "-"}
                       </td>
-                      <td className="px-6 py-4 text-gray-400">
+                      <td className="px-6 py-4 text-slate-500 dark:text-gray-400">
                         {booking.timeSlot || booking.time || "-"}
                       </td>
                       <td className="px-6 py-4">
@@ -1254,14 +1254,14 @@ const Dashboard = () => {
                 
                 <button
                   onClick={cancelEdit}
-                  className="text-xs font-bold text-[#F9FAFB] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
+                  className="text-xs font-bold text-slate-700 dark:text-[#F9FAFB] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
                 >
                   <ArrowLeft size={13} />
                   Back to active offers
                 </button>
 
                 <div>
-                  <h1 className="text-3xl font-black text-white font-sans tracking-tight">Update Salon Offer</h1>
+                  <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Update Salon Offer</h1>
                   <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Configure promotional campaigns and review usage</p>
                 </div>
 
@@ -1448,7 +1448,7 @@ const Dashboard = () => {
               /* Offers grid list and Create Form */
               <div className="space-y-8">
                 <div>
-                  <h1 className="text-3xl font-black text-white font-sans tracking-tight">Promotions & Offers</h1>
+                  <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Promotions & Offers</h1>
                   <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Launch new deals or manage current promotional banners</p>
                 </div>
 
@@ -1500,7 +1500,7 @@ const Dashboard = () => {
 
                 {/* Campaign List */}
                 <div className="space-y-4">
-                  <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">Active Promotions</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">Active Promotions</h2>
                   
                   {loading ? (
                     <LoadingState type="grid" count={2} />
@@ -1569,12 +1569,12 @@ const Dashboard = () => {
             className="space-y-8"
           >
             <div>
-              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Client Reservations</h1>
+              <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Client Reservations</h1>
               <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Search, check schedules, and manage salon appointments.</p>
             </div>
 
             {/* Filters panel */}
-            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4">
+            <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4">
               <div className="relative flex-1">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
                   <Search size={14} />
@@ -1582,7 +1582,7 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search by customer name or phone..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -1590,7 +1590,7 @@ const Dashboard = () => {
 
               <input
                 type="date"
-                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
+                className="p-3 bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#ec4899] transition-all"
                 value={filterDate}
                 onChange={(e) => setFilterDate(e.target.value)}
               />
@@ -1609,15 +1609,15 @@ const Dashboard = () => {
             </div>
 
             {/* Dynamic Checker */}
-            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+            <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-sm font-bold tracking-wide uppercase text-white">Daily Slot Occupancy Index</h3>
+                  <h3 className="text-sm font-bold tracking-wide uppercase text-slate-800 dark:text-white">Daily Slot Occupancy Index</h3>
                   <p className="text-xs text-gray-500 mt-0.5">Select a date to audit reservations status across available slots</p>
                 </div>
                 <input
                   type="date"
-                  className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB]"
+                  className="border border-slate-200 dark:border-white/5 bg-white dark:bg-[#0c0b10] p-2.5 rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#ec4899]"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                 />
@@ -1632,8 +1632,8 @@ const Dashboard = () => {
                         key={slot}
                         className={`p-3 text-center rounded-xl font-bold border transition-colors ${
                           booked
-                            ? "bg-red-500/10 text-red-400 border-red-500/20"
-                            : "bg-green-500/10 text-green-400 border-green-500/20"
+                            ? "bg-red-50 dark:bg-red-500/10 text-red-650 dark:text-red-400 border-red-100 dark:border-red-500/20"
+                            : "bg-emerald-50 dark:bg-green-500/10 text-emerald-600 dark:text-green-400 border-emerald-100 dark:border-green-500/20"
                         }`}
                       >
                         <span className="text-[11px] tracking-wide block">{slot}</span>
@@ -1649,7 +1649,7 @@ const Dashboard = () => {
 
             {/* List */}
             <div className="space-y-4">
-              <h2 className="text-xl font-extrabold text-white font-sans tracking-tight">
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">
                 Reservations ({filteredBookings.length})
               </h2>
 
@@ -1660,47 +1660,47 @@ const Dashboard = () => {
                   {filteredBookings.map((b) => (
                     <div
                       key={b._id}
-                      className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#F9FAFB]/30 transition-colors"
+                      className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-slate-300 dark:hover:border-[#F9FAFB]/30 transition-colors"
                     >
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center border-b border-white/5 pb-2 text-white">
+                        <div className="flex justify-between items-center border-b border-slate-100 dark:border-white/5 pb-2 text-slate-800 dark:text-white">
                           <span className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                             b.status === "Cancelled"
-                              ? "bg-red-500/10 text-red-400 border-red-500/20"
+                              ? "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-100 dark:border-red-500/20"
                               : b.status === "Completed"
-                              ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                              : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                              ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/20"
+                              : "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20"
                           }`}>
                             {b.status || "Confirmed"}
                           </span>
-                          <span className="text-xs font-bold text-gray-200">
+                          <span className="text-xs font-bold text-slate-800 dark:text-gray-200">
                             {b.service || "Salon Treatment"}
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-slate-650 dark:text-slate-300">
                           <p>
-                            <span className="text-gray-500 text-[10px] block">Client Name</span>
-                            <span className="font-bold text-white">{b.userName || b.name || "-"}</span>
+                            <span className="text-slate-400 dark:text-gray-500 text-[10px] block">Client Name</span>
+                            <span className="font-bold text-slate-800 dark:text-white">{b.userName || b.name || "-"}</span>
                           </p>
                           <p>
-                            <span className="text-gray-500 text-[10px] block">Phone Number</span>
-                            <span className="font-bold text-white">{b.phone || "-"}</span>
+                            <span className="text-slate-400 dark:text-gray-500 text-[10px] block">Phone Number</span>
+                            <span className="font-bold text-slate-800 dark:text-white">{b.phone || "-"}</span>
                           </p>
                           <p>
-                            <span className="text-gray-500 text-[10px] block">Appointment Date</span>
-                            <span className="font-bold text-white">
+                            <span className="text-slate-400 dark:text-gray-500 text-[10px] block">Appointment Date</span>
+                            <span className="font-bold text-slate-800 dark:text-white">
                               {b.date ? new Date(b.date).toLocaleDateString() : "-"}
                             </span>
                           </p>
                           <p>
-                            <span className="text-gray-500 text-[10px] block">Time Slot</span>
-                            <span className="font-bold text-white">{b.timeSlot || b.time || "-"}</span>
+                            <span className="text-slate-400 dark:text-gray-500 text-[10px] block">Time Slot</span>
+                            <span className="font-bold text-slate-800 dark:text-white">{b.timeSlot || b.time || "-"}</span>
                           </p>
                         </div>
                       </div>
 
-                      <div className="border-t border-white/5 pt-3 flex justify-end">
+                      <div className="border-t border-slate-100 dark:border-white/5 pt-3 flex justify-end">
                         <Button
                           variant="danger"
                           size="sm"
@@ -1729,7 +1729,7 @@ const Dashboard = () => {
             className="space-y-8"
           >
             <div>
-              <h1 className="text-3xl font-black text-white font-sans tracking-tight">Academy Curriculum</h1>
+              <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Academy Curriculum</h1>
               <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">Configure academy course catalog and syllabi modules</p>
             </div>
 
@@ -1739,8 +1739,8 @@ const Dashboard = () => {
             </div>
 
             {/* Add Course Form */}
-            <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-white border-b border-white/5 pb-4 mb-2">Deploy New Academy Course</h3>
+            <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+              <h3 className="text-xs font-extrabold uppercase tracking-widest text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/5 pb-4 mb-2">Deploy New Academy Course</h3>
               <form onSubmit={handleCourseSubmit} className="space-y-4">
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1788,7 +1788,7 @@ const Dashboard = () => {
                     <input
                       key={idx}
                       placeholder={`Module detail summary ${idx + 1}`}
-                      className="w-full bg-[#0c0b10] border border-white/5 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#F9FAFB]"
+                      className="w-full bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl p-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#ec4899]"
                       value={feature}
                       onChange={(e) => {
                         const updated = [...courseForm.features];
@@ -1826,7 +1826,7 @@ const Dashboard = () => {
                 <EmptyState title="No published courses" description="Deploy an academy syllabus course card above to display details." />
               ) : (
                 courses.map((course) => (
-                  <div key={course._id} className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl">
+                  <div key={course._id} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl text-slate-800 dark:text-white">
                     {editingCourse === course._id ? (
                       <div className="space-y-3">
                         <Input
@@ -1871,13 +1871,13 @@ const Dashboard = () => {
                     ) : (
                       <div className="flex flex-col md:flex-row md:justify-between gap-6">
                         <div className="flex-1 space-y-3">
-                          <div className="flex justify-between items-start border-b border-white/5 pb-2 text-white">
+                          <div className="flex justify-between items-start border-b border-slate-100 dark:border-white/5 pb-2 text-slate-800 dark:text-white">
                             <h3 className="font-bold text-lg font-serif">{course.title}</h3>
-                            <span className="text-xs font-bold text-[#F9FAFB] bg-[#3b122c]/50 border border-[#F9FAFB]/20 px-2 py-0.5 rounded">
+                            <span className="text-xs font-bold text-pink-650 dark:text-[#F9FAFB] bg-pink-50 dark:bg-[#3b122c]/50 border border-pink-100 dark:border-[#F9FAFB]/20 px-2 py-0.5 rounded">
                               {course.duration}
                             </span>
                           </div>
-                          <p className="text-gray-400 text-xs leading-relaxed">{course.description}</p>
+                          <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">{course.description}</p>
                           {course.image && (
                             <img
                               src={course.image}
@@ -1924,7 +1924,7 @@ const Dashboard = () => {
             {/* Header Block */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Appointments Workspace</h1>
+                <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Appointments Workspace</h1>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
                   Manage live schedule, book clients, and adjust workspace timing configurations
                 </p>
@@ -1965,51 +1965,51 @@ const Dashboard = () => {
 
             {/* Quick Stats Bar */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+              <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Day Occupancy</span>
-                  <h4 className="text-xl font-extrabold text-white mt-1">
+                  <h4 className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
                     {getSchedulerStats().occupied} / {schedulerSettings.timeSlots.length}
                   </h4>
                 </div>
-                <div className="p-3 bg-[#F9FAFB]/10 rounded-xl text-[#F9FAFB]">
+                <div className="p-3 bg-slate-100 dark:bg-[#F9FAFB]/10 rounded-xl text-slate-700 dark:text-[#F9FAFB]">
                   <Calendar size={18} />
                 </div>
               </div>
 
-              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+              <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Confirmed Slots</span>
-                  <h4 className="text-xl font-extrabold text-emerald-400 mt-1">
+                  <h4 className="text-xl font-extrabold text-emerald-650 dark:text-emerald-400 mt-1">
                     {getSchedulerStats().confirmed}
                   </h4>
                 </div>
-                <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-400">
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl text-emerald-600 dark:text-emerald-400">
                   <Activity size={18} />
                 </div>
               </div>
 
-              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+              <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Pending Requests</span>
-                  <h4 className="text-xl font-extrabold text-amber-400 mt-1">
+                  <h4 className="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">
                     {getSchedulerStats().pending}
                   </h4>
                 </div>
-                <div className="p-3 bg-amber-500/10 rounded-xl text-amber-400">
+                <div className="p-3 bg-amber-50 dark:bg-amber-500/10 rounded-xl text-amber-600 dark:text-amber-400">
                   <Bell size={18} />
                 </div>
               </div>
 
-              <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
+              <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-4 rounded-2xl flex items-center justify-between shadow-xl">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Projected Revenue</span>
-                  <h4 className="text-xl font-extrabold text-white mt-1 flex items-center">
+                  <h4 className="text-xl font-extrabold text-slate-900 dark:text-white mt-1 flex items-center">
                     <IndianRupee size={15} />
                     {getSchedulerStats().revenue}
                   </h4>
                 </div>
-                <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-400">
+                <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl text-indigo-600 dark:text-indigo-400">
                   <TrendingUp size={18} />
                 </div>
               </div>
@@ -2020,15 +2020,15 @@ const Dashboard = () => {
               
               {/* Left Column: Interactive Scheduler Grid */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 pb-4">
                     <div>
-                      <h3 className="text-sm font-bold tracking-wide uppercase text-white">Interactive Schedule</h3>
+                      <h3 className="text-sm font-bold tracking-wide uppercase text-slate-800 dark:text-white">Interactive Schedule</h3>
                       <p className="text-xs text-gray-500 mt-0.5">Select a date to audit, reschedule, or configure bookings.</p>
                     </div>
                     <input
                       type="date"
-                      className="border border-white/5 bg-[#0c0b10] p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
+                      className="border border-slate-200 dark:border-white/5 bg-white dark:bg-[#0c0b10] p-2.5 rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#ec4899] dark:focus:border-[#F9FAFB] transition-all"
                       value={selectedSchedulerDate}
                       onChange={(e) => setSelectedSchedulerDate(e.target.value)}
                     />
@@ -2045,17 +2045,17 @@ const Dashboard = () => {
                           key={slot}
                           className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group ${
                             isBooked
-                              ? "bg-[#161f30]/60 border-white/10 hover:border-[#F9FAFB]/30"
+                              ? "bg-indigo-50/40 dark:bg-[#161f30]/60 border-slate-200 dark:border-white/10 hover:border-slate-350 dark:hover:border-[#F9FAFB]/30"
                               : isCancelled
-                              ? "bg-red-950/10 border-red-500/10 hover:bg-red-950/20"
-                              : "border-dashed border-zinc-800/80 hover:border-zinc-600 hover:bg-white/5"
+                              ? "bg-red-50/40 dark:bg-red-950/10 border-red-200 dark:border-red-500/10 hover:bg-red-50/60 dark:hover:bg-red-950/20"
+                              : "border-dashed border-slate-200 dark:border-zinc-800/80 hover:border-slate-300 dark:hover:border-zinc-600 hover:bg-slate-50 dark:hover:bg-white/5"
                           }`}
                         >
                           <div className="flex items-center gap-4">
                             <div className={`py-1.5 px-3 rounded-xl text-[11px] font-bold font-mono tracking-wider flex items-center gap-1.5 shrink-0 ${
                               isBooked
-                                ? "bg-[#F9FAFB]/10 text-[#F9FAFB]"
-                                : "bg-zinc-800 text-gray-400"
+                                ? "bg-slate-100 dark:bg-[#F9FAFB]/10 text-slate-700 dark:text-[#F9FAFB]"
+                                : "bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-gray-400"
                             }`}>
                               <Clock size={11} />
                               {slot}
@@ -2064,7 +2064,7 @@ const Dashboard = () => {
                             {isBooked ? (
                               <div className="min-w-0">
                                 <div className="flex items-center gap-2">
-                                  <h4 className="font-extrabold text-sm text-white truncate">
+                                  <h4 className="font-extrabold text-sm text-slate-800 dark:text-white truncate">
                                     {booking.userName || booking.name}
                                   </h4>
                                   <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border leading-none ${
@@ -2077,10 +2077,10 @@ const Dashboard = () => {
                                     {booking.status || "Confirmed"}
                                   </span>
                                 </div>
-                                <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-2">
-                                  <span className="text-[#F9FAFB] font-bold">★</span> {booking.service || "Salon Treatment"}
-                                  <span className="text-zinc-700">|</span> 
-                                  <span className="font-mono text-zinc-500">{booking.phone || "-"}</span>
+                                <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1 flex items-center gap-2">
+                                  <span className="text-pink-500 dark:text-[#F9FAFB] font-bold">★</span> {booking.service || "Salon Treatment"}
+                                  <span className="text-slate-205 dark:text-zinc-700">|</span> 
+                                  <span className="font-mono text-slate-400 dark:text-zinc-500">{booking.phone || "-"}</span>
                                 </p>
                               </div>
                             ) : isCancelled ? (
@@ -2103,7 +2103,7 @@ const Dashboard = () => {
                           <div className="flex items-center justify-end gap-3 shrink-0">
                             {isBooked ? (
                               <>
-                                <div className="text-xs font-black text-white font-mono bg-zinc-800/80 px-2.5 py-1 rounded border border-white/5">
+                                <div className="text-xs font-black text-slate-800 dark:text-white font-mono bg-slate-100 dark:bg-zinc-800/80 px-2.5 py-1 rounded border border-slate-200 dark:border-white/5">
                                   ₹{booking.price || 0}
                                 </div>
                                 <button
@@ -2122,7 +2122,7 @@ const Dashboard = () => {
                                     setAppointmentError("");
                                     setIsEditAppointmentModalOpen(true);
                                   }}
-                                  className="p-2 rounded-lg bg-zinc-800 hover:bg-[#F9FAFB]/10 text-gray-400 hover:text-[#F9FAFB] transition-all cursor-pointer"
+                                  className="p-2 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-[#F9FAFB]/10 text-slate-650 dark:text-gray-400 hover:text-slate-900 dark:hover:text-[#F9FAFB] transition-all cursor-pointer"
                                   title="Edit Reservation"
                                 >
                                   <Edit2 size={13} />
@@ -2321,29 +2321,29 @@ const Dashboard = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
-                    <div className="border-b border-white/5 pb-3">
-                      <h3 className="font-extrabold text-sm uppercase text-white">Daily Summary Panel</h3>
+                  <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="border-b border-slate-100 dark:border-white/5 pb-3">
+                      <h3 className="font-extrabold text-sm uppercase text-slate-800 dark:text-white">Daily Summary Panel</h3>
                       <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold mt-0.5">
                         Selected Date: {new Date(selectedSchedulerDate).toLocaleDateString("en-GB", { day: 'numeric', month: 'long', year: 'numeric' })}
                       </p>
                     </div>
 
                     <div className="space-y-4">
-                      <div className="bg-[#0c0b10] p-4 rounded-xl space-y-2 border border-white/5">
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">Occupancy Rate</h4>
+                      <div className="bg-slate-50 dark:bg-[#0c0b10] p-4 rounded-xl space-y-2 border border-slate-200 dark:border-white/5">
+                        <h4 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">Occupancy Rate</h4>
                         <div className="flex justify-between items-center text-xs">
-                          <span className="text-gray-400">Total Available Slots</span>
-                          <span className="font-bold font-mono text-white">{schedulerSettings.timeSlots.length}</span>
+                          <span className="text-slate-500 dark:text-gray-400">Total Available Slots</span>
+                          <span className="font-bold font-mono text-slate-800 dark:text-white">{schedulerSettings.timeSlots.length}</span>
                         </div>
                         <div className="flex justify-between items-center text-xs">
-                          <span className="text-gray-400">Booked Reservations</span>
-                          <span className="font-bold font-mono text-[#F9FAFB]">{getSchedulerStats().occupied}</span>
+                          <span className="text-slate-500 dark:text-gray-400">Booked Reservations</span>
+                          <span className="font-bold font-mono text-slate-800 dark:text-[#F9FAFB]">{getSchedulerStats().occupied}</span>
                         </div>
                         
-                        <div className="w-full bg-zinc-800 rounded-full h-1.5 mt-2 overflow-hidden">
+                        <div className="w-full bg-slate-100 dark:bg-zinc-800 rounded-full h-1.5 mt-2 overflow-hidden">
                           <div 
-                            className="bg-gradient-to-r from-[#d946ef] to-[#F9FAFB] h-1.5 rounded-full transition-all"
+                            className="bg-gradient-to-r from-[#d946ef] to-[#ec4899] h-1.5 rounded-full transition-all"
                             style={{ 
                               width: `${(getSchedulerStats().occupied / (schedulerSettings.timeSlots.length || 1)) * 100}%` 
                             }}
@@ -2352,9 +2352,9 @@ const Dashboard = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Need Help?</h4>
-                        <div className="bg-[#F9FAFB]/5 border border-[#F9FAFB]/15 p-3.5 rounded-xl text-[11px] text-gray-400 leading-relaxed">
-                          <span className="font-bold text-white block mb-0.5">Scheduler Guidelines:</span>
+                        <h4 className="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Need Help?</h4>
+                        <div className="bg-slate-50 dark:bg-[#F9FAFB]/5 border border-slate-200 dark:border-[#F9FAFB]/15 p-3.5 rounded-xl text-[11px] text-slate-650 dark:text-gray-400 leading-relaxed">
+                          <span className="font-bold text-slate-850 dark:text-white block mb-0.5">Scheduler Guidelines:</span>
                           Select any slot to quickly deploy new bookings or reschedule active customer slots. Conflicting slots are automatically prevented to prevent double booking.
                         </div>
                       </div>
@@ -2381,7 +2381,7 @@ const Dashboard = () => {
             {/* Header Block */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Customers Workspace</h1>
+                <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Customers Workspace</h1>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
                   Manage registered salon clients, inspect visits, and view total customer spend
                 </p>
@@ -2469,7 +2469,7 @@ const Dashboard = () => {
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="w-full text-xs text-left">
-                        <thead className="bg-[#0c0b10] border-b border-white/8 text-[10px] font-bold uppercase tracking-wider text-gray-400 select-none">
+                        <thead className="bg-slate-50 dark:bg-[#0c0b10] border-b border-slate-200 dark:border-white/8 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-400 select-none">
                           <tr>
                             <th className="px-6 py-4 font-extrabold">Client</th>
                             <th className="px-6 py-4 font-extrabold">Contact Info</th>
@@ -2478,7 +2478,7 @@ const Dashboard = () => {
                             <th className="px-6 py-4 font-extrabold text-right">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5 font-medium text-gray-300">
+                        <tbody className="divide-y divide-slate-100 dark:divide-white/5 font-medium text-slate-700 dark:text-gray-300">
                           {customers
                             .filter(c => {
                               const q = customerSearchQuery.toLowerCase();
@@ -2495,28 +2495,28 @@ const Dashboard = () => {
                                   key={customer._id}
                                   onClick={() => setSelectedCustomer(customer)}
                                   className={`transition-colors cursor-pointer ${
-                                    isSelected ? "bg-[#F9FAFB]/5 border-l-2 border-[#F9FAFB]" : "hover:bg-white/5"
+                                    isSelected ? "bg-pink-50/50 dark:bg-[#F9FAFB]/5 border-l-2 border-[#ec4899] dark:border-l-2 dark:border-[#F9FAFB]" : "hover:bg-slate-50 dark:hover:bg-white/5"
                                   }`}
                                 >
-                                  <td className="px-6 py-4 font-bold text-white flex items-center gap-3">
+                                  <td className="px-6 py-4 font-bold text-slate-800 dark:text-white flex items-center gap-3">
                                     <img
                                       src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${customer.name || "user"}`}
                                       alt="client avatar"
-                                      className="w-8 h-8 rounded-full bg-zinc-800 border border-[#F9FAFB]/20"
+                                      className="w-8 h-8 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-[#F9FAFB]/20"
                                     />
                                     <div>
                                       <span className="block font-bold text-sm">{customer.name}</span>
-                                      <span className="text-[10px] text-gray-500 font-mono">ID: {customer._id.slice(-6)}</span>
+                                      <span className="text-[10px] text-slate-400 dark:text-gray-500 font-mono">ID: {customer._id.slice(-6)}</span>
                                     </div>
                                   </td>
-                                  <td className="px-6 py-4 text-gray-400">
-                                    <span className="block text-white font-mono">{customer.phone}</span>
-                                    <span className="block text-[10px] text-gray-500 truncate max-w-[180px]">{customer.email}</span>
+                                  <td className="px-6 py-4 text-slate-500 dark:text-gray-400">
+                                    <span className="block text-slate-800 dark:text-white font-mono">{customer.phone}</span>
+                                    <span className="block text-[10px] text-slate-400 dark:text-gray-500 truncate max-w-[180px]">{customer.email}</span>
                                   </td>
-                                  <td className="px-6 py-4 text-center font-mono font-bold text-white">
+                                  <td className="px-6 py-4 text-center font-mono font-bold text-slate-800 dark:text-white">
                                     {customer.totalBookings || 0}
                                   </td>
-                                  <td className="px-6 py-4 text-right font-mono font-bold text-emerald-400">
+                                  <td className="px-6 py-4 text-right font-mono font-bold text-emerald-650 dark:text-emerald-400">
                                     ₹{(customer.totalSpent || 0).toLocaleString()}
                                   </td>
                                   <td className="px-6 py-4 text-right">
@@ -2713,7 +2713,7 @@ const Dashboard = () => {
             {/* Header Block */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Services Workspace</h1>
+                <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Services Workspace</h1>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
                   Manage salon catalog services, descriptions, pricing, and availability
                 </p>
@@ -2777,7 +2777,7 @@ const Dashboard = () => {
             </div>
 
             {/* Toolbar Filter */}
-            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
+            <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
                   <Search size={14} />
@@ -2785,14 +2785,14 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search services by name or description..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                   value={serviceSearchQuery}
                   onChange={(e) => setServiceSearchQuery(e.target.value)}
                 />
               </div>
 
               <select
-                className="p-3 bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
+                className="p-3 bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#F9FAFB] transition-all"
                 value={selectedCategoryFilter}
                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
               >
@@ -2833,7 +2833,7 @@ const Dashboard = () => {
                   .map((srv) => (
                     <div
                       key={srv._id}
-                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#F9FAFB]/30 transition-all duration-300"
+                      className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-slate-350 dark:hover:border-[#F9FAFB]/30 transition-all duration-300"
                     >
                       <div className="relative aspect-video bg-zinc-900 overflow-hidden">
                         {srv.image ? (
@@ -2843,12 +2843,12 @@ const Dashboard = () => {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 border-b border-white/5 text-gray-600">
-                            <Scissors size={32} className="text-[#F9FAFB]/30 mb-2" />
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500">No Image</span>
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 dark:bg-zinc-900 border-b border-slate-100 dark:border-white/5 text-slate-400 dark:text-gray-600">
+                            <Scissors size={32} className="text-slate-300 dark:text-[#F9FAFB]/30 mb-2" />
+                            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 dark:text-zinc-500">No Image</span>
                           </div>
                         )}
-                        <span className="absolute top-3 left-3 bg-[#0c0b10]/80 backdrop-blur-xs border border-white/5 text-[9px] font-bold text-white uppercase tracking-wider px-2 py-0.5 rounded-lg select-none">
+                        <span className="absolute top-3 left-3 bg-white/95 dark:bg-[#0c0b10]/80 backdrop-blur-xs border border-slate-200 dark:border-white/5 text-[9px] font-bold text-slate-800 dark:text-white uppercase tracking-wider px-2 py-0.5 rounded-lg select-none">
                           {srv.category || "General"}
                         </span>
                         
@@ -2863,25 +2863,25 @@ const Dashboard = () => {
 
                       <div className="p-5 flex-1 flex flex-col justify-between gap-4">
                         <div className="space-y-2">
-                          <h3 className="font-bold text-base text-white truncate font-serif" title={srv.name}>
+                          <h3 className="font-bold text-base text-slate-800 dark:text-white truncate font-serif" title={srv.name}>
                             {srv.name}
                           </h3>
-                          <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 min-h-[54px]">
+                          <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed line-clamp-3 min-h-[54px]">
                             {srv.description || "No description provided."}
                           </p>
                           <div className="flex gap-4 pt-1 select-none">
-                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                            <div className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
                               <Clock size={11} className="text-[#F9FAFB]" />
                               {srv.duration ? `${srv.duration} mins` : "Flexible"}
                             </div>
-                            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
-                              <span className="text-[#F9FAFB] font-bold">₹</span>
+                            <div className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                              <span className="text-[#F9FAFB] font-bold font-sans">₹</span>
                               {srv.price}
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex justify-end gap-2.5 border-t border-white/5 pt-4 mt-2">
+                        <div className="flex justify-end gap-2.5 border-t border-slate-100 dark:border-white/5 pt-4 mt-2">
                           <button
                             type="button"
                             onClick={() => {
@@ -2933,7 +2933,7 @@ const Dashboard = () => {
             {/* Header Block */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-black text-white font-sans tracking-tight">Staff Workspace</h1>
+                <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Staff Workspace</h1>
                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
                   Manage staff details, assigned services, specialties, and shifts
                 </p>
@@ -3000,7 +3000,7 @@ const Dashboard = () => {
             </div>
 
             {/* Toolbar Filter */}
-            <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
+            <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
                   <Search size={14} />
@@ -3008,7 +3008,7 @@ const Dashboard = () => {
                 <input
                   type="text"
                   placeholder="Search staff by name, email, or role..."
-                  className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
+                  className="pl-10 pr-3 py-3 w-full bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
                   value={staffSearchQuery}
                   onChange={(e) => setStaffSearchQuery(e.target.value)}
                 />
@@ -3043,7 +3043,7 @@ const Dashboard = () => {
                   .map((member) => (
                     <div
                       key={member._id}
-                      className="bg-[#111827] border border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-[#F9FAFB]/30 transition-all duration-300"
+                      className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden group hover:border-slate-350 dark:hover:border-[#F9FAFB]/30 transition-all duration-300"
                     >
                       <div className="p-5 flex-1 flex flex-col justify-between gap-4">
                         <div className="space-y-4">
@@ -3052,33 +3052,33 @@ const Dashboard = () => {
                             <img
                               src={member.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.name}`}
                               alt={member.name}
-                              className="w-12 h-12 rounded-full border border-white/10 object-cover bg-zinc-900"
+                              className="w-12 h-12 rounded-full border border-slate-200 dark:border-white/10 object-cover bg-slate-100 dark:bg-zinc-900"
                             />
                             <div className="min-w-0">
-                              <h3 className="font-bold text-sm text-white truncate" title={member.name}>
+                              <h3 className="font-bold text-sm text-slate-800 dark:text-white truncate" title={member.name}>
                                 {member.name}
                               </h3>
-                              <span className="inline-block bg-[#F9FAFB]/10 text-[#F9FAFB] border border-[#F9FAFB]/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mt-1">
+                              <span className="inline-block bg-slate-100 dark:bg-[#F9FAFB]/10 text-slate-700 dark:text-[#F9FAFB] border border-slate-200 dark:border-[#F9FAFB]/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md mt-1">
                                 {member.role}
                               </span>
                             </div>
                           </div>
 
                           {/* Contact Details */}
-                          <div className="space-y-1.5 text-xs text-gray-400 border-t border-white/5 pt-3">
+                          <div className="space-y-1.5 text-xs text-slate-500 dark:text-gray-400 border-t border-slate-100 dark:border-white/5 pt-3">
                             <div className="flex justify-between">
                               <span className="text-zinc-500">Email:</span>
-                              <span className="truncate max-w-[150px] text-white" title={member.email}>{member.email}</span>
+                              <span className="truncate max-w-[150px] text-slate-800 dark:text-white" title={member.email}>{member.email}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-zinc-500">Phone:</span>
-                              <span className="text-white">{member.phone}</span>
+                              <span className="text-slate-800 dark:text-white">{member.phone}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-zinc-500">Status:</span>
                               <span className={`font-semibold ${
-                                member.status === "Active" ? "text-green-400" :
-                                member.status === "On Leave" ? "text-amber-400" : "text-red-400"
+                                member.status === "Active" ? "text-emerald-600 dark:text-green-400" :
+                                member.status === "On Leave" ? "text-amber-600 dark:text-amber-400" : "text-red-650 dark:text-red-400"
                               }`}>
                                 {member.status}
                               </span>
@@ -3091,7 +3091,7 @@ const Dashboard = () => {
                               <span className="text-[10px] text-zinc-500 uppercase font-black tracking-wider block">Specialties</span>
                               <div className="flex flex-wrap gap-1">
                                 {member.specialties.map((spec, i) => (
-                                  <span key={i} className="bg-zinc-800 text-zinc-300 text-[9px] px-1.5 py-0.5 rounded border border-white/5">
+                                  <span key={i} className="bg-slate-100 dark:bg-zinc-800 text-slate-750 dark:text-zinc-300 text-[9px] px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/5">
                                     {spec}
                                   </span>
                                 ))}
@@ -3102,9 +3102,9 @@ const Dashboard = () => {
                           {/* Working Hours / Days */}
                           <div className="space-y-1 text-[10px]">
                             <span className="text-zinc-500 uppercase font-black tracking-wider block">Hours & Schedule</span>
-                            <div className="text-gray-400 bg-black/30 p-2 rounded-lg border border-white/5 space-y-1">
+                            <div className="text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-black/30 p-2 rounded-lg border border-slate-200 dark:border-white/5 space-y-1">
                               <div>🕒 {member.workingHours?.start || "10:00 AM"} - {member.workingHours?.end || "08:00 PM"}</div>
-                              <div className="truncate text-white" title={member.workingDays?.join(", ")}>
+                              <div className="truncate text-slate-800 dark:text-white" title={member.workingDays?.join(", ")}>
                                 📅 {member.workingDays && member.workingDays.length === 7 ? "Everyday" : member.workingDays?.join(", ")}
                               </div>
                             </div>
@@ -3116,19 +3116,19 @@ const Dashboard = () => {
                             <div className="flex flex-wrap gap-1 max-h-[72px] overflow-y-auto pr-0.5 scrollbar-none">
                               {member.services && member.services.length > 0 ? (
                                 member.services.map((srv) => (
-                                  <span key={srv._id} className="bg-[#F9FAFB]/5 text-zinc-300 border border-[#F9FAFB]/15 text-[9px] px-1.5 py-0.5 rounded">
+                                  <span key={srv._id} className="bg-slate-100 dark:bg-[#F9FAFB]/5 text-slate-750 dark:text-zinc-300 border border-slate-205 dark:border-[#F9FAFB]/15 text-[9px] px-1.5 py-0.5 rounded">
                                     {srv.name}
                                   </span>
                                 ))
                               ) : (
-                                <span className="text-[10px] text-zinc-600 italic">No services assigned</span>
+                                <span className="text-[10px] text-zinc-650 italic">No services assigned</span>
                               )}
                             </div>
                           </div>
 
                         </div>
 
-                        <div className="flex justify-end gap-2 border-t border-white/5 pt-4 mt-4">
+                        <div className="flex justify-end gap-2 border-t border-slate-100 dark:border-white/5 pt-4 mt-4">
                           <button
                             type="button"
                             onClick={() => {
@@ -3149,7 +3149,7 @@ const Dashboard = () => {
                               setStaffError("");
                               setIsEditStaffModalOpen(true);
                             }}
-                            className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                            className="text-xs font-bold text-slate-650 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
                             <Edit2 size={11} className="text-[#F9FAFB]" />
                             Edit
@@ -3213,7 +3213,7 @@ const Dashboard = () => {
             className="space-y-6"
           >
             <div>
-              <h1 className="text-3xl font-black text-white font-sans tracking-tight capitalize">
+              <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight capitalize">
                 {activeTab} Workspace
               </h1>
               <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
