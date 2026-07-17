@@ -218,7 +218,7 @@ const GalleryWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white font-sans tracking-tight">Gallery Workspace</h1>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Gallery Workspace</h1>
           <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
             Manage your visual portfolio and publish client transformations to the frontend feed
           </p>
@@ -334,7 +334,7 @@ const GalleryWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
               {/* Text content & controls */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
                     <FileText size={12} className="text-[#ec4899]" />
                     Caption
                   </h4>
@@ -343,7 +343,7 @@ const GalleryWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-white/5 pt-3.5 mt-auto">
+                <div className="flex items-center justify-between border-t border-slate-100 dark:border-white/5 pt-3.5 mt-auto">
                   {/* Toggle view live */}
                   <button
                     type="button"
@@ -412,9 +412,9 @@ const GalleryWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
             />
             
             {/* Toggle Switch to publish */}
-            <div className="flex items-center justify-between border border-[#232033]/60 bg-[#0c0b10] p-3 rounded-xl">
+            <div className="flex items-center justify-between border border-slate-200 dark:border-[#232033]/60 bg-slate-50 dark:bg-[#0c0b10] p-3 rounded-xl">
               <div className="pr-2 select-none">
-                <h4 className="text-[10px] font-bold text-white uppercase tracking-wider">Publish Instantly</h4>
+                <h4 className="text-[10px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">Publish Instantly</h4>
                 <p className="text-[8px] text-gray-500 font-medium leading-none mt-0.5">Show on homepage immediately</p>
               </div>
               <button
