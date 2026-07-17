@@ -65,6 +65,16 @@ router.post("/", async (req, res) => {
       }
     }
 
+    let parsedPrice = 0;
+    if (price) {
+      if (typeof price === "number") {
+        parsedPrice = price;
+      } else if (typeof price === "string") {
+        const cleaned = price.replace(/[^\d]/g, "");
+        parsedPrice = cleaned ? parseInt(cleaned, 10) : 0;
+      }
+    }
+
     const booking = new Booking({
       user: userId,
       userName: name,
@@ -72,7 +82,7 @@ router.post("/", async (req, res) => {
       date,
       timeSlot: time,
       service,
-      price,
+      price: parsedPrice,
       status: "Confirmed"
     });
 

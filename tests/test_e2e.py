@@ -90,8 +90,13 @@ def test_booking_flow(page: Page, frontend_base_url):
     # Click "Confirm Booking"
     page.click("button[type='submit']:has-text('Confirm Booking')")
 
-    # Verify the confirmation alert was triggered
-    page.wait_for_timeout(1000) # give time for network request
+    # Wait for the dialog to trigger (up to 5 seconds)
+    for _ in range(50):
+        if dialog_messages:
+            break
+        page.wait_for_timeout(100)
+
+    print("Captured dialog messages:", dialog_messages)
     assert any("Booking Confirmed" in msg for msg in dialog_messages)
 
 
