@@ -19,13 +19,13 @@ const ConfirmDialog = ({
       <div className="space-y-5 text-center py-2 flex flex-col items-center">
         
         {/* Warning Icon Banner */}
-        <div className="p-3.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/15">
+        <div className="p-3.5 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/15">
           <AlertTriangle size={28} />
         </div>
 
         {/* Details text */}
         <div className="space-y-1">
-          <p className="text-xs text-gray-400 leading-relaxed">{description}</p>
+          <p className="text-xs text-slate-500 dark:text-gray-400 leading-relaxed">{description}</p>
         </div>
 
         {/* Buttons */}
