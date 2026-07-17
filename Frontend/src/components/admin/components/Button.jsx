@@ -17,10 +17,10 @@ const Button = ({
   
   const variants = {
     primary: "bg-gradient-to-r from-[#d946ef] to-[#ec4899] hover:opacity-95 text-white shadow-md shadow-[#ec4899]/10",
-    secondary: "bg-[#1f2937] hover:bg-[#374151] text-gray-200 border border-zinc-700/50",
-    outline: "bg-transparent border border-zinc-700 hover:border-zinc-500 text-white hover:bg-white/5",
-    danger: "bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20",
-    ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-white/5",
+    secondary: "bg-slate-100 dark:bg-[#1f2937] hover:bg-slate-200 dark:hover:bg-[#374151] text-slate-800 dark:text-gray-200 border border-slate-300 dark:border-zinc-700/50",
+    outline: "bg-transparent border border-slate-300 dark:border-zinc-700 hover:border-slate-450 dark:hover:border-zinc-500 text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-white/5",
+    danger: "bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20",
+    ghost: "bg-transparent text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5",
   };
 
   const sizes = {
