@@ -226,18 +226,18 @@ const Topbar = ({
                 className="fixed inset-0 z-40"
               />
               <div className="absolute right-0 mt-2.5 w-48 bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl py-2 shadow-2xl z-50 animate-fadeIn">
-                <div className="px-4 py-2 border-b border-white/5">
-                  <p className="text-[10px] font-bold text-[#F9FAFB] uppercase tracking-wider">Premium Partner</p>
-                  <p className="text-xs font-bold text-white truncate mt-0.5">Mayleki Academy</p>
+                <div className="px-4 py-2 border-b border-slate-100 dark:border-white/5">
+                  <p className="text-[10px] font-bold text-slate-400 dark:text-[#F9FAFB] uppercase tracking-wider">Premium Partner</p>
+                  <p className="text-xs font-bold text-slate-800 dark:text-white truncate mt-0.5">Mayleki Academy</p>
                 </div>
                 <button
                   onClick={() => setShowProfileMenu(false)}
-                  className="w-full text-left px-4 py-2 text-xs font-bold text-gray-300 hover:bg-white/5 hover:text-white flex items-center gap-2 cursor-pointer mt-1"
+                  className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 cursor-pointer mt-1"
                 >
                   <Settings size={12} />
                   Settings
                 </button>
-                <div className="border-t border-white/5 my-1" />
+                <div className="border-t border-slate-100 dark:border-white/5 my-1" />
                 <button
                   onClick={() => {
                     setShowProfileMenu(false);
@@ -245,7 +245,7 @@ const Topbar = ({
                     localStorage.removeItem("adminToken");
                     window.location.reload();
                   }}
-                  className="w-full text-left px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-500/10 flex items-center gap-2 cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-xs font-bold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex items-center gap-2 cursor-pointer"
                 >
                   <LogOut size={12} />
                   Sign Out
