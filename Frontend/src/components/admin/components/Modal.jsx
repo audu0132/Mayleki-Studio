@@ -29,15 +29,15 @@ const Modal = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`w-full max-w-lg bg-[#111827] border border-white/8 rounded-2xl p-6 shadow-2xl relative overflow-hidden z-10 max-h-[90vh] flex flex-col ${className}`}
+            className={`w-full max-w-lg bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 shadow-2xl relative overflow-hidden z-10 max-h-[90vh] flex flex-col ${className}`}
           >
             
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4 shrink-0">
-              {title && <h3 className="text-sm font-bold text-white uppercase tracking-wider">{title}</h3>}
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3 mb-4 shrink-0">
+              {title && <h3 className="text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider">{title}</h3>}
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition cursor-pointer"
+                className="p-1.5 rounded-xl text-gray-400 dark:text-gray-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition cursor-pointer"
               >
                 <X size={15} />
               </button>
