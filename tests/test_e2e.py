@@ -81,9 +81,8 @@ def test_booking_flow(page: Page, frontend_base_url):
     target_date = "2026-12-30"
     page.fill("input[type='date']", target_date)
 
-    # Wait for slots to load and click the first available slot
-    # Selected time slot buttons are colored green or black
-    first_slot_button = page.locator("button:not([disabled])").nth(2)  # skip cancel & submit buttons
+    # Wait for slots to load and click the first available slot inside the slots grid
+    first_slot_button = page.locator(".grid-cols-3 button:not([disabled])").first
     expect(first_slot_button).to_be_visible()
     first_slot_button.click()
 
