@@ -24,16 +24,16 @@ def unique_user_payload():
     }
 
 @pytest.fixture(scope="session")
-def admin_credentials():
-    return {
-        "email": "admin@gmail.com",
-        "password": "123456"
+def admin_credentials(api_base_url):
+    """Automatically register and return a unique admin user for the test session."""
+    uid = uuid.uuid4().hex[:8]
+    creds = {
+        "email": f"test_admin_{uid}@example.com",
+        "password": "password123"
     }
-
-@pytest.fixture(scope="session", autouse=True)
-def ensure_admin_exists(api_base_url, admin_credentials):
-    """Automatically register the default admin user at the start of the test session."""
     try:
-        requests.post(f"{api_base_url}/admin/register", json=admin_credentials, timeout=5)
+        res = requests.post(f"{api_base_url}/admin/register", json=creds, timeout=5)
+        print(f"Registered unique test admin: {creds['email']} (status: {res.status_code})")
     except Exception as e:
-        print(f"Warning: Failed to ensure admin registration: {e}")
+        print(f"Warning: Failed to register test admin: {e}")
+    return creds
