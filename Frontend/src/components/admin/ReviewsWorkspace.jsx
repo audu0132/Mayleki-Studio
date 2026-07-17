@@ -198,7 +198,7 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white font-sans tracking-tight">Reviews Workspace</h1>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Reviews Workspace</h1>
           <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
             Moderate client testimonials and publish customer feedback to your homepage
           </p>
@@ -243,7 +243,7 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
       </div>
 
       {/* Sub-tab Navigation */}
-      <div className="flex border-b border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
+      <div className="flex border-b border-slate-200 dark:border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
         {subTabs.map((tab) => {
           const isActive = activeSubTab === tab.id;
           return (
@@ -252,8 +252,8 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
               onClick={() => setActiveSubTab(tab.id)}
               className={`py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer border shrink-0 ${
                 isActive
-                  ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-white/10"
-                  : "text-[#a1a1aa] hover:bg-white/5 hover:text-white border-transparent"
+                  ? "bg-pink-50 dark:bg-pink-950/15 text-[#ec4899] border-[#ec4899]/20 dark:border-[#ec4899]/30"
+                  : "text-slate-500 dark:text-[#a1a1aa] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white border-transparent"
               }`}
             >
               <span>{tab.label}</span>
@@ -345,7 +345,7 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
                   </span>
                 </div>
                 {/* Review Text */}
-                <p className="text-xs text-gray-300 leading-relaxed font-light italic bg-[#0c0b10] border border-white/5 rounded-2xl p-4">
+                <p className="text-xs text-slate-600 dark:text-gray-300 leading-relaxed font-light italic bg-slate-50 dark:bg-[#0c0b10] border border-slate-205 dark:border-white/5 rounded-2xl p-4">
                   “{rev.text}”
                 </p>
                 {/* Log stamp */}
@@ -377,9 +377,9 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
               required
             />
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Source Channel</label>
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Source Channel</label>
               <select
-                className="w-full bg-[#0c0b10] border border-[#232033] rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                className="w-full bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-xl p-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
                 value={newReviewForm.source}
                 onChange={(e) => setNewReviewForm({ ...newReviewForm, source: e.target.value })}
               >
@@ -392,7 +392,7 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
 
           <div className="grid grid-cols-2 gap-4 items-center">
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Star Rating ({newReviewForm.rating})</label>
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Star Rating ({newReviewForm.rating})</label>
               <div className="flex gap-1.5 text-yellow-500">
                 {[...Array(5)].map((_, i) => (
                   <button
@@ -412,9 +412,9 @@ const ReviewsWorkspace = ({ API_BASE_URL, getAuthHeaders }) => {
             </div>
 
             {/* Toggle auto approve switch */}
-            <div className="flex items-center justify-between border border-[#232033]/60 bg-[#0c0b10] p-3 rounded-xl">
+            <div className="flex items-center justify-between border border-slate-200 dark:border-[#232033]/60 bg-slate-50 dark:bg-[#0c0b10] p-3 rounded-xl">
               <div className="pr-2 select-none">
-                <h4 className="text-[10px] font-bold text-white uppercase tracking-wider">Publish Instantly</h4>
+                <h4 className="text-[10px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">Publish Instantly</h4>
                 <p className="text-[8px] text-gray-500 font-medium leading-none mt-0.5">Approve and push live immediately</p>
               </div>
               <button
