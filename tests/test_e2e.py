@@ -1,5 +1,6 @@
 import pytest
 import uuid
+import random
 from playwright.sync_api import Page, expect
 
 def test_homepage_elements(page: Page, frontend_base_url):
@@ -77,8 +78,8 @@ def test_booking_flow(page: Page, frontend_base_url):
     page.fill("input[placeholder='Your Name']", "E2E Booking Customer")
     page.fill("input[placeholder='Phone Number']", "9999999999")
 
-    # Select a date far in the future to avoid booking conflicts
-    target_date = "2026-12-30"
+    # Select a unique randomized date in the future to avoid booking conflicts
+    target_date = f"2029-{random.randint(1, 12):02d}-{random.randint(1, 28):02d}"
     page.fill("input[type='date']", target_date)
 
     # Wait for slots to load and click the first available slot inside the slots grid
