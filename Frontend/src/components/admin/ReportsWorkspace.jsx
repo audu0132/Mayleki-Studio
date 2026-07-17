@@ -192,7 +192,7 @@ const ReportsWorkspace = ({ bookings }) => {
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white font-sans tracking-tight">Reports Workspace</h1>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white font-sans tracking-tight">Reports Workspace</h1>
           <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider font-bold">
             Audit business analytics, revenue trends, and catalog sales distributions
           </p>
@@ -200,7 +200,7 @@ const ReportsWorkspace = ({ bookings }) => {
       </div>
 
       {/* Sub-tab Navigation */}
-      <div className="flex border-b border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
+      <div className="flex border-b border-slate-200 dark:border-white/5 overflow-x-auto gap-4 scrollbar-none pb-2">
         {subTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSubTab === tab.id;
@@ -210,8 +210,8 @@ const ReportsWorkspace = ({ bookings }) => {
               onClick={() => setActiveSubTab(tab.id)}
               className={`py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer border shrink-0 ${
                 isActive
-                  ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-white/10"
-                  : "text-[#a1a1aa] hover:bg-white/5 hover:text-white border-transparent"
+                  ? "bg-pink-50 dark:bg-pink-950/15 text-[#ec4899] border-[#ec4899]/20 dark:border-[#ec4899]/30"
+                  : "text-slate-500 dark:text-[#a1a1aa] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white border-transparent"
               }`}
             >
               <Icon size={14} />
@@ -271,19 +271,19 @@ const ReportsWorkspace = ({ bookings }) => {
                 title="Revenue Trend Analyst"
                 subtitle="Visualise sales over daily operations"
                 actions={
-                  <div className="flex items-center gap-2 bg-[#0c0b10] border border-white/5 p-1 rounded-xl">
+                  <div className="flex items-center gap-2 bg-slate-100 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 p-1 rounded-xl">
                     <button
                       onClick={() => setDaysFilter(7)}
-                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all uppercase tracking-wider cursor-pointer ${
-                        daysFilter === 7 ? "bg-[#1f2937] text-white" : "text-gray-400"
+                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-colors cursor-pointer ${
+                        daysFilter === 7 ? "bg-white dark:bg-[#1f2937] text-slate-800 dark:text-white shadow-sm" : "text-slate-500 dark:text-gray-400"
                       }`}
                     >
-                      Last 7 Days
+                      7D
                     </button>
                     <button
                       onClick={() => setDaysFilter(30)}
-                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all uppercase tracking-wider cursor-pointer ${
-                        daysFilter === 30 ? "bg-[#1f2937] text-white" : "text-gray-400"
+                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-colors cursor-pointer ${
+                        daysFilter === 30 ? "bg-white dark:bg-[#1f2937] text-slate-800 dark:text-white shadow-sm" : "text-slate-500 dark:text-gray-400"
                       }`}
                     >
                       Last 30 Days
@@ -292,7 +292,7 @@ const ReportsWorkspace = ({ bookings }) => {
                 }
               >
                 {/* Custom Responsive SVG Chart */}
-                <div className="w-full bg-[#0c0b10] border border-[#232033]/55 rounded-2xl p-5 mt-2 h-72 flex flex-col justify-end select-none">
+                <div className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033]/55 rounded-2xl p-5 mt-2 h-72 flex flex-col justify-end select-none">
                   {trendData.every(t => t.revenue === 0) ? (
                     <div className="m-auto text-[10px] text-gray-500 font-bold uppercase tracking-wider">
                       No sales data captured in this period
@@ -352,17 +352,17 @@ const ReportsWorkspace = ({ bookings }) => {
               className="space-y-6"
             >
               <Card title="Catalog Sales Analysis" subtitle="Review service bookings metrics">
-                <div className="bg-[#0c0b10] border border-[#232033] rounded-2xl overflow-hidden mt-2">
+                <div className="bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-2xl overflow-hidden mt-2">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#232033] bg-[#111827]">
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Service Name</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Bookings Count</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Revenue Contributed</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right w-1/4">Relative Weight</th>
+                      <tr className="border-b border-slate-200 dark:border-[#232033] bg-slate-50 dark:bg-[#111827]">
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Service Name</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-center">Bookings Count</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-right">Revenue Contributed</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-right w-1/4">Relative Weight</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#232033]/50">
+                    <tbody className="divide-y divide-slate-100 dark:divide-[#232033]/50">
                       {serviceBreakdown.length === 0 ? (
                         <tr>
                           <td colSpan="4" className="p-8 text-center text-[10px] text-gray-600 font-semibold uppercase tracking-wider">
@@ -373,19 +373,19 @@ const ReportsWorkspace = ({ bookings }) => {
                         serviceBreakdown.map((item, idx) => {
                           const percentage = Math.round((item.revenue / (totalRevenue || 1)) * 100);
                           return (
-                            <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
-                              <td className="p-4 text-xs text-white font-semibold">{item.name}</td>
-                              <td className="p-4 text-xs text-gray-400 text-center font-mono">{item.count}</td>
+                            <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-colors">
+                              <td className="p-4 text-xs text-slate-800 dark:text-white font-semibold">{item.name}</td>
+                              <td className="p-4 text-xs text-slate-500 dark:text-gray-400 text-center font-mono">{item.count}</td>
                               <td className="p-4 text-xs text-green-400 font-mono text-right">₹{item.revenue.toLocaleString()}</td>
                               <td className="p-4">
                                 <div className="flex items-center justify-end gap-3">
-                                  <div className="w-24 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                  <div className="w-24 bg-slate-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
                                     <div
                                       style={{ width: `${percentage}%` }}
                                       className="bg-gradient-to-r from-[#d946ef] to-[#ec4899] h-full"
                                     />
                                   </div>
-                                  <span className="text-[10px] font-mono font-bold text-white w-7 text-right">
+                                  <span className="text-[10px] font-mono font-bold text-slate-800 dark:text-white w-7 text-right">
                                     {percentage}%
                                   </span>
                                 </div>
@@ -411,18 +411,18 @@ const ReportsWorkspace = ({ bookings }) => {
               className="space-y-6"
             >
               <Card title="Customer Leaderboard" subtitle="Top 10 loyal clients by total studio billing value">
-                <div className="bg-[#0c0b10] border border-[#232033] rounded-2xl overflow-hidden mt-2">
+                <div className="bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-2xl overflow-hidden mt-2">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#232033] bg-[#111827]">
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest w-12 text-center">Rank</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Customer Profile</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Phone Number</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Appointments Count</th>
-                        <th className="p-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Total Spent</th>
+                      <tr className="border-b border-slate-200 dark:border-[#232033] bg-slate-50 dark:bg-[#111827]">
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest w-12 text-center">Rank</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Customer Profile</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Phone Number</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-center">Appointments Count</th>
+                        <th className="p-4 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-right">Total Spent</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#232033]/50">
+                    <tbody className="divide-y divide-slate-100 dark:divide-[#232033]/50">
                       {customerLeaderboard.length === 0 ? (
                         <tr>
                           <td colSpan="5" className="p-8 text-center text-[10px] text-gray-600 font-semibold uppercase tracking-wider">
@@ -431,19 +431,19 @@ const ReportsWorkspace = ({ bookings }) => {
                         </tr>
                       ) : (
                         customerLeaderboard.map((item, idx) => (
-                          <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
-                            <td className="p-4 text-xs font-mono font-bold text-gray-500 text-center">{idx + 1}</td>
-                            <td className="p-4 text-xs text-white font-semibold flex items-center gap-2.5">
+                          <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-colors">
+                            <td className="p-4 text-xs font-mono font-bold text-slate-400 dark:text-gray-500 text-center">{idx + 1}</td>
+                            <td className="p-4 text-xs text-slate-800 dark:text-white font-semibold flex items-center gap-2.5">
                               <img
                                 src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${item.name}`}
                                 alt=""
-                                className="w-6.5 h-6.5 rounded-full bg-zinc-700 border border-zinc-500/30 object-cover"
+                                className="w-6.5 h-6.5 rounded-full bg-slate-100 dark:bg-zinc-700 border border-slate-200 dark:border-zinc-500/30 object-cover"
                               />
                               <span>{item.name}</span>
                             </td>
-                            <td className="p-4 text-xs text-gray-400 font-mono">{item.phone}</td>
-                            <td className="p-4 text-xs text-gray-400 text-center font-mono">{item.bookingsCount}</td>
-                            <td className="p-4 text-xs text-green-400 font-mono text-right font-bold">₹{item.totalSpent.toLocaleString()}</td>
+                            <td className="p-4 text-xs text-slate-500 dark:text-gray-400 font-mono">{item.phone}</td>
+                            <td className="p-4 text-xs text-slate-500 dark:text-gray-400 text-center font-mono">{item.bookingsCount}</td>
+                            <td className="p-4 text-xs text-green-400 font-mono text-right font-bold font-mono">₹{item.totalSpent.toLocaleString()}</td>
                           </tr>
                         ))
                       )}
@@ -472,14 +472,14 @@ const ReportsWorkspace = ({ bookings }) => {
                     <input
                       type="text"
                       placeholder="Search customer, phone..."
-                      className="pl-9 pr-3 py-3 w-full bg-[#0c0b10] border border-[#232033] rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+                      className="pl-9 pr-3 py-3 w-full bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
 
                   <select
-                    className="p-3.5 bg-[#0c0b10] border border-[#232033] rounded-xl text-xs text-white focus:outline-none focus:border-[#ec4899] transition-all"
+                    className="p-3.5 bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#ec4899] transition-all"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
@@ -505,9 +505,9 @@ const ReportsWorkspace = ({ bookings }) => {
                   />
                 </div>
 
-                <div className="border-t border-[#232033] pt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
-                    Matching records: <span className="text-white font-mono">{filteredBookings.length}</span> / {bookings.length}
+                <div className="border-t border-slate-200 dark:border-[#232033] pt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider">
+                    Matching records: <span className="text-slate-800 dark:text-white font-mono">{filteredBookings.length}</span> / {bookings.length}
                   </div>
                   <Button
                     onClick={handleExportCSV}
@@ -522,18 +522,18 @@ const ReportsWorkspace = ({ bookings }) => {
 
               {/* Preview Grid */}
               <Card title="Filtered Records Preview" subtitle="First 10 records matching current filter configurations">
-                <div className="bg-[#0c0b10] border border-[#232033] rounded-2xl overflow-hidden mt-2">
+                <div className="bg-white dark:bg-[#0c0b10] border border-slate-200 dark:border-[#232033] rounded-2xl overflow-hidden mt-2">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#232033] bg-[#111827]">
-                        <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Customer</th>
-                        <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Appointment Date</th>
-                        <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Service Requested</th>
-                        <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Billing (₹)</th>
-                        <th className="p-3.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center w-24">Status</th>
+                      <tr className="border-b border-slate-200 dark:border-[#232033] bg-slate-50 dark:bg-[#111827]">
+                        <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Customer</th>
+                        <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Appointment Date</th>
+                        <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Service Requested</th>
+                        <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Billing (₹)</th>
+                        <th className="p-3.5 text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-center w-24">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#232033]/50">
+                    <tbody className="divide-y divide-slate-100 dark:divide-[#232033]/50">
                       {filteredBookings.length === 0 ? (
                         <tr>
                           <td colSpan="5" className="p-8 text-center text-[10px] text-gray-600 font-semibold uppercase tracking-wider">
@@ -542,16 +542,16 @@ const ReportsWorkspace = ({ bookings }) => {
                         </tr>
                       ) : (
                         filteredBookings.slice(0, 10).map((b, idx) => (
-                          <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
-                            <td className="p-3.5 text-xs text-white font-semibold">
+                          <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-colors">
+                            <td className="p-3.5 text-xs text-slate-800 dark:text-white font-semibold">
                               <div>{b.userName || "Guest Customer"}</div>
-                              <div className="text-[9px] text-gray-500 mt-0.5 font-mono">{b.phone}</div>
+                              <div className="text-[9px] text-slate-550 dark:text-gray-500 mt-0.5 font-mono">{b.phone}</div>
                             </td>
-                            <td className="p-3.5 text-xs text-gray-400 font-mono">
+                            <td className="p-3.5 text-xs text-slate-500 dark:text-gray-400 font-mono">
                               {b.date ? b.date.split("T")[0] : ""} @ {b.timeSlot}
                             </td>
-                            <td className="p-3.5 text-xs text-gray-300 font-medium">{b.service}</td>
-                            <td className="p-3.5 text-xs text-white font-mono">₹{b.price}</td>
+                            <td className="p-3.5 text-xs text-slate-700 dark:text-gray-300 font-medium">{b.service}</td>
+                            <td className="p-3.5 text-xs text-slate-800 dark:text-white font-mono">₹{b.price}</td>
                             <td className="p-3.5 text-center">
                               <span
                                 className={`px-2 py-0.5 text-[9px] font-extrabold uppercase rounded-full tracking-wider border ${
