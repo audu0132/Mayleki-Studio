@@ -15,7 +15,7 @@ const Textarea = ({
   return (
     <div className={`space-y-1.5 w-full ${className}`}>
       {label && (
-        <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+        <label className="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">
           {label} {required && <span className="text-[#ec4899]">*</span>}
         </label>
       )}
@@ -26,10 +26,10 @@ const Textarea = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full bg-[#0c0b10] border rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all resize-none ${
+          className={`w-full bg-white dark:bg-[#0c0b10] border rounded-xl p-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all resize-none ${
             maxLength ? "pb-8" : ""
           } ${
-            error ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#232033]"
+            error ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-slate-200 dark:border-[#232033]"
           }`}
           required={required}
           {...props}
