@@ -103,8 +103,8 @@ const Sidebar = ({
                 onClick={() => handleTabClick(item.id)}
                 className={`w-full py-2.5 px-3.5 rounded-xl text-[12px] font-bold transition-all flex items-center relative gap-3 cursor-pointer shrink-0 ${
                   isActive
-                    ? "bg-[#F9FAFB]/10 text-[#F9FAFB] border-l-2 border-[#F9FAFB]"
-                    : "text-[#a1a1aa] hover:bg-white/5 hover:text-white"
+                    ? "bg-pink-50 dark:bg-[#ec4899]/15 text-[#ec4899] border-l-2 border-[#ec4899]"
+                    : "text-slate-500 dark:text-[#a1a1aa] hover:bg-slate-100/70 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                 } ${isCollapsed ? "justify-center" : ""}`}
                 title={isCollapsed ? item.label : undefined}
               >
