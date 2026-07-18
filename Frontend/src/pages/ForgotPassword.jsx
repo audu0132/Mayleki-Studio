@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle, Key } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
