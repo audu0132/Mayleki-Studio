@@ -33,13 +33,31 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-serif mb-6 text-white">Explore</h4>
             <ul className="space-y-4">
-                {['Home', 'Services', 'Academy', 'About Us', 'Reviews'].map((item) => (
-                    <li key={item}>
-                        <Link to ={`/${item.toLowerCase().replace(' ', '-')}`} className="text-white/60 hover:text-white text-sm uppercase tracking-wider transition-colors">
-                            {item}
-                        </Link>
-                    </li>
-                ))}
+              {[
+                { name: "Home", href: "/" },
+                { name: "Services", href: "/#services" },
+                { name: "Academy", href: "/#academy" },
+                { name: "About Us", href: "/about-us" },
+                { name: "Reviews", href: "/#reviews" },
+              ].map((item) => (
+                <li key={item.name}>
+                  {item.href.includes("#") ? (
+                    <a
+                      href={item.href}
+                      className="text-white/60 hover:text-white text-sm uppercase tracking-wider transition-colors"
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className="text-white/60 hover:text-white text-sm uppercase tracking-wider transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
