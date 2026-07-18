@@ -18,7 +18,7 @@ const Header = () => {
     { name: "Services", href: isHomePage ? "#services" : "/#services" },
     { name: "Academy", href: isHomePage ? "#academy" : "/#academy" },
     { name: "Reviews", href: isHomePage ? "#reviews" : "/#reviews" },
-    { name: "Contact", href: isHomePage ? "#contact" : "/#contact" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const openWhatsApp = () => {
@@ -48,16 +48,30 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="relative text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+            {navItems.map((item) => {
+              if (item.href.startsWith("/")) {
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="relative text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors group"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                );
+              }
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="relative text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors group"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
+                </a>
+              );
+            })}
 
             {/* Customer Authentication Links */}
             {user ? (
@@ -111,16 +125,30 @@ const Header = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-background border-b border-border px-6 py-6 space-y-4 flex flex-col absolute top-20 left-0 w-full shadow-lg">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className="text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors"
-            >
-              {item.name}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            if (item.href.startsWith("/")) {
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </Link>
+              );
+            }
+            return (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="text-sm font-medium uppercase tracking-wide text-primary/80 hover:text-primary transition-colors"
+              >
+                {item.name}
+              </a>
+            );
+          })}
 
           <hr className="border-border" />
 
