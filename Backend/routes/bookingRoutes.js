@@ -32,7 +32,7 @@ router.get("/available/:date", async (req, res) => {
 });
 
 // ✅ CREATE BOOKING
-router.post("/", async (req, res) => {
+router.post("/", protectUser, async (req, res) => {
   try {
     const { name, phone, date, time, service, price } = req.body;
 
@@ -50,20 +50,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Slot already booked" });
     }
 
-    // Try to extract customer user ID from optional Bearer token
-    let userId = null;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        userId = decoded.id;
-      } catch (err) {
-        console.log("Optional auth in booking creation skipped:", err.message);
-      }
-    }
+    const userId = req.user._id;
 
     let parsedPrice = 0;
     if (price) {
