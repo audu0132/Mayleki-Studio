@@ -1055,7 +1055,10 @@ const Dashboard = () => {
     return "High (86%)";
   };
 
-  const servicePresets = services.length > 0 ? services : schedulerSettings.services;
+  const servicePresets = [
+    ...services,
+    ...schedulerSettings.services.filter(ps => !services.some(s => s.name.toLowerCase() === ps.name.toLowerCase()))
+  ];
 
   return (
     <DashboardLayout
