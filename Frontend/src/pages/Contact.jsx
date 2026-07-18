@@ -330,7 +330,7 @@ const Contact = () => {
                     <div>
                       <span className="block text-[10px] font-bold text-primary/50 uppercase tracking-wider">Email Support</span>
                       <p className="text-sm font-mono text-primary/80 mt-1">
-                        info@mayleki.com
+                        maylekistudio@gmail.com
                       </p>
                     </div>
                   </div>
