@@ -1268,10 +1268,10 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                   
                   {/* Left Column: Form (3/5 Columns) */}
-                  <div className="lg:col-span-3 bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
+                  <div className="lg:col-span-3 bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
                     
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-4 mb-2 text-white">
-                      <LinkIcon size={16} className="text-[#F9FAFB]" />
+                    <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-4 mb-2 text-slate-800 dark:text-white">
+                      <LinkIcon size={16} className="text-slate-800 dark:text-[#F9FAFB]" />
                       <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Campaign Details</h3>
                     </div>
 
@@ -1311,15 +1311,15 @@ const Dashboard = () => {
                       />
 
                       {/* Campaign Toggle Status */}
-                      <div className="flex items-center justify-between border-t border-white/5 pt-5 mt-2">
+                      <div className="flex items-center justify-between border-t border-slate-100 dark:border-white/5 pt-5 mt-2">
                         <div>
-                          <h4 className="text-xs font-bold text-white">Campaign Status</h4>
-                          <p className="text-[10px] text-gray-500 mt-0.5">Inactive offers will not be visible to clients</p>
+                          <h4 className="text-xs font-bold text-slate-800 dark:text-white">Campaign Status</h4>
+                          <p className="text-[10px] text-slate-500 dark:text-gray-500 mt-0.5">Inactive offers will not be visible to clients</p>
                         </div>
                         <button
                           type="button"
                           onClick={() => setEditForm({ ...editForm, isActive: !editForm.isActive })}
-                          className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                          className="text-slate-400 dark:text-gray-400 hover:text-slate-600 dark:hover:text-white transition-colors cursor-pointer"
                         >
                           {editForm.isActive ? (
                             <span className="text-[#F9FAFB]"><ToggleRight size={38} /></span>
@@ -1332,7 +1332,7 @@ const Dashboard = () => {
                     </div>
 
                     {/* Action buttons */}
-                    <div className="flex gap-4 border-t border-white/5 pt-5 mt-2">
+                    <div className="flex gap-4 border-t border-slate-100 dark:border-white/5 pt-5 mt-2">
                       <Button variant="outline" className="flex-1" onClick={cancelEdit}>
                         Cancel
                       </Button>
@@ -1347,9 +1347,9 @@ const Dashboard = () => {
                   <div className="lg:col-span-2 space-y-6">
                     
                     {/* Live Preview Card */}
-                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
-                      <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
-                        <Eye size={15} className="text-[#F9FAFB]" />
+                    <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-3 mb-2 text-slate-800 dark:text-white">
+                        <Eye size={15} className="text-slate-800 dark:text-[#F9FAFB]" />
                         <h3 className="text-xs font-extrabold uppercase tracking-widest">Live Offer Preview</h3>
                       </div>
 
@@ -1360,7 +1360,7 @@ const Dashboard = () => {
                         </div>
 
                         <div className="space-y-1 z-10">
-                          <span className="bg-[#F9FAFB] text-white text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest inline-block">
+                          <span className="bg-[#F9FAFB] text-[#411b33] text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest inline-block">
                             Special Offer
                           </span>
                           <h3 className="text-3xl font-black text-white tracking-tight pt-3 uppercase truncate max-w-[200px]">
@@ -1382,36 +1382,36 @@ const Dashboard = () => {
                     </div>
 
                     {/* Offer Performance Statistics */}
-                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
-                      <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-2 text-white">
-                        <LineChart size={15} className="text-[#F9FAFB]" />
+                    <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-3 mb-2 text-slate-800 dark:text-white">
+                        <LineChart size={15} className="text-slate-800 dark:text-[#F9FAFB]" />
                         <h3 className="text-xs font-extrabold uppercase tracking-widest">Offer Analytics</h3>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl">
-                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Bookings Used</span>
-                          <span className="text-lg font-black text-white block mt-0.5">{getBookingsUsingOffer().length}</span>
+                        <div className="bg-slate-50 dark:bg-[#0c0b10] border border-slate-100 dark:border-white/5 p-3 rounded-xl">
+                          <span className="text-[9px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider block">Bookings Used</span>
+                          <span className="text-lg font-black text-slate-800 dark:text-white block mt-0.5">{getBookingsUsingOffer().length}</span>
                         </div>
-                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl">
-                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Revenue Generated</span>
-                          <span className="text-lg font-black text-emerald-400 block mt-0.5">₹{getOfferRevenue().toLocaleString()}</span>
+                        <div className="bg-slate-50 dark:bg-[#0c0b10] border border-slate-100 dark:border-white/5 p-3 rounded-xl">
+                          <span className="text-[9px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider block">Revenue Generated</span>
+                          <span className="text-lg font-black text-emerald-500 dark:text-emerald-400 block mt-0.5">₹{getOfferRevenue().toLocaleString()}</span>
                         </div>
-                        <div className="bg-[#0c0b10] border border-white/5 p-3 rounded-xl col-span-2">
-                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Campaign Conversion Index</span>
+                        <div className="bg-slate-50 dark:bg-[#0c0b10] border border-slate-100 dark:border-white/5 p-3 rounded-xl col-span-2">
+                          <span className="text-[9px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider block">Campaign Conversion Index</span>
                           <div className="flex items-center justify-between mt-1">
-                            <span className="text-xs font-bold text-white">{getOfferPerformance()}</span>
-                            <span className="text-[10px] text-[#F9FAFB] font-black uppercase">Outstanding</span>
+                            <span className="text-xs font-bold text-slate-800 dark:text-white">{getOfferPerformance()}</span>
+                            <span className="text-[10px] text-[#ec4899] dark:text-[#F9FAFB] font-black uppercase">Outstanding</span>
                           </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Bookings using this Offer list */}
-                    <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
-                      <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-2 text-white">
+                    <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                      <div className="flex justify-between items-center border-b border-slate-100 dark:border-white/5 pb-3 mb-2 text-slate-800 dark:text-white">
                         <h3 className="text-xs font-extrabold uppercase tracking-widest">Active Client Usage</h3>
-                        <span className="bg-zinc-800 text-gray-300 text-[10px] px-2 py-0.5 rounded border border-zinc-700 font-bold">
+                        <span className="bg-slate-100 dark:bg-zinc-800 text-slate-650 dark:text-gray-300 text-[10px] px-2 py-0.5 rounded border border-slate-200 dark:border-zinc-700 font-bold">
                           {getBookingsUsingOffer().length}
                         </span>
                       </div>
@@ -1423,16 +1423,16 @@ const Dashboard = () => {
                               <img
                                 src={client.img}
                                 alt={client.userName}
-                                className="w-8.5 h-8.5 rounded-full bg-zinc-800 object-cover"
+                                className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-zinc-800 object-cover"
                               />
                               <div>
-                                <h5 className="font-bold text-white leading-none">{client.userName}</h5>
-                                <span className="text-[9px] text-gray-500 block mt-0.5">{client.phone}</span>
+                                <h5 className="font-bold text-slate-800 dark:text-white leading-none">{client.userName}</h5>
+                                <span className="text-[9px] text-slate-400 dark:text-gray-500 block mt-0.5">{client.phone}</span>
                               </div>
                             </div>
                             <div className="text-right">
-                              <span className="font-extrabold text-white block">₹{client.price.toLocaleString()}</span>
-                              <span className="text-[8px] text-[#F9FAFB] uppercase font-bold mt-0.5 block">{client.service}</span>
+                              <span className="font-extrabold text-slate-800 dark:text-white block">₹{client.price.toLocaleString()}</span>
+                              <span className="text-[8px] text-slate-500 dark:text-[#F9FAFB] uppercase font-bold mt-0.5 block">{client.service}</span>
                             </div>
                           </div>
                         ))}
@@ -1453,9 +1453,9 @@ const Dashboard = () => {
                 </div>
 
                 {/* Add Offer Form Card */}
-                <div className="bg-[#111827] border border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
-                  <h3 className="text-xs font-extrabold uppercase tracking-widest text-white border-b border-white/5 pb-4 mb-2 flex items-center gap-1.5">
-                    <Plus size={16} className="text-[#F9FAFB]" />
+                <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 space-y-4 shadow-xl">
+                  <h3 className="text-xs font-extrabold uppercase tracking-widest text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/5 pb-4 mb-2 flex items-center gap-1.5">
+                    <Plus size={16} className="text-slate-800 dark:text-[#F9FAFB]" />
                     Deploy Promotional Campaign
                   </h3>
                   
@@ -1490,8 +1490,8 @@ const Dashboard = () => {
                       required
                     />
 
-                    <div className="flex items-end justify-end md:col-span-2">
-                      <Button type="submit">
+                    <div className="flex items-end justify-end">
+                      <Button type="submit" className="w-full md:w-auto">
                         Launch Campaign
                       </Button>
                     </div>
@@ -1511,37 +1511,37 @@ const Dashboard = () => {
                       {offers.map((offer) => (
                         <div
                           key={offer._id}
-                          className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-[#F9FAFB]/30 transition-colors"
+                          className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl flex flex-col justify-between gap-4 group hover:border-slate-300 dark:hover:border-[#F9FAFB]/30 transition-colors"
                         >
                           <div className="space-y-2">
                             <div className="flex justify-between items-start">
-                              <h3 className="font-bold text-base text-white font-serif">{offer.title}</h3>
-                              <span className="text-[10px] font-bold text-[#F9FAFB] bg-[#3b122c]/50 px-2.5 py-0.5 rounded border border-[#F9FAFB]/20 font-mono">
+                              <h3 className="font-bold text-base text-slate-800 dark:text-white font-serif">{offer.title}</h3>
+                              <span className="text-[10px] font-bold text-[#ec4899] dark:text-[#F9FAFB] bg-pink-50 dark:bg-[#3b122c]/50 px-2.5 py-0.5 rounded border border-[#ec4899]/20 dark:border-[#F9FAFB]/20 font-mono">
                                 {offer.discount}
                               </span>
                             </div>
-                            <p className="text-gray-400 text-xs leading-relaxed">{offer.description}</p>
+                            <p className="text-slate-650 dark:text-gray-400 text-xs leading-relaxed">{offer.description}</p>
                             {offer.validTill && (
-                              <p className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-2 flex items-center gap-1.5">
-                                <Calendar size={11} className="text-[#F9FAFB]" />
+                              <p className="text-[9px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider mt-2 flex items-center gap-1.5">
+                                <Calendar size={11} className="text-slate-500 dark:text-[#F9FAFB]" />
                                 Valid Till: {new Date(offer.validTill).toLocaleDateString()}
                               </p>
                             )}
                           </div>
 
-                          <div className="flex justify-end gap-3 border-t border-white/5 pt-3 mt-1">
+                          <div className="flex justify-end gap-3 border-t border-slate-100 dark:border-white/5 pt-3 mt-1">
                             <button
                               type="button"
                               onClick={() => startEditOffer(offer)}
-                              className="text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                              className="text-xs font-bold text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                             >
-                              <Edit2 size={11} className="text-[#F9FAFB]" />
+                              <Edit2 size={11} className="text-slate-500 dark:text-[#F9FAFB]" />
                               Configure
                             </button>
                             <button
                               type="button"
                               onClick={() => setOfferToDelete(offer._id)}
-                              className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                              className="text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                             >
                               <Trash2 size={11} />
                               Delete
@@ -2446,16 +2446,16 @@ const Dashboard = () => {
               
               {/* Left Column: Customers Table */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
                   {/* Search Bar */}
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-zinc-500">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-zinc-500">
                       <Search size={14} />
                     </span>
                     <input
                       type="text"
                       placeholder="Search customers by name, email, or phone..."
-                      className="pl-10 pr-3 py-3 w-full bg-[#0c0b10] border border-white/5 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#F9FAFB] transition-all"
+                      className="pl-10 pr-3 py-3 w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-100 dark:border-white/5 rounded-xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#ec4899] dark:focus:border-[#F9FAFB] focus:ring-1 focus:ring-[#ec4899] dark:focus:ring-[#F9FAFB] transition-all"
                       value={customerSearchQuery}
                       onChange={(e) => setCustomerSearchQuery(e.target.value)}
                     />
@@ -2562,33 +2562,33 @@ const Dashboard = () => {
               {/* Right Column: Selected Customer Bookings Timeline */}
               <div className="space-y-6">
                 {selectedCustomer ? (
-                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
-                    <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                  <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
                       <div>
-                        <h3 className="font-extrabold text-sm uppercase text-white truncate max-w-[180px]">
+                        <h3 className="font-extrabold text-sm uppercase text-slate-800 dark:text-white truncate max-w-[180px]">
                           {selectedCustomer.name}
                         </h3>
-                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-0.5 font-mono">
+                        <p className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider mt-0.5 font-mono">
                           {selectedCustomer.phone}
                         </p>
                       </div>
                       <button
                         onClick={() => setSelectedCustomer(null)}
-                        className="text-xs font-bold text-gray-400 hover:text-white"
+                        className="text-xs font-bold text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
                       >
                         Clear
                       </button>
                     </div>
 
                     <div className="space-y-4">
-                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                      <h4 className="text-xs font-bold text-slate-400 dark:text-gray-400 uppercase tracking-wider">
                         Booking Timeline ({customerBookings.length})
                       </h4>
 
                       {customerBookingsLoading ? (
                         <LoadingState type="grid" count={2} />
                       ) : customerBookings.length === 0 ? (
-                        <div className="text-center py-8 text-gray-500 text-xs">
+                        <div className="text-center py-8 text-slate-400 dark:text-gray-500 text-xs">
                           No booking history found for this customer.
                         </div>
                       ) : (
@@ -2596,15 +2596,15 @@ const Dashboard = () => {
                           {customerBookings.map((b) => (
                             <div
                               key={b._id}
-                              className="bg-[#0c0b10] border border-white/5 p-4 rounded-xl space-y-2 flex flex-col justify-between"
+                              className="bg-slate-50 dark:bg-[#0c0b10] border border-slate-100 dark:border-white/5 p-4 rounded-xl space-y-2 flex flex-col justify-between"
                             >
                               <div className="flex justify-between items-start">
                                 <div>
-                                  <span className="text-xs font-extrabold text-white block">
+                                  <span className="text-xs font-extrabold text-slate-800 dark:text-white block">
                                     {b.service || "Salon Treatment"}
                                   </span>
-                                  <span className="text-[10px] text-gray-500 font-mono mt-0.5 block flex items-center gap-1">
-                                    <Clock size={10} className="text-[#F9FAFB]" />
+                                  <span className="text-[10px] text-slate-500 dark:text-gray-500 font-mono mt-0.5 block flex items-center gap-1">
+                                    <Clock size={10} className="text-slate-500 dark:text-[#F9FAFB]" />
                                     {new Date(b.date).toLocaleDateString("en-GB", { day: 'numeric', month: 'short' })} • {b.timeSlot || b.time}
                                   </span>
                                 </div>
@@ -2618,8 +2618,8 @@ const Dashboard = () => {
                                   {b.status || "Confirmed"}
                                 </span>
                               </div>
-                              <div className="flex justify-between items-center border-t border-white/5 pt-2 mt-1">
-                                <span className="font-mono text-white text-xs font-bold">₹{b.price || 0}</span>
+                              <div className="flex justify-between items-center border-t border-slate-200/50 dark:border-white/5 pt-2 mt-1">
+                                <span className="font-mono text-slate-800 dark:text-white text-xs font-bold">₹{b.price || 0}</span>
                                 
                                 <div className="flex gap-2">
                                   <select
@@ -2640,7 +2640,7 @@ const Dashboard = () => {
                                         console.error("Failed to update status:", err);
                                       }
                                     }}
-                                    className="bg-zinc-900 border border-white/5 rounded px-1.5 py-0.5 text-[10px] text-gray-300 focus:outline-none"
+                                    className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded px-1.5 py-0.5 text-[10px] text-slate-850 dark:text-gray-300 focus:outline-none"
                                   >
                                     <option value="Pending">Pending</option>
                                     <option value="Confirmed">Confirmed</option>
@@ -2666,7 +2666,7 @@ const Dashboard = () => {
                                         }
                                       }
                                     }}
-                                    className="p-1 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"
+                                    className="p-1 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
                                     title="Delete Record"
                                   >
                                     <Trash2 size={10} />
@@ -2680,15 +2680,15 @@ const Dashboard = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-[#111827] border border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
-                    <div className="border-b border-white/5 pb-3">
-                      <h3 className="font-extrabold text-sm uppercase text-white">Customer Insights</h3>
-                      <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold mt-0.5">
+                  <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 rounded-2xl shadow-xl space-y-4">
+                    <div className="border-b border-slate-100 dark:border-white/5 pb-3">
+                      <h3 className="font-extrabold text-sm uppercase text-slate-800 dark:text-white">Customer Insights</h3>
+                      <p className="text-[10px] text-slate-500 dark:text-gray-500 uppercase tracking-wider font-bold mt-0.5">
                         Select a customer to inspect visits
                       </p>
                     </div>
-                    <div className="bg-[#F9FAFB]/5 border border-[#F9FAFB]/15 p-4 rounded-xl text-xs text-gray-400 leading-relaxed space-y-2">
-                      <span className="font-bold text-white block">Workspace Overview:</span>
+                    <div className="bg-slate-50 dark:bg-[#F9FAFB]/5 border border-slate-150 dark:border-[#F9FAFB]/15 p-4 rounded-xl text-xs text-slate-600 dark:text-gray-400 leading-relaxed space-y-2">
+                      <span className="font-bold text-slate-800 dark:text-white block">Workspace Overview:</span>
                       <p>Click on any row in the customers table to review their detailed timeline reservation history. You can audit service logs, adjust reservation states, or delete booking details directly from their workspace card.</p>
                     </div>
                   </div>
