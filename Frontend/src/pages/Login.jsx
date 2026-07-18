@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const Login = () => {
   const { login } = useAuth();
@@ -58,10 +59,15 @@ const Login = () => {
         
         {/* Header */}
         <div className="text-center">
-          <Link to="/" className="text-3xl font-serif font-bold uppercase tracking-wider text-black">
-            Mayleki
-            <span className="block text-xs font-sans font-normal tracking-widest text-gray-500 normal-case">
-              Studio & Academy
+          <Link to="/" className="inline-flex flex-col items-center gap-2 group">
+            <img src={logo} alt="Mayleki Logo" className="h-16 w-auto object-contain" />
+            <span className="flex flex-col items-center">
+              <span className="text-2xl font-serif font-bold uppercase tracking-wider text-black">
+                Mayleki
+              </span>
+              <span className="text-[10px] font-sans font-normal tracking-widest text-gray-500 uppercase mt-0.5">
+                Studio & Academy
+              </span>
             </span>
           </Link>
           <h2 className="mt-6 text-2xl font-sans font-bold tracking-tight text-gray-900">
