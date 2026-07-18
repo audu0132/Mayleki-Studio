@@ -18,6 +18,7 @@ import AboutUs from "./components/AboutUs";
 import AdminRegistration from "./components/admin/AdminRegistration";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import Contact from "./pages/Contact";
 
 // Customer Auth Pages & Context
 import { AuthProvider } from "./context/AuthContext";
@@ -57,6 +58,7 @@ function App() {
           <Route path="/admin/registration" element={<AdminRegistration />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/contact" element={<Contact />} />
 
           {/* Customer Authentication Routes */}
           <Route path="/login" element={<Login />} />
