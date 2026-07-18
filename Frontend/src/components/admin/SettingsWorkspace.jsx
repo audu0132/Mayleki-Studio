@@ -75,7 +75,7 @@ const SettingsWorkspace = ({
       if (data) {
         setFormData({
           businessName: data.businessName || "Mayleki Studio & Academy",
-          email: data.email || "info@mayleki.com",
+          email: data.email || "maylekistudio@gmail.com",
           phone: data.phone || "+91 87678 75492",
           whatsappNumber: data.whatsappNumber || "918767875492",
           address: data.address || "Mayleki Studio, Near Main Road, Pune, Maharashtra",
@@ -324,7 +324,7 @@ const SettingsWorkspace = ({
                     <Input
                       label="Email Address"
                       type="email"
-                      placeholder="info@mayleki.com"
+                      placeholder="maylekistudio@gmail.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       icon={Mail}
