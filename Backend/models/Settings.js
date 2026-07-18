@@ -7,7 +7,7 @@ const settingsSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    default: "info@mayleki.com"
+    default: "maylekistudio@gmail.com"
   },
   phone: {
     type: String,
