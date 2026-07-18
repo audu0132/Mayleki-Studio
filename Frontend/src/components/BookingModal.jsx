@@ -5,6 +5,15 @@ import { API_BASE_URL } from "../config";
 
 const BookingModal = ({ service, onClose }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      alert("Please login to book services.");
+      onClose();
+      navigate("/login");
+    }
+  }, [user, navigate, onClose]);
 
   const [form, setForm] = useState({
     name: "",
