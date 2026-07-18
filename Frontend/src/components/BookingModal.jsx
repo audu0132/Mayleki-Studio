@@ -80,12 +80,12 @@ const BookingModal = ({ service, onClose }) => {
   // ================================
   const getSlotStyle = (slot) => {
     if (bookedSlots.includes(slot))
-      return "bg-red-500/5 border border-red-500/10 text-red-400/80 cursor-not-allowed";
+      return "bg-red-500 text-white cursor-not-allowed";
 
     if (form.time === slot)
-      return "bg-[#ec4899] border border-[#ec4899] text-white scale-105 shadow-md shadow-[#ec4899]/20 font-bold";
+      return "bg-black text-white scale-105 shadow-md shadow-black/20 font-bold";
 
-    return "bg-green-500/5 border border-green-500/10 text-green-600 hover:bg-[#ec4899] hover:text-white hover:border-[#ec4899] font-bold";
+    return "bg-green-500 text-white hover:bg-green-600 font-bold";
   };
 
   // ================================
@@ -170,13 +170,10 @@ Time: ${form.time}
     <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center z-50 p-4 animate-fadeIn">
       <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 p-6 sm:p-8 rounded-3xl w-full max-w-[420px] shadow-2xl relative overflow-hidden transition-all duration-300">
         
-        {/* Decorative corner accent */}
-        <div className="absolute top-0 right-0 bg-gradient-to-bl from-[#ec4899]/10 to-transparent w-36 h-36 rounded-full blur-2xl pointer-events-none" />
-
         <h2 className="text-2xl font-serif font-bold text-center text-primary mb-1">
           Book {service.title}
         </h2>
-        <div className="h-0.5 w-12 bg-[#ec4899] mx-auto mb-6"></div>
+        <div className="h-0.5 w-12 bg-black dark:bg-white mx-auto mb-6"></div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           
@@ -185,7 +182,7 @@ Time: ${form.time}
             <input
               type="text"
               placeholder="Your Name"
-              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
               required
               value={form.name}
               onChange={(e) =>
@@ -199,7 +196,7 @@ Time: ${form.time}
             <input
               type="text"
               placeholder="Phone Number"
-              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
               required
               value={form.phone}
               onChange={(e) =>
@@ -213,7 +210,7 @@ Time: ${form.time}
             <input
               type="date"
               min={new Date().toISOString().split("T")[0]}
-              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-1 focus:ring-[#ec4899] transition-all"
+              className="w-full bg-slate-50 dark:bg-[#0c0b10] border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
               required
               value={form.date}
               onChange={(e) =>
@@ -246,8 +243,8 @@ Time: ${form.time}
               {/* Legend */}
               <div className="flex justify-center gap-5 text-[9px] uppercase font-bold tracking-wider pt-2">
                 <span className="text-green-600">● Available</span>
-                <span className="text-[#ec4899]">● Selected</span>
-                <span className="text-red-500/70">● Booked</span>
+                <span className="text-black dark:text-white">● Selected</span>
+                <span className="text-red-600">● Booked</span>
               </div>
             </div>
           )}
